@@ -60,6 +60,8 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
     std::bind(&LidarCenterPointNode::pointCloudCallback, this, std::placeholders::_1));
   objects_pub_ = this->create_publisher<autoware_auto_perception_msgs::msg::DetectedObjects>(
     "~/output/objects", rclcpp::QoS{1});
+  pointcloud_pub_ =
+    this->create_publisher<sensor_msgs::msg::PointCloud2>("~/debug/pointcloud", rclcpp::QoS{1});
 }
 
 void LidarCenterPointNode::pointCloudCallback(
@@ -91,6 +93,10 @@ void LidarCenterPointNode::pointCloudCallback(
   if (objects_sub_count > 0) {
     objects_pub_->publish(output_msg);
   }
+
+  auto out_pointcloud_msg = detector_ptr_->vg_ptr_->pointcloud_msg_;
+  out_pointcloud_msg.header = input_pointcloud_msg->header;
+  pointcloud_pub_->publish(out_pointcloud_msg);
 }
 
 void LidarCenterPointNode::box3DToDetectedObject(

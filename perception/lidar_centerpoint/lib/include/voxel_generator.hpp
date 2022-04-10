@@ -37,6 +37,8 @@ public:
   bool enqueuePointCloud(
     const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer);
 
+  sensor_msgs::msg::PointCloud2 pointcloud_msg_;
+
 protected:
   std::unique_ptr<PointCloudDensification> pd_ptr_{nullptr};
 

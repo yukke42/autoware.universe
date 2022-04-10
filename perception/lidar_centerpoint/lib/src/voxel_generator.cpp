@@ -16,6 +16,8 @@
 
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 
+#include <sensor_msgs/msg/point_cloud2.h>
+
 namespace centerpoint
 {
 VoxelGeneratorTemplate::VoxelGeneratorTemplate(const DensificationParam & param)
@@ -37,6 +39,23 @@ std::size_t VoxelGenerator::pointsToVoxels(
   // coordinates (int): (max_num_voxels * point_dim_size)
   // num_points_per_voxel (float): (max_num_voxels)
 
+  std::uint32_t point_size = 0;
+  for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
+       pc_cache_iter++) {
+    point_size += pc_cache_iter->pointcloud_msg.width;
+  }
+
+  sensor_msgs::PointCloud2Modifier pcd_modifier(pointcloud_msg_);
+  pointcloud_msg_.height = 1;
+  // pcd_modifier.clear();
+  pcd_modifier.setPointCloud2FieldsByString(1, "xyz");
+  pcd_modifier.resize(point_size);
+  pointcloud_msg_.is_bigendian = false;
+  pointcloud_msg_.is_dense = true;
+  sensor_msgs::PointCloud2Iterator<float> x_out_iter(pointcloud_msg_, "x");
+  sensor_msgs::PointCloud2Iterator<float> y_out_iter(pointcloud_msg_, "y");
+  sensor_msgs::PointCloud2Iterator<float> z_out_iter(pointcloud_msg_, "z");
+
   const std::size_t grid_size = Config::grid_size_z * Config::grid_size_y * Config::grid_size_x;
   std::vector<int> coord_to_voxel_idx(grid_size, -1);
 
@@ -47,6 +66,8 @@ std::size_t VoxelGenerator::pointsToVoxels(
   std::size_t point_cnt;
   int c, coord_idx, voxel_idx;
   Eigen::Vector3f point_current, point_past;
+
+  std::size_t all_point_cnt = 0;
 
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
@@ -80,6 +101,14 @@ std::size_t VoxelGenerator::pointsToVoxels(
         continue;
       }
 
+      *x_out_iter = *x_iter;
+      *y_out_iter = *y_iter;
+      *z_out_iter = *z_iter;
+      ++x_out_iter;
+      ++y_out_iter;
+      ++z_out_iter;
+      all_point_cnt++;
+
       coord_idx = coord_zyx[0] * Config::grid_size_y * Config::grid_size_x +
                   coord_zyx[1] * Config::grid_size_x + coord_zyx[2];
       voxel_idx = coord_to_voxel_idx[coord_idx];
@@ -107,6 +136,11 @@ std::size_t VoxelGenerator::pointsToVoxels(
       }
     }
   }
+
+  pcd_modifier.resize(all_point_cnt);
+  pointcloud_msg_.width = all_point_cnt;
+  pointcloud_msg_.row_step = all_point_cnt * pointcloud_msg_.point_step;
+  std::cout << "all_point_cnt " << all_point_cnt << std::endl;
 
   return voxel_cnt;
 }

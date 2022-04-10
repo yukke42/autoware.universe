@@ -66,6 +66,8 @@ public:
     const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer,
     std::vector<Box3D> & det_boxes3d);
 
+  std::unique_ptr<VoxelGeneratorTemplate> vg_ptr_{nullptr};
+
 private:
   void initPtr();
 
@@ -76,7 +78,7 @@ private:
 
   void postProcess(std::vector<Box3D> & det_boxes3d);
 
-  std::unique_ptr<VoxelGeneratorTemplate> vg_ptr_{nullptr};
+  // std::unique_ptr<VoxelGeneratorTemplate> vg_ptr_{nullptr};
   std::unique_ptr<VoxelEncoderTRT> encoder_trt_ptr_{nullptr};
   std::unique_ptr<HeadTRT> head_trt_ptr_{nullptr};
   std::unique_ptr<PostProcessCUDA> post_proc_ptr_{nullptr};

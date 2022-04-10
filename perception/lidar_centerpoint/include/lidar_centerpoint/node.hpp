@@ -38,6 +38,8 @@ class LidarCenterPointNode : public rclcpp::Node
 public:
   explicit LidarCenterPointNode(const rclcpp::NodeOptions & node_options);
 
+  std::unique_ptr<CenterPointTRT> detector_ptr_{nullptr};
+
 private:
   void pointCloudCallback(const sensor_msgs::msg::PointCloud2::ConstSharedPtr input_pointcloud_msg);
   void box3DToDetectedObject(
@@ -50,12 +52,13 @@ private:
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
   rclcpp::Publisher<autoware_auto_perception_msgs::msg::DetectedObjects>::SharedPtr objects_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_pub_;
 
   float score_threshold_{0.0};
   std::vector<std::string> class_names_;
   bool rename_car_to_truck_and_bus_{false};
 
-  std::unique_ptr<CenterPointTRT> detector_ptr_{nullptr};
+  // std::unique_ptr<CenterPointTRT> detector_ptr_{nullptr};
 };
 
 }  // namespace centerpoint
