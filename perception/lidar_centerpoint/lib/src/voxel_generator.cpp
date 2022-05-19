@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <timer.hpp>
 #include <voxel_generator.hpp>
 
 #include <sensor_msgs/point_cloud2_iterator.hpp>
@@ -37,6 +38,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   // coordinates (int): (max_num_voxels * point_dim_size)
   // num_points_per_voxel (float): (max_num_voxels)
 
+  Timer timer;
   const std::size_t grid_size = Config::grid_size_z * Config::grid_size_y * Config::grid_size_x;
   std::vector<int> coord_to_voxel_idx(grid_size, -1);
 
@@ -46,20 +48,31 @@ std::size_t VoxelGenerator::pointsToVoxels(
   bool out_of_range;
   std::size_t point_cnt;
   int c, coord_idx, voxel_idx;
+  float * in_point;
   Eigen::Vector3f point_current, point_past;
+
+  std::vector<std::size_t> iterator(250000);
+  std::iota(iterator.begin(), iterator.end(), 0);
+  std::random_shuffle(iterator.begin(), iterator.end());
+  std::cout << "random_shuffle " << timer.toc() << std::endl;
 
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
-    auto pc_msg = pc_cache_iter->pointcloud_msg;
+    auto & pc_msg = pc_cache_iter->pointcloud_msg;
     auto affine_past2current =
       pd_ptr_->getAffineWorldToCurrent() * pc_cache_iter->affine_past2world;
     float timelag = static_cast<float>(
       pd_ptr_->getCurrentTimestamp() - rclcpp::Time(pc_msg.header.stamp).seconds());
 
-    for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pc_msg, "x"), y_iter(pc_msg, "y"),
-         z_iter(pc_msg, "z");
-         x_iter != x_iter.end(); ++x_iter, ++y_iter, ++z_iter) {
-      point_past << *x_iter, *y_iter, *z_iter;
+    const auto data_size = pc_msg.data.size();
+    const auto point_step = pc_msg.point_step;
+    const auto point_size = data_size / point_step;
+    for (const auto & iter : iterator) {
+      if (iter >= point_size) {
+        continue;
+      }
+      in_point = reinterpret_cast<float *>(&pc_msg.data[iter * point_step]);
+      point_past << in_point[0], in_point[1], in_point[2];
       point_current = affine_past2current * point_past;
 
       point[0] = point_current.x();
@@ -107,6 +120,8 @@ std::size_t VoxelGenerator::pointsToVoxels(
       }
     }
   }
+
+  std::cout << timer.toc() << std::endl;
 
   return voxel_cnt;
 }
