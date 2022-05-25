@@ -42,6 +42,8 @@ public:
 protected:
   std::unique_ptr<PointCloudDensification> pd_ptr_{nullptr};
 
+  std::vector<std::size_t> points_iter_;
+
   std::array<float, 6> range_{Config::range_min_x, Config::range_min_y, Config::range_min_z,
                               Config::range_max_x, Config::range_max_y, Config::range_max_z};
   std::array<float, 3> recip_voxel_size_{

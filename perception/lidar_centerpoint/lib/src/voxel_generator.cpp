@@ -24,6 +24,9 @@ namespace centerpoint
 VoxelGeneratorTemplate::VoxelGeneratorTemplate(const DensificationParam & param)
 {
   pd_ptr_ = std::make_unique<PointCloudDensification>(param);
+  points_iter_.resize(250000);
+  std::iota(points_iter_.begin(), points_iter_.end(), 0);
+  // std::random_shuffle(points_iter_.begin(), points_iter_.end());
 }
 
 bool VoxelGeneratorTemplate::enqueuePointCloud(
@@ -68,13 +71,12 @@ std::size_t VoxelGenerator::pointsToVoxels(
   float * in_point;
   Eigen::Vector3f point_current, point_past;
 
-  std::vector<std::size_t> iterator(max_point_size);
-  std::iota(iterator.begin(), iterator.end(), 0);
+  // std::vector<std::size_t> iterator(max_point_size);
+  // std::iota(iterator.begin(), iterator.end(), 0);
   // std::random_shuffle(iterator.begin(), iterator.end());
-  std::cout << "random_shuffle " << timer.toc(true) << std::endl;
+  // std::cout << "random_shuffle " << timer.toc(true) << std::endl;
 
   std::size_t all_point_cnt = 0;
-
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
     auto & pc_msg = pc_cache_iter->pointcloud_msg;
@@ -82,16 +84,15 @@ std::size_t VoxelGenerator::pointsToVoxels(
       pd_ptr_->getAffineWorldToCurrent() * pc_cache_iter->affine_past2world;
     float timelag = static_cast<float>(
       pd_ptr_->getCurrentTimestamp() - rclcpp::Time(pc_msg.header.stamp).seconds());
-    std::cout << "timelag " << timelag << std::endl;
 
     const auto data_size = pc_msg.data.size();
     const auto point_step = pc_msg.point_step;
     const auto point_size = data_size / point_step;
-    for (const auto & iter : iterator) {
-      if (iter >= point_size) {
-        break;
+    for (const auto & pi : points_iter_) {
+      if (pi >= point_size) {
+        continue;
       }
-      in_point = reinterpret_cast<float *>(&pc_msg.data[iter * point_step]);
+      in_point = reinterpret_cast<float *>(&pc_msg.data[pi * point_step]);
       point_past << in_point[0], in_point[1], in_point[2];
       point_current = affine_past2current * point_past;
 
@@ -137,12 +138,12 @@ std::size_t VoxelGenerator::pointsToVoxels(
              point_cnt * Config::point_feature_size + fi] = point[fi];
         }
         num_points_per_voxel[voxel_idx]++;
-        *x_out_iter = point_current.x();
-        *y_out_iter = point_current.y();
-        *z_out_iter = point_current.z();
-        ++x_out_iter;
-        ++y_out_iter;
-        ++z_out_iter;
+        // *x_out_iter = point_current.x();
+        // *y_out_iter = point_current.y();
+        // *z_out_iter = point_current.z();
+        // ++x_out_iter;
+        // ++y_out_iter;
+        // ++z_out_iter;
         all_point_cnt++;
       }
     }
@@ -151,8 +152,8 @@ std::size_t VoxelGenerator::pointsToVoxels(
   pcd_modifier.resize(all_point_cnt);
   pointcloud_msg_.width = all_point_cnt;
   pointcloud_msg_.row_step = all_point_cnt * pointcloud_msg_.point_step;
-  std::cout << "all_point_cnt " << all_point_cnt << std::endl;
   std::cout << "iteration " << timer.toc(true) << std::endl;
+  std::cout << "all_point_cnt " << all_point_cnt << std::endl;
 
   return voxel_cnt;
 }
