@@ -16,6 +16,8 @@
 
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 
+#include <fstream>
+
 namespace centerpoint
 {
 VoxelGeneratorTemplate::VoxelGeneratorTemplate(
@@ -52,7 +54,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   // num_points_per_voxel (float): (max_voxel_size)
 
   const std::size_t grid_size = config_.grid_size_z_ * config_.grid_size_y_ * config_.grid_size_x_;
-  std::vector<int> coord_to_voxel_idx(grid_size, -1);
+  std::vector<std::uint32_t> coord_to_voxel_idx(grid_size, -1);
 
   std::size_t voxel_cnt = 0;  // @return
   std::vector<float> point;
@@ -63,6 +65,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   std::size_t point_cnt;
   int c, coord_idx, voxel_idx;
   Eigen::Vector3f point_current, point_past;
+  int pt_size = 0, pt_counter = 0;
 
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
@@ -71,6 +74,8 @@ std::size_t VoxelGenerator::pointsToVoxels(
       pd_ptr_->getAffineWorldToCurrent() * pc_cache_iter->affine_past2world;
     float timelag = static_cast<float>(
       pd_ptr_->getCurrentTimestamp() - rclcpp::Time(pc_msg.header.stamp).seconds());
+
+    pt_size += pc_msg.width;
 
     for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pc_msg, "x"), y_iter(pc_msg, "y"),
          z_iter(pc_msg, "z");
@@ -85,7 +90,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
 
       out_of_range = false;
       for (std::size_t di = 0; di < config_.point_dim_size_; di++) {
-        c = static_cast<int>((point[di] - range_[di]) * recip_voxel_size_[di]);
+        c = static_cast<std::uint32_t>((point[di] - range_[di]) * recip_voxel_size_[di]);
         if (c < 0 || c >= grid_size_[di]) {
           out_of_range = true;
           break;
@@ -119,10 +124,20 @@ std::size_t VoxelGenerator::pointsToVoxels(
             [voxel_idx * config_.max_point_in_voxel_size_ * config_.point_feature_size_ +
              point_cnt * config_.point_feature_size_ + fi] = point[fi];
         }
+        pt_counter++;
         num_points_per_voxel[voxel_idx]++;
       }
     }
   }
+
+  std::cout << "pt_size " << pt_size << std::endl;
+  std::cout << "pt_counter " << pt_counter << std::endl;
+  std::cout << "pt_counter / pt_size " << static_cast<float>(pt_counter) / pt_size << std::endl;
+
+  std::ofstream ofs_pts("lidar_centerpoint_points.txt", std::ios::app);
+  ofs_pts << pt_size << std::endl;
+  std::ofstream ofs_pts_use("lidar_centerpoint_points_use.txt", std::ios::app);
+  ofs_pts_use << pt_counter << std::endl;
 
   return voxel_cnt;
 }

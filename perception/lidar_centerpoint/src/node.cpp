@@ -20,6 +20,8 @@
 #include <lidar_centerpoint/utils.hpp>
 #include <pcl_ros/transforms.hpp>
 
+#include <fstream>
+
 #ifdef ROS_DISTRO_GALACTIC
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #else
@@ -100,6 +102,8 @@ void LidarCenterPointNode::pointCloudCallback(
     return;
   }
 
+  std::chrono::system_clock::time_point start, end;
+  start = std::chrono::system_clock::now();
   std::vector<Box3D> det_boxes3d;
   bool is_success = detector_ptr_->detect(*input_pointcloud_msg, tf_buffer_, det_boxes3d);
   if (!is_success) {
@@ -113,6 +117,11 @@ void LidarCenterPointNode::pointCloudCallback(
     box3DToDetectedObject(box3d, class_names_, rename_car_to_truck_and_bus_, has_twist_, obj);
     output_msg.objects.emplace_back(obj);
   }
+
+  end = std::chrono::system_clock::now();
+  double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+  std::ofstream ofs("lidar_centerpoint_callback.txt", std::ios::app);
+  ofs << elapsed << std::endl;
 
   if (objects_sub_count > 0) {
     objects_pub_->publish(output_msg);

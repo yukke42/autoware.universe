@@ -17,8 +17,10 @@
 #include <lidar_centerpoint/centerpoint_config.hpp>
 #include <lidar_centerpoint/network/scatter_kernel.hpp>
 #include <lidar_centerpoint/preprocess/preprocess_kernel.hpp>
+#include <lidar_centerpoint/timer.hpp>
 #include <tier4_autoware_utils/math/constants.hpp>
 
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -103,6 +105,9 @@ bool CenterPointTRT::detect(
   const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer,
   std::vector<Box3D> & det_boxes3d)
 {
+  std::chrono::system_clock::time_point start, end;
+  start = std::chrono::system_clock::now();
+
   std::fill(voxels_.begin(), voxels_.end(), 0);
   std::fill(coordinates_.begin(), coordinates_.end(), -1);
   std::fill(num_points_per_voxel_.begin(), num_points_per_voxel_.end(), 0);
@@ -117,9 +122,35 @@ bool CenterPointTRT::detect(
     return false;
   }
 
+  CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
+  end = std::chrono::system_clock::now();
+  double preprocess_elapsed =
+    std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+  start = std::chrono::system_clock::now();
+
   inference();
 
+  CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
+  end = std::chrono::system_clock::now();
+  double inference_elapsed =
+    std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+  start = std::chrono::system_clock::now();
+
   postProcess(det_boxes3d);
+
+  CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
+  end = std::chrono::system_clock::now();
+  double postprocess_elapsed =
+    std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+  std::ofstream ofs_pre("lidar_centerpoint_preprocess.txt", std::ios::app);
+  ofs_pre << preprocess_elapsed << std::endl;
+  std::ofstream ofs_inf("lidar_centerpoint_inference.txt", std::ios::app);
+  ofs_inf << inference_elapsed << std::endl;
+  std::ofstream ofs_post("lidar_centerpoint_postprocess.txt", std::ios::app);
+  ofs_post << postprocess_elapsed << std::endl;
 
   return true;
 }
@@ -127,18 +158,26 @@ bool CenterPointTRT::detect(
 bool CenterPointTRT::preprocess(
   const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer)
 {
+  Timer timer;
   bool is_success = vg_ptr_->enqueuePointCloud(input_pointcloud_msg, tf_buffer);
   if (!is_success) {
     return false;
   }
+
   num_voxels_ = vg_ptr_->pointsToVoxels(voxels_, coordinates_, num_points_per_voxel_);
   if (num_voxels_ == 0) {
     return false;
   }
+  CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
+
+  std::ofstream ofs_pre_pvt("lidar_centerpoint_preprocess_ptv.txt", std::ios::app);
+  ofs_pre_pvt << timer.toc(true) << std::endl;
 
   const auto voxels_size =
     num_voxels_ * config_.max_point_in_voxel_size_ * config_.point_feature_size_;
   const auto coordinates_size = num_voxels_ * config_.point_dim_size_;
+  std::ofstream ofs_vs("lidar_centerpoint_voxel_size.txt", std::ios::app);
+  ofs_vs << num_voxels_ * config_.max_point_in_voxel_size_ << std::endl;
   // memcpy from host to device (not copy empty voxels)
   CHECK_CUDA_ERROR(cudaMemcpyAsync(
     voxels_d_.get(), voxels_.data(), voxels_size * sizeof(float), cudaMemcpyHostToDevice));
@@ -150,11 +189,18 @@ bool CenterPointTRT::preprocess(
     cudaMemcpyHostToDevice));
   CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
 
+  std::ofstream ofs_pre_memcpy("lidar_centerpoint_preprocess_memcpy.txt", std::ios::app);
+  ofs_pre_memcpy << timer.toc(true) << std::endl;
+
   CHECK_CUDA_ERROR(generateFeatures_launch(
     voxels_d_.get(), num_points_per_voxel_d_.get(), coordinates_d_.get(), num_voxels_,
     config_.max_voxel_size_, config_.voxel_size_x_, config_.voxel_size_y_, config_.voxel_size_z_,
     config_.range_min_x_, config_.range_min_y_, config_.range_min_z_, encoder_in_features_d_.get(),
     stream_));
+
+  CHECK_CUDA_ERROR(cudaStreamSynchronize(stream_));
+  std::ofstream ofs_pre_gf("lidar_centerpoint_preprocess_gf.txt", std::ios::app);
+  ofs_pre_gf << timer.toc(true) << std::endl;
 
   return true;
 }
