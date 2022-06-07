@@ -130,14 +130,14 @@ std::size_t VoxelGenerator::pointsToVoxels(
     }
   }
 
-  std::cout << "pt_size " << pt_size << std::endl;
-  std::cout << "pt_counter " << pt_counter << std::endl;
-  std::cout << "pt_counter / pt_size " << static_cast<float>(pt_counter) / pt_size << std::endl;
+  // std::cout << "pt_size " << pt_size << std::endl;
+  // std::cout << "pt_counter " << pt_counter << std::endl;
+  // std::cout << "pt_counter / pt_size " << static_cast<float>(pt_counter) / pt_size << std::endl;
 
-  std::ofstream ofs_pts("lidar_centerpoint_points.txt", std::ios::app);
-  ofs_pts << pt_size << std::endl;
-  std::ofstream ofs_pts_use("lidar_centerpoint_points_use.txt", std::ios::app);
-  ofs_pts_use << pt_counter << std::endl;
+  // std::ofstream ofs_pts("lidar_centerpoint_points.txt", std::ios::app);
+  // ofs_pts << pt_size << std::endl;
+  // std::ofstream ofs_pts_use("lidar_centerpoint_points_use.txt", std::ios::app);
+  // ofs_pts_use << pt_counter << std::endl;
 
   return voxel_cnt;
 }

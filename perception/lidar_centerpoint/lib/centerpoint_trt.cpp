@@ -176,8 +176,6 @@ bool CenterPointTRT::preprocess(
   const auto voxels_size =
     num_voxels_ * config_.max_point_in_voxel_size_ * config_.point_feature_size_;
   const auto coordinates_size = num_voxels_ * config_.point_dim_size_;
-  std::ofstream ofs_vs("lidar_centerpoint_voxel_size.txt", std::ios::app);
-  ofs_vs << num_voxels_ * config_.max_point_in_voxel_size_ << std::endl;
   // memcpy from host to device (not copy empty voxels)
   CHECK_CUDA_ERROR(cudaMemcpyAsync(
     voxels_d_.get(), voxels_.data(), voxels_size * sizeof(float), cudaMemcpyHostToDevice));
