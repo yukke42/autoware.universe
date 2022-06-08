@@ -14,7 +14,7 @@
 
 #include <pcl_ros/transforms.hpp>
 #include <pointcloud_densification.hpp>
-#include <timer.hpp>
+// #include <timer.hpp>
 
 #include <boost/optional.hpp>
 
@@ -72,27 +72,27 @@ bool PointCloudDensification::enqueuePointCloud(
   }
   auto affine_world2current = transformToEigen(transform_world2current.get());
 
-  sensor_msgs::msg::PointCloud2 out_pc_msg;
-  sensor_msgs::PointCloud2Modifier pcd_modifier(out_pc_msg);
-  pcd_modifier.setPointCloud2FieldsByString(1, "xyz");
-  pcd_modifier.resize(total_point_size);
-  sensor_msgs::PointCloud2Iterator<float> x_out_iter(out_pc_msg, "x");
-  sensor_msgs::PointCloud2Iterator<float> y_out_iter(out_pc_msg, "y");
-  sensor_msgs::PointCloud2Iterator<float> z_out_iter(out_pc_msg, "z");
+  // sensor_msgs::msg::PointCloud2 out_pc_msg;
+  // sensor_msgs::PointCloud2Modifier pcd_modifier(out_pc_msg);
+  // pcd_modifier.setPointCloud2FieldsByString(1, "xyz");
+  // pcd_modifier.resize(total_point_size);
+  // sensor_msgs::PointCloud2Iterator<float> x_out_iter(out_pc_msg, "x");
+  // sensor_msgs::PointCloud2Iterator<float> y_out_iter(out_pc_msg, "y");
+  // sensor_msgs::PointCloud2Iterator<float> z_out_iter(out_pc_msg, "z");
 
-  Timer timer;
+  // Timer timer;
 
-  std::size_t in_counter = 0;
-  std::size_t out_counter = 0;
-  for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pointcloud_msg, "x"),
-       y_iter(pointcloud_msg, "y"), z_iter(pointcloud_msg, "z");
-       x_iter != x_iter.end(); ++x_iter, ++y_iter, ++z_iter) {
-    if ((*x_iter * *x_iter + *y_iter * *y_iter) < 100) {
-      in_counter++;
-    } else {
-      out_counter++;
-    }
-  }
+  // std::size_t in_counter = 0;
+  // std::size_t out_counter = 0;
+  // for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pointcloud_msg, "x"),
+  //      y_iter(pointcloud_msg, "y"), z_iter(pointcloud_msg, "z");
+  //      x_iter != x_iter.end(); ++x_iter, ++y_iter, ++z_iter) {
+  //   if ((*x_iter * *x_iter + *y_iter * *y_iter) < 100) {
+  //     in_counter++;
+  //   } else {
+  //     out_counter++;
+  //   }
+  // }
   // std::cout << "in_counter " << in_counter << std::endl;
   // std::cout << "out_counter " << out_counter << std::endl;
 

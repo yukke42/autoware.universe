@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <timer.hpp>
+// #include <timer.hpp>
 #include <voxel_generator.hpp>
 
 #include <sensor_msgs/point_cloud2_iterator.hpp>
@@ -58,7 +58,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   sensor_msgs::PointCloud2Iterator<float> y_out_iter(pointcloud_msg_, "y");
   sensor_msgs::PointCloud2Iterator<float> z_out_iter(pointcloud_msg_, "z");
 
-  Timer timer;
+  // Timer timer;
   const std::size_t grid_size = Config::grid_size_z * Config::grid_size_y * Config::grid_size_x;
   std::vector<int> coord_to_voxel_idx(grid_size, -1);
 
@@ -138,12 +138,12 @@ std::size_t VoxelGenerator::pointsToVoxels(
              point_cnt * Config::point_feature_size + fi] = point[fi];
         }
         num_points_per_voxel[voxel_idx]++;
-        // *x_out_iter = point_current.x();
-        // *y_out_iter = point_current.y();
-        // *z_out_iter = point_current.z();
-        // ++x_out_iter;
-        // ++y_out_iter;
-        // ++z_out_iter;
+        *x_out_iter = point_current.x();
+        *y_out_iter = point_current.y();
+        *z_out_iter = point_current.z();
+        ++x_out_iter;
+        ++y_out_iter;
+        ++z_out_iter;
         all_point_cnt++;
       }
     }
@@ -152,7 +152,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   pcd_modifier.resize(all_point_cnt);
   pointcloud_msg_.width = all_point_cnt;
   pointcloud_msg_.row_step = all_point_cnt * pointcloud_msg_.point_step;
-  std::cout << "iteration " << timer.toc(true) << std::endl;
+  // std::cout << "iteration " << timer.toc(true) << std::endl;
   std::cout << "all_point_cnt " << all_point_cnt << std::endl;
 
   return voxel_cnt;
