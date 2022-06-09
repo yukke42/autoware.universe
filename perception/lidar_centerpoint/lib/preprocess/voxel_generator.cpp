@@ -16,6 +16,8 @@
 
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 
+#include <fstream>
+
 namespace centerpoint
 {
 VoxelGeneratorTemplate::VoxelGeneratorTemplate(
@@ -64,6 +66,14 @@ std::size_t VoxelGenerator::pointsToVoxels(
   int c, coord_idx, voxel_idx;
   Eigen::Vector3f point_current, point_past;
 
+  std::vector<float> points;
+  std::vector<std::uint32_t> coors;
+  std::uint32_t point_counter = 0;
+  std::uint32_t point_size = 0;
+
+  std::chrono::system_clock::time_point start, end;
+  start = std::chrono::system_clock::now();
+
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
     auto pc_msg = pc_cache_iter->pointcloud_msg;
@@ -72,57 +82,87 @@ std::size_t VoxelGenerator::pointsToVoxels(
     float timelag = static_cast<float>(
       pd_ptr_->getCurrentTimestamp() - rclcpp::Time(pc_msg.header.stamp).seconds());
 
+    point_size += pc_msg.width;
+    points.resize(point_size * config_.point_feature_size_);
+    coors.resize(point_size * config_.point_dim_size_);
+
     for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pc_msg, "x"), y_iter(pc_msg, "y"),
          z_iter(pc_msg, "z");
          x_iter != x_iter.end(); ++x_iter, ++y_iter, ++z_iter) {
       point_past << *x_iter, *y_iter, *z_iter;
       point_current = affine_past2current * point_past;
 
-      point[0] = point_current.x();
-      point[1] = point_current.y();
-      point[2] = point_current.z();
-      point[3] = timelag;
-
-      out_of_range = false;
-      for (std::size_t di = 0; di < config_.point_dim_size_; di++) {
-        c = static_cast<int>((point[di] - range_[di]) * recip_voxel_size_[di]);
-        if (c < 0 || c >= grid_size_[di]) {
-          out_of_range = true;
-          break;
-        }
-        coord_zyx[config_.point_dim_size_ - di - 1] = c;
+      if (point_current.x() < config_.range_min_x_ || point_current.x() > config_.range_max_x_) {
+        continue;
       }
-      if (out_of_range) {
+      if (point_current.y() < config_.range_min_y_ || point_current.y() > config_.range_max_y_) {
+        continue;
+      }
+      if (point_current.z() < config_.range_min_z_ || point_current.z() > config_.range_max_z_) {
         continue;
       }
 
-      coord_idx = coord_zyx[0] * config_.grid_size_y_ * config_.grid_size_x_ +
-                  coord_zyx[1] * config_.grid_size_x_ + coord_zyx[2];
-      voxel_idx = coord_to_voxel_idx[coord_idx];
-      if (voxel_idx == -1) {
-        voxel_idx = voxel_cnt;
-        if (voxel_cnt >= config_.max_voxel_size_) {
-          continue;
-        }
+      // point[0] = point_current.x();
+      // point[1] = point_current.y();
+      // point[2] = point_current.z();
+      // point[3] = timelag;
 
-        voxel_cnt++;
-        coord_to_voxel_idx[coord_idx] = voxel_idx;
-        for (std::size_t di = 0; di < config_.point_dim_size_; di++) {
-          coordinates[voxel_idx * config_.point_dim_size_ + di] = coord_zyx[di];
-        }
-      }
+      // out_of_range = false;
+      // for (std::size_t di = 0; di < config_.point_dim_size_; di++) {
+      //   c = static_cast<int>((point[di] - range_[di]) * recip_voxel_size_[di]);
+      //   if (c < 0 || c >= grid_size_[di]) {
+      //     out_of_range = true;
+      //     break;
+      //   }
+      //   coord_zyx[config_.point_dim_size_ - di - 1] = c;
+      //   // coors[point_counter * config_.point_dim_size_ + (config_.point_dim_size_ - di - 1)] =
+      //   c;
+      // }
+      // if (out_of_range) {
+      //   continue;
+      // }
 
-      point_cnt = num_points_per_voxel[voxel_idx];
-      if (point_cnt < config_.max_point_in_voxel_size_) {
-        for (std::size_t fi = 0; fi < config_.point_feature_size_; fi++) {
-          voxels
-            [voxel_idx * config_.max_point_in_voxel_size_ * config_.point_feature_size_ +
-             point_cnt * config_.point_feature_size_ + fi] = point[fi];
-        }
-        num_points_per_voxel[voxel_idx]++;
-      }
+      points[point_counter * config_.point_feature_size_ + 0] = point_current.x();
+      points[point_counter * config_.point_feature_size_ + 1] = point_current.y();
+      points[point_counter * config_.point_feature_size_ + 2] = point_current.z();
+      points[point_counter * config_.point_feature_size_ + 3] = point_current.x();
+      point_counter++;
+
+      // coord_idx = coord_zyx[0] * config_.grid_size_y_ * config_.grid_size_x_ +
+      //             coord_zyx[1] * config_.grid_size_x_ + coord_zyx[2];
+      // voxel_idx = coord_to_voxel_idx[coord_idx];
+      // if (voxel_idx == -1) {
+      //   voxel_idx = voxel_cnt;
+      //   if (voxel_cnt >= config_.max_voxel_size_) {
+      //     continue;
+      //   }
+
+      //   voxel_cnt++;
+      //   coord_to_voxel_idx[coord_idx] = voxel_idx;
+      //   for (std::size_t di = 0; di < config_.point_dim_size_; di++) {
+      //     coordinates[voxel_idx * config_.point_dim_size_ + di] = coord_zyx[di];
+      //   }
+      // }
+
+      // point_cnt = num_points_per_voxel[voxel_idx];
+      // if (point_cnt < config_.max_point_in_voxel_size_) {
+      //   for (std::size_t fi = 0; fi < config_.point_feature_size_; fi++) {
+      //     voxels
+      //       [voxel_idx * config_.max_point_in_voxel_size_ * config_.point_feature_size_ +
+      //        point_cnt * config_.point_feature_size_ + fi] = point[fi];
+      //   }
+      //   num_points_per_voxel[voxel_idx]++;
+      // }
     }
   }
+
+  points.resize(point_counter);
+
+  end = std::chrono::system_clock::now();
+  double elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+  std::cout << "elapsed time " << elapsed << " [ms]" << std::endl;
+
+  std::cout << point_counter << std::endl;
 
   return voxel_cnt;
 }

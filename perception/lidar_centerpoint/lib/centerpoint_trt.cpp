@@ -135,6 +135,7 @@ bool CenterPointTRT::preprocess(
   if (num_voxels_ == 0) {
     return false;
   }
+  std::cout << "pointsToVoxels" << std::endl;
 
   const auto voxels_size =
     num_voxels_ * config_.max_point_in_voxel_size_ * config_.point_feature_size_;
