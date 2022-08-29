@@ -8,14 +8,14 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/control/trajectory_follower_nodes/design/longitudinal_controller-design/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/control/trajectory_follower/design/pid_longitudinal_controller-design/">
       
       <link rel="icon" href="../../../../docs/assets/images/autoware-foundation.png">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.1">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.2">
     
     
       
-        <title>Longitudinal Controller - Autoware Universe Documentation</title>
+        <title>PID Longitudinal Controller - Autoware Universe Documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#longitudinal-controller" class="md-skip">
+        <a href="#pid-longitudinal-controller" class="md-skip">
           Skip to content
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Longitudinal Controller
+              PID Longitudinal Controller
             
           </span>
         </div>
@@ -3296,14 +3296,16 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_8" type="checkbox" id="__nav_6_8" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_8" type="checkbox" id="__nav_6_8" checked>
       
       
       
@@ -3328,12 +3330,14 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_8_1" type="checkbox" id="__nav_6_8_1" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_8_1" type="checkbox" id="__nav_6_8_1" checked>
       
       
       
@@ -3364,152 +3368,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../trajectory_follower/design/trajectory_follower-design/" class="md-nav__link">
-        Trajectory Follower
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../trajectory_follower/design/trajectory_follower-mpc-design/" class="md-nav__link">
-        MPC (Trajectory Follower)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../trajectory_follower/design/trajectory_follower-pid-design/" class="md-nav__link">
-        PID (Trajectory Follower)
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-    
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_9" type="checkbox" id="__nav_6_9" checked>
-      
-      
-      
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_6_9">
-          Trajectory follower nodes
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Trajectory follower nodes" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_9">
-          <span class="md-nav__icon md-icon"></span>
-          Trajectory follower nodes
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_9_1" type="checkbox" id="__nav_6_9_1" checked>
-      
-      
-      
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_6_9_1">
-          Design
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Design" data-md-level="3">
-        <label class="md-nav__title" for="__nav_6_9_1">
-          <span class="md-nav__icon md-icon"></span>
-          Design
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lateral_controller-design/" class="md-nav__link">
-        Lateral Controller
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../latlon_muxer-design/" class="md-nav__link">
-        Lateral/Longitudinal Control Muxer
+      <a href="../mpc_lateral_controller-design/" class="md-nav__link">
+        MPC Lateral Controller
       </a>
     </li>
   
@@ -3532,12 +3392,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Longitudinal Controller
+          PID Longitudinal Controller
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Longitudinal Controller
+        PID Longitudinal Controller
       </a>
       
         
@@ -3563,79 +3423,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#separated-lateral-steering-and-longitudinal-velocity-controls" class="md-nav__link">
-    Separated lateral (steering) and longitudinal (velocity) controls
+  <a href="#design-inner-workings-algorithms" class="md-nav__link">
+    Design / Inner-workings / Algorithms
   </a>
   
-    <nav class="md-nav" aria-label="Separated lateral (steering) and longitudinal (velocity) controls">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#complex-requirements-for-longitudinal-motion" class="md-nav__link">
-    Complex requirements for longitudinal motion
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonlinear-coupling-of-lateral-and-longitudinal-motion" class="md-nav__link">
-    Nonlinear coupling of lateral and longitudinal motion
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design" class="md-nav__link">
-    Design
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-known-limits" class="md-nav__link">
-    Assumptions / Known limits
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-outputs-api" class="md-nav__link">
-    Inputs / Outputs / API
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs / Outputs / API">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#output" class="md-nav__link">
-    Output
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#input" class="md-nav__link">
-    Input
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
+    <nav class="md-nav" aria-label="Design / Inner-workings / Algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3707,6 +3499,59 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#slope-compensation_1" class="md-nav__link">
+    Slope compensation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions-known-limits" class="md-nav__link">
+    Assumptions / Known limits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-outputs-api" class="md-nav__link">
+    Inputs / Outputs / API
+  </a>
+  
+    <nav class="md-nav" aria-label="Inputs / Outputs / API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    Output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pidcontroller-class" class="md-nav__link">
+    PIDController class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parameter-description" class="md-nav__link">
     Parameter description
   </a>
@@ -3753,11 +3598,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#references-external-links" class="md-nav__link">
@@ -3795,7 +3635,99 @@
   
   
     <li class="md-nav__item">
-      <a href="../simple_trajectory_follower-design/" class="md-nav__link">
+      <a href="../trajectory_follower-design/" class="md-nav__link">
+        Trajectory Follower
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_9" type="checkbox" id="__nav_6_9" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6_9">
+          Trajectory follower nodes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Trajectory follower nodes" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_9">
+          <span class="md-nav__icon md-icon"></span>
+          Trajectory follower nodes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6_9_1" type="checkbox" id="__nav_6_9_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6_9_1">
+          Design
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Design" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_9_1">
+          <span class="md-nav__icon md-icon"></span>
+          Design
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../trajectory_follower_nodes/design/simple_trajectory_follower-design/" class="md-nav__link">
         Simple Trajectory Follower
       </a>
     </li>
@@ -3809,7 +3741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../trajectory_follower-design/" class="md-nav__link">
+      <a href="../../../trajectory_follower_nodes/design/trajectory_follower-design/" class="md-nav__link">
         Trajectory Follower Nodes
       </a>
     </li>
@@ -6911,6 +6843,8 @@
         
           
         
+          
+        
       
       
         
@@ -6955,6 +6889,20 @@
     <li class="md-nav__item">
       <a href="../../../../planning/behavior_path_planner/behavior_path_planner_design_limitations/" class="md-nav__link">
         Design limitation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../planning/behavior_path_planner/behavior_path_planner_lane_change/" class="md-nav__link">
+        Lane Change
       </a>
     </li>
   
@@ -10364,79 +10312,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#separated-lateral-steering-and-longitudinal-velocity-controls" class="md-nav__link">
-    Separated lateral (steering) and longitudinal (velocity) controls
+  <a href="#design-inner-workings-algorithms" class="md-nav__link">
+    Design / Inner-workings / Algorithms
   </a>
   
-    <nav class="md-nav" aria-label="Separated lateral (steering) and longitudinal (velocity) controls">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#complex-requirements-for-longitudinal-motion" class="md-nav__link">
-    Complex requirements for longitudinal motion
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonlinear-coupling-of-lateral-and-longitudinal-motion" class="md-nav__link">
-    Nonlinear coupling of lateral and longitudinal motion
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design" class="md-nav__link">
-    Design
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-known-limits" class="md-nav__link">
-    Assumptions / Known limits
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-outputs-api" class="md-nav__link">
-    Inputs / Outputs / API
-  </a>
-  
-    <nav class="md-nav" aria-label="Inputs / Outputs / API">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#output" class="md-nav__link">
-    Output
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#input" class="md-nav__link">
-    Input
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
+    <nav class="md-nav" aria-label="Design / Inner-workings / Algorithms">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -10508,6 +10388,59 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#slope-compensation_1" class="md-nav__link">
+    Slope compensation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions-known-limits" class="md-nav__link">
+    Assumptions / Known limits
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inputs-outputs-api" class="md-nav__link">
+    Inputs / Outputs / API
+  </a>
+  
+    <nav class="md-nav" aria-label="Inputs / Outputs / API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    Input
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    Output
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pidcontroller-class" class="md-nav__link">
+    PIDController class
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#parameter-description" class="md-nav__link">
     Parameter description
   </a>
@@ -10554,11 +10487,6 @@
     </nav>
   
 </li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#references-external-links" class="md-nav__link">
@@ -10593,63 +10521,19 @@
             <article class="md-content__inner md-typeset">
               
                 
-  <a href="https://github.com/autowarefoundation/autoware.universe/edit/main/control/trajectory_follower_nodes/design/longitudinal_controller-design.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/autowarefoundation/autoware.universe/edit/main/control/trajectory_follower/design/pid_longitudinal_controller-design.md" title="Edit this page" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 
-<h1 id="longitudinal-controller">Longitudinal Controller<a class="headerlink" href="#longitudinal-controller" title="Permanent link">#</a></h1>
+<h1 id="pid-longitudinal-controller">PID Longitudinal Controller<a class="headerlink" href="#pid-longitudinal-controller" title="Permanent link">#</a></h1>
 <h2 id="purpose-use-cases">Purpose / Use cases<a class="headerlink" href="#purpose-use-cases" title="Permanent link">#</a></h2>
 <p>The longitudinal_controller computes the target acceleration to achieve the target velocity set at each point of the target trajectory using a feed-forward/back control.</p>
 <p>It also contains a slope force correction that takes into account road slope information, and a delay compensation function.
 It is assumed that the target acceleration calculated here will be properly realized by the vehicle interface.</p>
 <p>Note that the use of this module is not mandatory for Autoware if the vehicle supports the "target speed" interface.</p>
-<h2 id="separated-lateral-steering-and-longitudinal-velocity-controls">Separated lateral (steering) and longitudinal (velocity) controls<a class="headerlink" href="#separated-lateral-steering-and-longitudinal-velocity-controls" title="Permanent link">#</a></h2>
-<p>This longitudinal controller assumes that the roles of lateral and longitudinal control are separated as follows.</p>
-<ul>
-<li>Lateral control computes a target steering to keep the vehicle on the trajectory, assuming perfect velocity tracking.</li>
-<li>Longitudinal control computes a target velocity/acceleration to keep the vehicle velocity on the trajectory speed, assuming perfect trajectory tracking.</li>
-</ul>
-<p>Ideally, dealing with the lateral and longitudinal control as a single mixed problem can achieve high performance. In contrast, there are two reasons to provide velocity controller as a stand-alone function, described below.</p>
-<h3 id="complex-requirements-for-longitudinal-motion">Complex requirements for longitudinal motion<a class="headerlink" href="#complex-requirements-for-longitudinal-motion" title="Permanent link">#</a></h3>
-<p>The longitudinal vehicle behavior that humans expect is difficult to express in a single logic. For example, the expected behavior just before stopping differs depending on whether the ego-position is ahead/behind of the stop line, or whether the current speed is higher/lower than the target speed to achieve a human-like movement.</p>
-<p>In addition, some vehicles have difficulty measuring the ego-speed at extremely low speeds. In such cases, a configuration that can improve the functionality of the longitudinal control without affecting the lateral control is important.</p>
-<p>There are many characteristics and needs that are unique to longitudinal control. Designing them separately from the lateral control keeps the modules less coupled and improves maintainability.</p>
-<h3 id="nonlinear-coupling-of-lateral-and-longitudinal-motion">Nonlinear coupling of lateral and longitudinal motion<a class="headerlink" href="#nonlinear-coupling-of-lateral-and-longitudinal-motion" title="Permanent link">#</a></h3>
-<p>The lat-lon mixed control problem is very complex and uses nonlinear optimization to achieve high performance. Since it is difficult to guarantee the convergence of the nonlinear optimization, a simple control logic is also necessary for development.</p>
-<p>Also, the benefits of simultaneous longitudinal and lateral control are small if the vehicle doesn't move at high speed.</p>
-<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
-<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
-<ol>
-<li>Smoothed target velocity and its acceleration shall be set in the trajectory<ol>
-<li>The velocity command is not smoothed inside the controller (only noise may be removed).</li>
-<li>For step-like target signal, tracking is performed as fast as possible.</li>
-</ol>
-</li>
-<li>The vehicle velocity must be an appropriate value<ol>
-<li>The ego-velocity must be a signed-value corresponding to the forward/backward direction</li>
-<li>The ego-velocity should be given with appropriate noise processing.</li>
-<li>If there is a large amount of noise in the ego-velocity, the tracking performance will be significantly reduced.</li>
-</ol>
-</li>
-<li>The output of this controller must be achieved by later modules (e.g. vehicle interface).<ol>
-<li>If the vehicle interface does not have the target velocity or acceleration interface (e.g., the vehicle only has a gas pedal and brake interface), an appropriate conversion must be done after this controller.</li>
-</ol>
-</li>
-</ol>
-<h2 id="inputs-outputs-api">Inputs / Outputs / API<a class="headerlink" href="#inputs-outputs-api" title="Permanent link">#</a></h2>
-<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">#</a></h3>
-<ul>
-<li>control_cmd [<code>autoware_auto_msgs/LongitudinalCommand</code>] : command to control the longitudinal motion of the vehicle. It contains the target velocity and target acceleration.</li>
-<li>debug_values [<code>autoware_auto_msgs/Float32MultiArrayDiagnostic</code>] : debug values used for the control command generation (e.g. the contributions of each P-I-D terms).</li>
-</ul>
-<h3 id="input">Input<a class="headerlink" href="#input" title="Permanent link">#</a></h3>
-<ul>
-<li>current_state [<code>autoware_auto_msgs/VehicleKinematicState</code>] : Current ego state including the current pose and velocity.</li>
-<li>current_trajectory [<code>autoware_auto_msgs/Trajectory</code>] : Current target trajectory for the desired velocity on the each trajectory points.</li>
-</ul>
-<h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
+<h2 id="design-inner-workings-algorithms">Design / Inner-workings / Algorithms<a class="headerlink" href="#design-inner-workings-algorithms" title="Permanent link">#</a></h2>
 <h3 id="states">States<a class="headerlink" href="#states" title="Permanent link">#</a></h3>
 <p>This module has four state transitions as shown below in order to handle special processing in a specific situation.</p>
 <ul>
@@ -10720,7 +10604,64 @@ This may be replaced by a higher performance controller (adaptive control or rob
 <p>At high speeds, the delay of actuator systems such as gas pedals and brakes has a significant impact on driving accuracy.
 Depending on the actuating principle of the vehicle, the mechanism that physically controls the gas pedal and brake typically has a delay of about a hundred millisecond.</p>
 <p>In this controller, the predicted ego-velocity and the target velocity after the delay time are calculated and used for the feedback to address the time delay problem.</p>
-<h3 id="parameter-description">Parameter description<a class="headerlink" href="#parameter-description" title="Permanent link">#</a></h3>
+<h3 id="slope-compensation_1">Slope compensation<a class="headerlink" href="#slope-compensation_1" title="Permanent link">#</a></h3>
+<p>Based on the slope information, a compensation term is added to the target acceleration.</p>
+<p>There are two sources of the slope information, which can be switched by a parameter.</p>
+<ul>
+<li>Pitch of the estimated ego-pose (default)<ul>
+<li>Calculates the current slope from the pitch angle of the estimated ego-pose</li>
+<li>Pros: Easily available</li>
+<li>Cons: Cannot extract accurate slope information due to the influence of vehicle vibration.</li>
+</ul>
+</li>
+<li>Z coordinate on the trajectory<ul>
+<li>Calculates the road slope from the difference of z-coordinates between the front and rear wheel positions in the target trajectory</li>
+<li>Pros: More accurate than pitch information, if the z-coordinates of the route are properly maintained</li>
+<li>Pros: Can be used in combination with delay compensation (not yet implemented)</li>
+<li>Cons: z-coordinates of high-precision map is needed.</li>
+<li>Cons: Does not support free space planning (for now)</li>
+</ul>
+</li>
+</ul>
+<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
+<ol>
+<li>Smoothed target velocity and its acceleration shall be set in the trajectory<ol>
+<li>The velocity command is not smoothed inside the controller (only noise may be removed).</li>
+<li>For step-like target signal, tracking is performed as fast as possible.</li>
+</ol>
+</li>
+<li>The vehicle velocity must be an appropriate value<ol>
+<li>The ego-velocity must be a signed-value corresponding to the forward/backward direction</li>
+<li>The ego-velocity should be given with appropriate noise processing.</li>
+<li>If there is a large amount of noise in the ego-velocity, the tracking performance will be significantly reduced.</li>
+</ol>
+</li>
+<li>The output of this controller must be achieved by later modules (e.g. vehicle interface).<ol>
+<li>If the vehicle interface does not have the target velocity or acceleration interface (e.g., the vehicle only has a gas pedal and brake interface), an appropriate conversion must be done after this controller.</li>
+</ol>
+</li>
+</ol>
+<h2 id="inputs-outputs-api">Inputs / Outputs / API<a class="headerlink" href="#inputs-outputs-api" title="Permanent link">#</a></h2>
+<h3 id="input">Input<a class="headerlink" href="#input" title="Permanent link">#</a></h3>
+<p>Set the following from the <a href="../../../trajectory_follower_nodes/design/trajectory_follower-design/">controller_node</a></p>
+<ul>
+<li><code>autoware_auto_planning_msgs/Trajectory</code> : reference trajectory to follow.</li>
+<li><code>nav_msgs/Odometry</code>: current odometry</li>
+</ul>
+<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">#</a></h3>
+<p>Return LongitudinalOutput which contains the following to <a href="../../../trajectory_follower_nodes/design/trajectory_follower-design/">controller_node</a></p>
+<ul>
+<li><code>autoware_auto_control_msgs/LongitudinalCommand</code>: command to control the longitudinal motion of the vehicle. It contains the target velocity and target acceleration.</li>
+<li>LongitudinalSyncData<ul>
+<li>velocity convergence(currently not used)</li>
+</ul>
+</li>
+</ul>
+<h3 id="pidcontroller-class">PIDController class<a class="headerlink" href="#pidcontroller-class" title="Permanent link">#</a></h3>
+<p>The <code>PIDController</code> class is straightforward to use.
+First, gains and limits must be set (using <code>setGains()</code> and <code>setLimits()</code>) for the proportional (P), integral (I), and derivative (D) components.
+Then, the velocity can be calculated by providing the current error and time step duration to the <code>calculate()</code> function.</p>
+<h2 id="parameter-description">Parameter description<a class="headerlink" href="#parameter-description" title="Permanent link">#</a></h2>
 <p>The default parameters defined in <code>param/lateral_controller_defaults.param.yaml</code> are adjusted to the
 AutonomouStuff Lexus RX 450h for under 40 km/h driving.</p>
 <table>
@@ -10773,7 +10714,7 @@ AutonomouStuff Lexus RX 450h for under 40 km/h driving.</p>
 <td align="left">enable_keep_stopped_until_steer_convergence</td>
 <td align="left">bool</td>
 <td align="left">flag to keep stopped condition until until the steer converges.</td>
-<td align="left">false</td>
+<td align="left">true</td>
 </tr>
 <tr>
 <td align="left">max_acc</td>
@@ -10825,7 +10766,7 @@ AutonomouStuff Lexus RX 450h for under 40 km/h driving.</p>
 </tr>
 </tbody>
 </table>
-<h4 id="state-transition">State transition<a class="headerlink" href="#state-transition" title="Permanent link">#</a></h4>
+<h3 id="state-transition">State transition<a class="headerlink" href="#state-transition" title="Permanent link">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -10886,7 +10827,7 @@ AutonomouStuff Lexus RX 450h for under 40 km/h driving.</p>
 </tr>
 </tbody>
 </table>
-<h4 id="drive-parameter">DRIVE Parameter<a class="headerlink" href="#drive-parameter" title="Permanent link">#</a></h4>
+<h3 id="drive-parameter">DRIVE Parameter<a class="headerlink" href="#drive-parameter" title="Permanent link">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -10983,7 +10924,7 @@ AutonomouStuff Lexus RX 450h for under 40 km/h driving.</p>
 </tr>
 </tbody>
 </table>
-<h4 id="stopping-parameter-smooth-stop">STOPPING Parameter (smooth stop)<a class="headerlink" href="#stopping-parameter-smooth-stop" title="Permanent link">#</a></h4>
+<h3 id="stopping-parameter-smooth-stop">STOPPING Parameter (smooth stop)<a class="headerlink" href="#stopping-parameter-smooth-stop" title="Permanent link">#</a></h3>
 <p>Smooth stop is enabled if <code>enable_smooth_stop</code> is true.
 In smooth stop, strong acceleration (<code>strong_acc</code>) will be output first to decrease the ego velocity.
 Then weak acceleration (<code>weak_acc</code>) will be output to stop smoothly by decreasing the ego jerk.
@@ -11067,7 +11008,7 @@ If the ego is still running, strong acceleration (<code>strong_stop_acc</code>) 
 </tr>
 </tbody>
 </table>
-<h4 id="stopped-parameter">STOPPED Parameter<a class="headerlink" href="#stopped-parameter" title="Permanent link">#</a></h4>
+<h3 id="stopped-parameter">STOPPED Parameter<a class="headerlink" href="#stopped-parameter" title="Permanent link">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -11098,7 +11039,7 @@ If the ego is still running, strong acceleration (<code>strong_stop_acc</code>) 
 </tr>
 </tbody>
 </table>
-<h4 id="emergency-parameter">EMERGENCY Parameter<a class="headerlink" href="#emergency-parameter" title="Permanent link">#</a></h4>
+<h3 id="emergency-parameter">EMERGENCY Parameter<a class="headerlink" href="#emergency-parameter" title="Permanent link">#</a></h3>
 <table>
 <thead>
 <tr>
@@ -11132,10 +11073,6 @@ If the ego is still running, strong acceleration (<code>strong_stop_acc</code>) 
 <h2 id="references-external-links">References / External links<a class="headerlink" href="#references-external-links" title="Permanent link">#</a></h2>
 <h2 id="future-extensions-unimplemented-parts">Future extensions / Unimplemented parts<a class="headerlink" href="#future-extensions-unimplemented-parts" title="Permanent link">#</a></h2>
 <h2 id="related-issues">Related issues<a class="headerlink" href="#related-issues" title="Permanent link">#</a></h2>
-<ul>
-<li><a href="https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto/-/issues/1058">https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto/-/issues/1058</a></li>
-<li><a href="https://github.com/autowarefoundation/autoware.universe/issues/701">https://github.com/autowarefoundation/autoware.universe/issues/701</a></li>
-</ul>
 
 
 
@@ -11159,7 +11096,7 @@ If the ego is still running, strong acceleration (<code>strong_stop_acc</code>) 
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../latlon_muxer-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lateral/Longitudinal Control Muxer" rel="prev">
+        <a href="../mpc_lateral_controller-design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MPC Lateral Controller" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -11168,20 +11105,20 @@ If the ego is still running, strong acceleration (<code>strong_stop_acc</code>) 
               <span class="md-footer__direction">
                 Previous
               </span>
-              Lateral/Longitudinal Control Muxer
+              MPC Lateral Controller
             </div>
           </div>
         </a>
       
       
         
-        <a href="../simple_trajectory_follower-design/" class="md-footer__link md-footer__link--next" aria-label="Next: Simple Trajectory Follower" rel="next">
+        <a href="../trajectory_follower-design/" class="md-footer__link md-footer__link--next" aria-label="Next: Trajectory Follower" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Simple Trajectory Follower
+              Trajectory Follower
             </div>
           </div>
           <div class="md-footer__button md-icon">
