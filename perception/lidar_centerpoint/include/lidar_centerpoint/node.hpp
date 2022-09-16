@@ -46,6 +46,8 @@ private:
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
   rclcpp::Publisher<autoware_auto_perception_msgs::msg::DetectedObjects>::SharedPtr objects_pub_;
+  rclcpp::Publisher<autoware_auto_perception_msgs::msg::DetectedObjects>::SharedPtr
+    debug_low_score_objects_pub_;
 
   float score_threshold_{0.0};
   std::vector<std::string> class_names_;
@@ -59,6 +61,13 @@ private:
     nullptr};
   std::unique_ptr<tier4_autoware_utils::DebugPublisher> debug_publisher_ptr_{nullptr};
 };
+
+// TODO(yukke42): use from a shared library
+inline bool isLargeVehicleLabel(const std::uint8_t label)
+{
+  using Label = autoware_auto_perception_msgs::msg::ObjectClassification;
+  return label == Label::BUS || label == Label::TRUCK || label == Label::TRAILER;
+}
 
 }  // namespace centerpoint
 
