@@ -13,6 +13,7 @@
 # limitations under the License.
 import os
 
+from ament_index_python.packages import get_package_share_directory
 import launch
 from launch.actions import DeclareLaunchArgument
 from launch.actions import OpaqueFunction
@@ -28,9 +29,13 @@ import yaml
 
 class PointcloudMapFilterPipeline:
     def __init__(self, context):
+        # pointcloud_map_filter_param_path = os.path.join(
+        #     LaunchConfiguration("tier4_perception_launch_param_path"),
+        #     "object_recognition/detection/pointcloud_map_filter.param.yaml",
+        # )
         pointcloud_map_filter_param_path = os.path.join(
-            LaunchConfiguration("tier4_perception_launch_param_path").perform(context),
-            "object_recognition/detection/pointcloud_map_filter.param.yaml",
+            get_package_share_directory("perception_launch"),
+            "config/object_recognition/detection/pointcloud_map_filter.param.yaml",
         )
         with open(pointcloud_map_filter_param_path, "r") as f:
             self.pointcloud_map_filter_param = yaml.safe_load(f)["/**"]["ros__parameters"]
