@@ -14,6 +14,7 @@
 
 #include "lidar_centerpoint/node.hpp"
 
+#include "perception_utils/perception_utils.hpp"
 #include "tier4_autoware_utils/tier4_autoware_utils.hpp"
 
 #include <lidar_centerpoint/centerpoint_config.hpp>
@@ -21,7 +22,6 @@
 #include <lidar_centerpoint/ros_utils.hpp>
 #include <lidar_centerpoint/utils.hpp>
 #include <pcl_ros/transforms.hpp>
-#include <perception_utils/perception_utils.hpp>
 
 #ifdef ROS_DISTRO_GALACTIC
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -41,8 +41,7 @@ namespace centerpoint
 LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_options)
 : Node("lidar_center_point", node_options), tf_buffer_(this->get_clock())
 {
-  const float score_threshold =
-    static_cast<float>(this->declare_parameter<double>("score_threshold", 0.35));
+  score_threshold_ = this->declare_parameter<double>("score_threshold");
   const float circle_nms_dist_threshold =
     static_cast<float>(this->declare_parameter<double>("circle_nms_dist_threshold", 1.5));
   const float yaw_norm_threshold =
@@ -71,6 +70,18 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
   const std::size_t encoder_in_feature_size =
     static_cast<std::size_t>(this->declare_parameter<std::int64_t>("encoder_in_feature_size"));
 
+  {
+    NMSParams p;
+    p.nms_type_ = NMS_TYPE::IoU_BEV;
+    p.search_distance_2d_ = this->declare_parameter<double>("nms_search_distance_2d");
+    p.iou_threshold_ = this->declare_parameter<double>("iou_nms_threshold");
+    nms_.setParams(p);
+  }
+
+  /* debug options */
+  debug_mode_ = this->declare_parameter<bool>("debug_mode");
+  debug_low_score_threshold_ = this->declare_parameter<double>("debug_low_score_threshold");
+
   NetworkParam encoder_param(encoder_onnx_path, encoder_engine_path, trt_precision);
   NetworkParam head_param(head_onnx_path, head_engine_path, trt_precision);
   DensificationParam densification_param(
@@ -86,9 +97,10 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
       rclcpp::get_logger("lidar_centerpoint"),
       "The size of voxel_size != 3: use the default parameters.");
   }
+  const double raw_score_threshold = debug_mode_ ? debug_low_score_threshold_ : score_threshold_;
   CenterPointConfig config(
     class_names_.size(), point_feature_size, max_voxel_size, point_cloud_range, voxel_size,
-    downsample_factor, encoder_in_feature_size, score_threshold, circle_nms_dist_threshold,
+    downsample_factor, encoder_in_feature_size, raw_score_threshold, circle_nms_dist_threshold,
     yaw_norm_threshold);
   detector_ptr_ =
     std::make_unique<CenterPointTRT>(encoder_param, head_param, densification_param, config);
@@ -98,9 +110,6 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
     std::bind(&LidarCenterPointNode::pointCloudCallback, this, std::placeholders::_1));
   objects_pub_ = this->create_publisher<autoware_auto_perception_msgs::msg::DetectedObjects>(
     "~/output/objects", rclcpp::QoS{1});
-  debug_low_score_objects_pub_ =
-    this->create_publisher<autoware_auto_perception_msgs::msg::DetectedObjects>(
-      "~/debug/low_score_objects", rclcpp::QoS{1});
 
   // initialize debug tool
   {
@@ -140,53 +149,11 @@ void LidarCenterPointNode::pointCloudCallback(
     raw_objects.emplace_back(obj);
   }
 
-  const double search_squared_distance = 10 * 10;
-  Eigen::MatrixXd iou_matrix = Eigen::MatrixXd::Zero(raw_objects.size(), raw_objects.size());
-  for (std::size_t i = 0; i < raw_objects.size(); ++i) {
-    for (std::size_t j = 0; j < i; ++j) {
-      const auto & obj1 = raw_objects.at(i);
-      const auto & obj2 = raw_objects.at(j);
-      const auto label1 = perception_utils::getHighestProbLabel(obj1.classification);
-      const auto label2 = perception_utils::getHighestProbLabel(obj2.classification);
-      if (!isLargeVehicleLabel(label1) || !isLargeVehicleLabel(label2)) {
-        continue;
-      }
-
-      const auto squared_distance = tier4_autoware_utils::calcSquaredDistance2d(
-        perception_utils::getPose(obj1), perception_utils::getPose(obj2));
-      if (squared_distance > search_squared_distance) {
-        iou_matrix(i, j) = -1;
-        continue;
-      }
-
-      const double iou = perception_utils::get2dIoU(obj1, obj2);
-      iou_matrix(i, j) = iou;
-      if (iou > 0.0) {
-        break;
-      }
-    }
-  }
-
-  autoware_auto_perception_msgs::msg::DetectedObjects output_msg, debug_low_score_output_msg;
+  autoware_auto_perception_msgs::msg::DetectedObjects output_msg;
   output_msg.header = input_pointcloud_msg->header;
-  debug_low_score_output_msg.header = input_pointcloud_msg->header;
-  const double iou_threshold = 0.1;
-  for (std::size_t i = 0; i < raw_objects.size(); ++i) {
-    const auto max_iou = iou_matrix.row(i).maxCoeff();
-    if (max_iou > iou_threshold) {
-      continue;
-    }
-
-    const auto & obj = raw_objects.at(i);
-    if (obj.existence_probability > 0.35) {
-      output_msg.objects.emplace_back(obj);
-    } else if (obj.existence_probability > 0.2) {
-      debug_low_score_output_msg.objects.emplace_back(obj);
-    }
-  }
+  output_msg.objects = nms_.apply(raw_objects);
 
   objects_pub_->publish(output_msg);
-  debug_low_score_objects_pub_->publish(debug_low_score_output_msg);
 
   // add processing time for debug
   if (debug_publisher_ptr_ && stop_watch_ptr_) {
