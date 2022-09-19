@@ -25,8 +25,5 @@
     <param name="head_onnx_path" value="$(var model_path)/pts_backbone_neck_head_$(var model_name).onnx"/>
     <param name="head_engine_path" value="$(var model_path)/pts_backbone_neck_head_$(var model_name).engine"/>
     <param from="$(var model_param_path)"/>
-
-    <param name="debug_mode" value="true"/>
-    <param name="debug_low_score_threshold" value="0.2"/>
   </node>
 </launch>

@@ -78,10 +78,6 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
     nms_.setParams(p);
   }
 
-  /* debug options */
-  debug_mode_ = this->declare_parameter<bool>("debug_mode");
-  debug_low_score_threshold_ = this->declare_parameter<double>("debug_low_score_threshold");
-
   NetworkParam encoder_param(encoder_onnx_path, encoder_engine_path, trt_precision);
   NetworkParam head_param(head_onnx_path, head_engine_path, trt_precision);
   DensificationParam densification_param(
@@ -97,10 +93,9 @@ LidarCenterPointNode::LidarCenterPointNode(const rclcpp::NodeOptions & node_opti
       rclcpp::get_logger("lidar_centerpoint"),
       "The size of voxel_size != 3: use the default parameters.");
   }
-  const double raw_score_threshold = debug_mode_ ? debug_low_score_threshold_ : score_threshold_;
   CenterPointConfig config(
     class_names_.size(), point_feature_size, max_voxel_size, point_cloud_range, voxel_size,
-    downsample_factor, encoder_in_feature_size, raw_score_threshold, circle_nms_dist_threshold,
+    downsample_factor, encoder_in_feature_size, score_threshold_, circle_nms_dist_threshold,
     yaw_norm_threshold);
   detector_ptr_ =
     std::make_unique<CenterPointTRT>(encoder_param, head_param, densification_param, config);
