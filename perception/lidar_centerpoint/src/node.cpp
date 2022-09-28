@@ -14,11 +14,17 @@
 
 #include "lidar_centerpoint/node.hpp"
 
+#include "perception_utils/object_classification.hpp"
+#include "perception_utils/perception_utils.hpp"
+
 #include <lidar_centerpoint/centerpoint_config.hpp>
 #include <lidar_centerpoint/preprocess/pointcloud_densification.hpp>
 #include <lidar_centerpoint/ros_utils.hpp>
 #include <lidar_centerpoint/utils.hpp>
 #include <pcl_ros/transforms.hpp>
+
+#include <pcl/filters/random_sample.h>
+#include <pcl/filters/voxel_grid.h>
 
 #ifdef ROS_DISTRO_GALACTIC
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -154,6 +160,56 @@ void LidarCenterPointNode::pointCloudCallback(
   output_msg.header = input_pointcloud_msg->header;
   output_msg.objects = iou_bev_nms_.apply(raw_objects);
 
+  const double correction_length_min_threshold = 5.0;
+  const auto voxelized_pcl_ptr = detector_ptr_->getVoxelizedPointCloudPtr();
+  pcl::PointCloud<pcl::PointXYZ>::Ptr downsampled_pcl_ptr(new pcl::PointCloud<pcl::PointXYZ>);
+  downsampled_pcl_ptr->reserve(voxelized_pcl_ptr->size());
+  pcl::VoxelGrid<pcl::PointXYZ> vg_filter;
+  vg_filter.setInputCloud(voxelized_pcl_ptr);
+  vg_filter.setLeafSize(0.32, 0.32, 4.0);
+  vg_filter.filter(*downsampled_pcl_ptr);
+
+  pcl::PointCloud<pcl::PointXYZ>::Ptr debug_object_pc_pcl(new pcl::PointCloud<pcl::PointXYZ>);
+  debug_object_pc_pcl->reserve(voxelized_pcl_ptr->size());
+  auto valid_point = [](double p, double width) -> bool { return (p >= -width) && (p <= width); };
+  for (const auto & object : output_msg.objects) {
+    const auto label = perception_utils::getHighestProbLabel(object.classification);
+    if (!perception_utils::isLargeVehicle(label)) {
+      continue;
+    }
+
+    if (object.shape.dimensions.x < correction_length_min_threshold) {
+      continue;
+    }
+
+    const auto & pose = perception_utils::getPose(object);
+    const auto & dimensions = object.shape.dimensions;
+    // const auto obj_2d_polygon = tier4_autoware_utils::toPolygon2d(pose, object.shape);
+    const auto obj_position = Eigen::Vector3d(pose.position.x, pose.position.y, pose.position.z);
+    const auto obj_orientation = Eigen::Quaterniond(
+      pose.orientation.w, pose.orientation.x, pose.orientation.y, pose.orientation.z);
+    for (const auto & pc : *downsampled_pcl_ptr) {
+      const double sqrt_dist_between_point_and_centroid =
+        std::pow(pc.x - pose.position.x, 2) + std::pow(pc.y - pose.position.y, 2);
+      const double sqrt_length_of_half_diagonal =
+        std::pow(dimensions.x, 2) + std::pow(dimensions.y, 2);
+      if (sqrt_dist_between_point_and_centroid > sqrt_length_of_half_diagonal) {
+        continue;
+      }
+
+      tier4_autoware_utils::Point3d p_base_coord(pc.x, pc.y, pc.z);
+      const auto p_obj_coord = obj_orientation.inverse() * (p_base_coord - obj_position);
+      const bool within_length = valid_point(p_obj_coord.x(), dimensions.x * 0.5f);
+      const bool within_width = valid_point(p_obj_coord.y(), dimensions.y * 0.5f);
+      const bool within_height = valid_point(p_obj_coord.z(), dimensions.z * 0.5f);
+      if (!(within_length && within_width && within_height)) {
+        continue;
+      }
+
+      debug_object_pc_pcl->emplace_back(pcl::PointXYZ(pc.x, pc.y, pc.z));
+    }
+  }
+
   detection_class_remapper_.mapClasses(output_msg);
 
   if (objects_sub_count > 0) {
@@ -171,14 +227,20 @@ void LidarCenterPointNode::pointCloudCallback(
   }
 
   if (debug_publisher_ptr_) {
-    const auto debug_pcl_pc = detector_ptr_->getVoxelizedPointCloudPtr();
-    if (debug_pcl_pc) {
-      sensor_msgs::msg::PointCloud2 debug_pc_msg;
-      pcl::toROSMsg(*debug_pcl_pc, debug_pc_msg);
-      debug_pc_msg.header = input_pointcloud_msg->header;
-      debug_publisher_ptr_->publish<sensor_msgs::msg::PointCloud2>(
-        "debug/voxelized_pointcloud", debug_pc_msg);
-    }
+    // const auto debug_pc_pcl = detector_ptr_->getVoxelizedPointCloudPtr();
+    // if (debug_pc_pcl) {
+    //   sensor_msgs::msg::PointCloud2 debug_pc_msg;
+    //   pcl::toROSMsg(*debug_pc_pcl, debug_pc_msg);
+    //   debug_pc_msg.header = input_pointcloud_msg->header;
+    //   debug_publisher_ptr_->publish<sensor_msgs::msg::PointCloud2>(
+    //     "debug/voxelized_pointcloud", debug_pc_msg);
+    // }
+
+    sensor_msgs::msg::PointCloud2 debug_object_pc_msg;
+    pcl::toROSMsg(*debug_object_pc_pcl, debug_object_pc_msg);
+    debug_object_pc_msg.header = input_pointcloud_msg->header;
+    debug_publisher_ptr_->publish<sensor_msgs::msg::PointCloud2>(
+      "debug/object_pointcloud", debug_object_pc_msg);
   }
 }
 
