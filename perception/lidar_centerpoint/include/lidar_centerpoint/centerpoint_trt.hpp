@@ -65,6 +65,14 @@ public:
     const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer,
     std::vector<Box3D> & det_boxes3d);
 
+  pcl::PointCloud<pcl::PointXYZ>::Ptr getVoxelizedPointCloudPtr()
+  {
+    if (vg_ptr_ && vg_ptr_->in_pc_pcl_) {
+      return vg_ptr_->in_pc_pcl_;
+    }
+    return nullptr;
+  }
+
 protected:
   void initPtr();
 

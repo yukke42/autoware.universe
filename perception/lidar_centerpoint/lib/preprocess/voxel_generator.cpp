@@ -20,7 +20,7 @@ namespace centerpoint
 {
 VoxelGeneratorTemplate::VoxelGeneratorTemplate(
   const DensificationParam & param, const CenterPointConfig & config)
-: config_(config)
+: in_pc_pcl_(new pcl::PointCloud<pcl::PointXYZ>), config_(config)
 {
   pd_ptr_ = std::make_unique<PointCloudDensification>(param);
   range_[0] = config.range_min_x_;
@@ -64,6 +64,7 @@ std::size_t VoxelGenerator::pointsToVoxels(
   int c, coord_idx, voxel_idx;
   Eigen::Vector3f point_current, point_past;
 
+  in_pc_pcl_->clear();
   for (auto pc_cache_iter = pd_ptr_->getPointCloudCacheIter(); !pd_ptr_->isCacheEnd(pc_cache_iter);
        pc_cache_iter++) {
     auto pc_msg = pc_cache_iter->pointcloud_msg;
@@ -71,6 +72,11 @@ std::size_t VoxelGenerator::pointsToVoxels(
       pd_ptr_->getAffineWorldToCurrent() * pc_cache_iter->affine_past2world;
     float timelag = static_cast<float>(
       pd_ptr_->getCurrentTimestamp() - rclcpp::Time(pc_msg.header.stamp).seconds());
+
+    const bool is_current_frame{timelag == 0.f};
+    if (is_current_frame) {
+      in_pc_pcl_->reserve(pc_msg.width);
+    }
 
     for (sensor_msgs::PointCloud2ConstIterator<float> x_iter(pc_msg, "x"), y_iter(pc_msg, "y"),
          z_iter(pc_msg, "z");
@@ -94,6 +100,11 @@ std::size_t VoxelGenerator::pointsToVoxels(
       }
       if (out_of_range) {
         continue;
+      }
+
+      if (is_current_frame) {
+        in_pc_pcl_->emplace_back(
+          pcl::PointXYZ(point_current.x(), point_current.y(), point_current.z()));
       }
 
       coord_idx = coord_zyx[0] * config_.grid_size_y_ * config_.grid_size_x_ +

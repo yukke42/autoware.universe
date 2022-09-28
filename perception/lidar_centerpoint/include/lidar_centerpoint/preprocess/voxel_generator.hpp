@@ -20,6 +20,9 @@
 
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
+
 #include <memory>
 #include <vector>
 
@@ -37,6 +40,8 @@ public:
 
   bool enqueuePointCloud(
     const sensor_msgs::msg::PointCloud2 & input_pointcloud_msg, const tf2_ros::Buffer & tf_buffer);
+
+  pcl::PointCloud<pcl::PointXYZ>::Ptr in_pc_pcl_{nullptr};
 
 protected:
   std::unique_ptr<PointCloudDensification> pd_ptr_{nullptr};

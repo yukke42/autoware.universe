@@ -169,6 +169,17 @@ void LidarCenterPointNode::pointCloudCallback(
     debug_publisher_ptr_->publish<tier4_debug_msgs::msg::Float64Stamped>(
       "debug/processing_time_ms", processing_time_ms);
   }
+
+  if (debug_publisher_ptr_) {
+    const auto debug_pcl_pc = detector_ptr_->getVoxelizedPointCloudPtr();
+    if (debug_pcl_pc) {
+      sensor_msgs::msg::PointCloud2 debug_pc_msg;
+      pcl::toROSMsg(*debug_pcl_pc, debug_pc_msg);
+      debug_pc_msg.header = input_pointcloud_msg->header;
+      debug_publisher_ptr_->publish<sensor_msgs::msg::PointCloud2>(
+        "debug/voxelized_pointcloud", debug_pc_msg);
+    }
+  }
 }
 
 }  // namespace centerpoint
