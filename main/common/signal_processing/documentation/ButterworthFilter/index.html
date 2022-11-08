@@ -8,21 +8,21 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/common/vehicle_constants_manager/design/vehicle_constants_manager-design/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/common/signal_processing/documentation/ButterworthFilter/">
       
       <link rel="icon" href="../../../../docs/assets/images/autoware-foundation.png">
-      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.7">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.8">
     
     
       
-        <title>vehicle_constants_manager - Autoware Universe Documentation</title>
+        <title>ButterworthFilter - Autoware Universe Documentation</title>
       
     
     
       <link rel="stylesheet" href="../../../../assets/stylesheets/main.20d9efc8.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.815d1a91.min.css">
         
       
       
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vehicle_constants_manager" class="md-skip">
+        <a href="#butterworth-low-pass-filter-design-tool-class" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              vehicle_constants_manager
+              ButterworthFilter
             
           </span>
         </div>
@@ -693,8 +693,6 @@
       
       
       
-        
-          
         
           
         
@@ -2020,14 +2018,16 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5_19" type="checkbox" id="__nav_5_19" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_19" type="checkbox" id="__nav_5_19" checked>
       
       
       
@@ -2036,12 +2036,18 @@
             
           
         
+          
+        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../signal_processing/">Signal processing</a>
+          <a href="../../">Signal processing</a>
+          
+            <label for="__nav_5_19">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
           
         </div>
       
@@ -2052,6 +2058,123 @@
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_19_2" type="checkbox" id="__nav_5_19_2" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5_19_2">
+          Documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Documentation" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_19_2">
+          <span class="md-nav__icon md-icon"></span>
+          Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          ButterworthFilter
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        ButterworthFilter
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#butterworth-low-pass-filter-design-tool-class" class="md-nav__link">
+    Butterworth Low-pass Filter Design Tool Class
+  </a>
+  
+    <nav class="md-nav" aria-label="Butterworth Low-pass Filter Design Tool Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obtaining-filter-transfer-functions" class="md-nav__link">
+    Obtaining Filter Transfer Functions
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discrete-time-transfer-function-difference-equations" class="md-nav__link">
+    Discrete Time Transfer Function (Difference Equations)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calling-filter-by-a-specified-cut-off-and-sampling-frequencies-in-hz" class="md-nav__link">
+    Calling Filter by a specified cut-off and sampling frequencies [in Hz]
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
             
           
         </ul>
@@ -2801,204 +2924,6 @@
               
   
   
-    
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_34" type="checkbox" id="__nav_5_34" checked>
-      
-      
-      
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_5_34">
-          Vehicle constants manager
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Vehicle constants manager" data-md-level="2">
-        <label class="md-nav__title" for="__nav_5_34">
-          <span class="md-nav__icon md-icon"></span>
-          Vehicle constants manager
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_34_1" type="checkbox" id="__nav_5_34_1" checked>
-      
-      
-      
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_5_34_1">
-          Design
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Design" data-md-level="3">
-        <label class="md-nav__title" for="__nav_5_34_1">
-          <span class="md-nav__icon md-icon"></span>
-          Design
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          vehicle_constants_manager
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        vehicle_constants_manager
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose-use-cases" class="md-nav__link">
-    Purpose / Use cases
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design" class="md-nav__link">
-    Design
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-known-limits" class="md-nav__link">
-    Assumptions / Known limits
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-outputs-api" class="md-nav__link">
-    Inputs / Outputs / API
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-detection-and-handling" class="md-nav__link">
-    Error detection and handling
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    Security considerations
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references-external-links" class="md-nav__link">
-    References / External links
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-extensions-unimplemented-parts" class="md-nav__link">
-    Future extensions / Unimplemented parts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-issues" class="md-nav__link">
-    Related issues
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
   
     
       
@@ -3006,7 +2931,7 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5_35" type="checkbox" id="__nav_5_35" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5_34" type="checkbox" id="__nav_5_34" checked>
       
       
       
@@ -3025,7 +2950,7 @@
         </div>
       
       <nav class="md-nav" aria-label="Web controller" data-md-level="2">
-        <label class="md-nav__title" for="__nav_5_35">
+        <label class="md-nav__title" for="__nav_5_34">
           <span class="md-nav__icon md-icon"></span>
           Web controller
         </label>
@@ -6929,6 +6854,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_12">
@@ -7763,18 +7690,63 @@
       
         
           
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../../planning/obstacle_velocity_limiter/">Obstacle velocity limiter</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Obstacle velocity limiter" data-md-level="2">
+        <label class="md-nav__title" for="__nav_12_12">
+          <span class="md-nav__icon md-icon"></span>
+          Obstacle velocity limiter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_13" type="checkbox" id="__nav_12_13" checked>
+      
+      
+      
+        
+          
         
           
         
       
       
-        <label class="md-nav__link" for="__nav_12_12">
+        <label class="md-nav__link" for="__nav_12_13">
           Planning debug tools
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Planning debug tools" data-md-level="2">
-        <label class="md-nav__title" for="__nav_12_12">
+        <label class="md-nav__title" for="__nav_12_13">
           <span class="md-nav__icon md-icon"></span>
           Planning debug tools
         </label>
@@ -7826,7 +7798,7 @@
     <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_13" type="checkbox" id="__nav_12_13" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_14" type="checkbox" id="__nav_12_14" checked>
       
       
       
@@ -7845,54 +7817,9 @@
         </div>
       
       <nav class="md-nav" aria-label="Planning error monitor" data-md-level="2">
-        <label class="md-nav__title" for="__nav_12_13">
-          <span class="md-nav__icon md-icon"></span>
-          Planning error monitor
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_14" type="checkbox" id="__nav_12_14" checked>
-      
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/planning_evaluator/">Planning evaluator</a>
-          
-        </div>
-      
-      <nav class="md-nav" aria-label="Planning evaluator" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_14">
           <span class="md-nav__icon md-icon"></span>
-          Planning evaluator
+          Planning error monitor
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -7930,14 +7857,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/route_handler/">Route handler</a>
+          <a href="../../../../planning/planning_evaluator/">Planning evaluator</a>
           
         </div>
       
-      <nav class="md-nav" aria-label="Route handler" data-md-level="2">
+      <nav class="md-nav" aria-label="Planning evaluator" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_15">
           <span class="md-nav__icon md-icon"></span>
-          Route handler
+          Planning evaluator
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -7975,14 +7902,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/rtc_auto_mode_manager/">Rtc auto mode manager</a>
+          <a href="../../../../planning/route_handler/">Route handler</a>
           
         </div>
       
-      <nav class="md-nav" aria-label="Rtc auto mode manager" data-md-level="2">
+      <nav class="md-nav" aria-label="Route handler" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_16">
           <span class="md-nav__icon md-icon"></span>
-          Rtc auto mode manager
+          Route handler
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -8020,14 +7947,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/rtc_interface/">Rtc interface</a>
+          <a href="../../../../planning/rtc_auto_mode_manager/">Rtc auto mode manager</a>
           
         </div>
       
-      <nav class="md-nav" aria-label="Rtc interface" data-md-level="2">
+      <nav class="md-nav" aria-label="Rtc auto mode manager" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_17">
           <span class="md-nav__icon md-icon"></span>
-          Rtc interface
+          Rtc auto mode manager
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -8065,14 +7992,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/rtc_replayer/">Rtc replayer</a>
+          <a href="../../../../planning/rtc_interface/">Rtc interface</a>
           
         </div>
       
-      <nav class="md-nav" aria-label="Rtc replayer" data-md-level="2">
+      <nav class="md-nav" aria-label="Rtc interface" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_18">
           <span class="md-nav__icon md-icon"></span>
-          Rtc replayer
+          Rtc interface
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -8110,14 +8037,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../../planning/scenario_selector/">Scenario selector</a>
+          <a href="../../../../planning/rtc_replayer/">Rtc replayer</a>
           
         </div>
       
-      <nav class="md-nav" aria-label="Scenario selector" data-md-level="2">
+      <nav class="md-nav" aria-label="Rtc replayer" data-md-level="2">
         <label class="md-nav__title" for="__nav_12_19">
           <span class="md-nav__icon md-icon"></span>
-          Scenario selector
+          Rtc replayer
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -8150,6 +8077,51 @@
             
           
         
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../../planning/scenario_selector/">Scenario selector</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Scenario selector" data-md-level="2">
+        <label class="md-nav__title" for="__nav_12_20">
+          <span class="md-nav__icon md-icon"></span>
+          Scenario selector
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_21" type="checkbox" id="__nav_12_21" checked>
+      
+      
+      
+        
+          
+            
+          
+        
           
         
       
@@ -8159,14 +8131,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../../../planning/surround_obstacle_checker/">Surround obstacle checker</a>
           
-            <label for="__nav_12_20">
+            <label for="__nav_12_21">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Surround obstacle checker" data-md-level="2">
-        <label class="md-nav__title" for="__nav_12_20">
+        <label class="md-nav__title" for="__nav_12_21">
           <span class="md-nav__icon md-icon"></span>
           Surround obstacle checker
         </label>
@@ -10514,8 +10486,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -10524,72 +10494,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-use-cases" class="md-nav__link">
-    Purpose / Use cases
+  <a href="#butterworth-low-pass-filter-design-tool-class" class="md-nav__link">
+    Butterworth Low-pass Filter Design Tool Class
+  </a>
+  
+    <nav class="md-nav" aria-label="Butterworth Low-pass Filter Design Tool Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obtaining-filter-transfer-functions" class="md-nav__link">
+    Obtaining Filter Transfer Functions
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#design" class="md-nav__link">
-    Design
+        
+          <li class="md-nav__item">
+  <a href="#discrete-time-transfer-function-difference-equations" class="md-nav__link">
+    Discrete Time Transfer Function (Difference Equations)
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#assumptions-known-limits" class="md-nav__link">
-    Assumptions / Known limits
+        
+          <li class="md-nav__item">
+  <a href="#calling-filter-by-a-specified-cut-off-and-sampling-frequencies-in-hz" class="md-nav__link">
+    Calling Filter by a specified cut-off and sampling frequencies [in Hz]
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#inputs-outputs-api" class="md-nav__link">
-    Inputs / Outputs / API
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-detection-and-handling" class="md-nav__link">
-    Error detection and handling
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    Security considerations
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references-external-links" class="md-nav__link">
-    References / External links
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-extensions-unimplemented-parts" class="md-nav__link">
-    Future extensions / Unimplemented parts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-issues" class="md-nav__link">
-    Related issues
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -10607,134 +10541,131 @@
                 
                   
 
-  <a href="https://github.com/autowarefoundation/autoware.universe/edit/main/common/vehicle_constants_manager/design/vehicle_constants_manager-design.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/autowarefoundation/autoware.universe/edit/main/common/signal_processing/documentation/ButterworthFilter.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-<h1 id="vehicle_constants_manager">vehicle_constants_manager<a class="headerlink" href="#vehicle_constants_manager" title="Permanent link">#</a></h1>
-<p>This is the design document for the <code>vehicle_constants_manager</code> package.</p>
-<h2 id="purpose-use-cases">Purpose / Use cases<a class="headerlink" href="#purpose-use-cases" title="Permanent link">#</a></h2>
-<!-- Required -->
-<!-- Things to consider:
-    - Why did we implement this feature? -->
+  <h1>ButterworthFilter</h1>
 
-<p>This library provides a struct for holding vehicle specific constants. It also
-provides a helper method to declare vehicle specific constants which have
-already been passed into a node and provide a <code>VehicleConstants</code> object.</p>
-<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">#</a></h2>
-<!-- Required -->
-<!-- Things to consider:
-    - How does it work? -->
+<h3 id="butterworth-low-pass-filter-design-tool-class">Butterworth Low-pass Filter Design Tool Class<a class="headerlink" href="#butterworth-low-pass-filter-design-tool-class" title="Permanent link">#</a></h3>
+<p>This Butterworth low-pass filter design tool can be used to design a Butterworth filter in continuous and discrete-time
+from the given specifications of the filter performance. The Butterworth filter is a class implementation. A default
+constructor creates the object without any argument.</p>
+<p>The filter can be prepared in three ways. If the filter specifications are known, such as the pass-band, and stop-band
+frequencies (Wp and Ws) together with the pass-band and stop-band ripple magnitudes (Ap and As), one can call the
+filter's buttord method with these arguments to obtain the recommended filter order (N) and cut-off frequency
+(Wc_rad_sec [rad/s]).</p>
+<p><img alt="img.png" src="../img.png" />
+Figure 1. Butterworth Low-pass filter specification from [1].</p>
+<p>An example call is demonstrated below;</p>
+<div class="codehilite"><pre><span></span><code>ButterworthFilter bf();
 
-<p>Provided <code>VehicleConstants</code> struct holds vehicle parameters. Its parameters can
-be split in 2 categories:
-(The detailed descriptions and units of the variables is in the
-<code>vehicle_constants_manager.hpp</code> file.)</p>
-<ul>
-<li>Primary Constants<ul>
-<li>wheel_radius</li>
-<li>wheel_width</li>
-<li>wheel_base</li>
-<li>wheel_tread</li>
-<li>overhang_front</li>
-<li>overhang_rear</li>
-<li>overhang_left</li>
-<li>overhang_right</li>
-<li>vehicle_height</li>
-<li>cg_to_rear</li>
-<li>tire_cornering_stiffness_front_n_per_deg</li>
-<li>tire_cornering_stiffness_rear_n_per_deg</li>
-<li>mass_vehicle</li>
-<li>inertia_yaw_kg_m_2</li>
-</ul>
-</li>
-<li>Derived Constants<ul>
-<li>cg_to_front</li>
-<li>vehicle_length</li>
-<li>vehicle_width</li>
-<li>offset_longitudinal_min</li>
-<li>offset_longitudinal_max</li>
-<li>offset_lateral_min</li>
-<li>offset_lateral_max</li>
-<li>offset_height_min</li>
-<li>offset_height_max</li>
-</ul>
-</li>
-</ul>
-<p>The <code>VehicleConstants</code> constructor is initialized with the primary parameters.</p>
-<p>The library also provides a <code>declare_and_get_vehicle_constants</code> method. Using
-this method, the user can declare vehicle parameters that are already passed
-into the node and obtain a <code>VehicleConstants</code> object.</p>
-<h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
-<!-- Required -->
+Wp = 2.0; // pass-band frequency [rad/sec]
+Ws = 3.0; // stop-band frequency [rad/sec]
+Ap = 6.0; // pass-band ripple mag or loss [dB]
+As = 20.0; // stop band ripple attenuation [dB]
 
-<p>This library assumes the vehicle is defined with Ackermann steering geometry.</p>
-<p><code>declare_and_get_vehicle_constants</code> method requires the passed node to have following parameters overridden:</p>
-<p>(Pay attention to the <code>vehicle</code> namespace)</p>
-<div class="highlight"><pre><span></span><code><span class="nt">vehicle</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">wheel_radius</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">wheel_width</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">wheel_base</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">wheel_tread</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">overhang_front</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">overhang_rear</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">overhang_left</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">overhang_right</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">vehicle_height</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">cg_to_rear</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">tire_cornering_stiffness_front_n_per_deg</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">tire_cornering_stiffness_rear_n_per_deg</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">mass_vehicle</span><span class="p">:</span><span class="w"></span>
-<span class="w">  </span><span class="nt">inertia_yaw_kg_m_2</span><span class="p">:</span><span class="w"></span>
+// Computing filter coefficients from the specs
+bf.Buttord(Wp, Ws, Ap, As);
+
+// Get the computed order and Cut-Off frequency
+sOrderCutOff NWc = bf.getOrderCutOff();]
+
+cout &lt;&lt; &quot; The computed order is ;&quot; &lt;&lt; NWc.N &lt;&lt; endl;
+cout &lt;&lt; &quot; The computed cut-off frequency is ;&quot; &lt;&lt; NWc.Wc_rad_sec &lt;&lt; endl;
 </code></pre></div>
-<h2 id="inputs-outputs-api">Inputs / Outputs / API<a class="headerlink" href="#inputs-outputs-api" title="Permanent link">#</a></h2>
-<!-- Required -->
-<!-- Things to consider:
-    - How do you use the package / API? -->
 
-<p>The constructor of <code>VehicleConstants</code> takes the primary vehicle constants and
-generates the derived parameters.</p>
-<p><code>declare_and_get_vehicle_constants</code> method takes a <code>rclcpp::Node</code> object. And
-returns a <code>VehicleConstants</code> object if it succeeds.</p>
-<p>Example usage:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// In the constructor of a node which received primary vehicle parameters from a</span>
-<span class="c1">// .yaml file or run args.</span>
-<span class="k">auto</span><span class="w"> </span><span class="n">vehicle_constants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">declare_and_get_vehicle_constants</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span><span class="w"></span>
+<p>The filter order and cut-off frequency can be obtained in a struct using bf.getOrderCutoff() method. These specs can be
+printed on the screen by calling PrintFilterSpecs() method. If the user would like to define the order and cut-off
+frequency manually, the setter methods for these variables can be called to set the filter order (N) and the desired
+cut-off frequency (Wc_rad_sec [rad/sec]) for the filter.</p>
+<h4 id="obtaining-filter-transfer-functions">Obtaining Filter Transfer Functions<a class="headerlink" href="#obtaining-filter-transfer-functions" title="Permanent link">#</a></h4>
+<p>The discrete transfer function of the filter requires the roots and gain of the continuous-time transfer function.
+Therefore, it is a must to call the first computeContinuousTimeTF() to create the continuous-time transfer function
+of the filter using;</p>
+<div class="codehilite"><pre><span></span><code>bf.computeContinuousTimeTF();
 </code></pre></div>
-<h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
-<!-- If applicable -->
 
-<p>Not Available.</p>
-<h2 id="error-detection-and-handling">Error detection and handling<a class="headerlink" href="#error-detection-and-handling" title="Permanent link">#</a></h2>
-<!-- Required -->
+<p>The computed continuous-time transfer function roots can be printed on the screen using the methods;</p>
+<div class="codehilite"><pre><span></span><code>bf.PrintFilter_ContinuousTimeRoots();
+bf.PrintContinuousTimeTF();
+</code></pre></div>
 
-<p>The <code>VehicleConstants</code> struct performs some sanity checks upon construction.</p>
-<p>It will throw <code>std::runtime_error</code> in case certain parameters are negative or
-cg_to_rear is larger than wheel_base (to ensure center of gravity is within
-front and rear axles.)</p>
-<h2 id="security-considerations">Security considerations<a class="headerlink" href="#security-considerations" title="Permanent link">#</a></h2>
-<!-- Required -->
-<!-- Things to consider:
-- Spoofing (How do you check for and handle fake input?)
-- Tampering (How do you check for and handle tampered input?)
-- Repudiation (How are you affected by the actions of external actors?).
-- Information Disclosure (Can data leak?).
-- Denial of Service (How do you handle spamming?).
-- Elevation of Privilege (Do you need to change permission levels during execution?) -->
+<p>The resulting screen output for a 5th order filter is demonstrated below.</p>
+<div class="codehilite"><pre><span></span><code> Roots of Continuous Time Filter Transfer Function Denominator are :
+-0.585518 + j 1.80204
+-1.53291 + j 1.11372
+-1.89478 + j 2.32043e-16
+-1.53291 + j -1.11372
+-0.585518 + j -1.80204
 
-<p>To Be Determined.</p>
-<h2 id="references-external-links">References / External links<a class="headerlink" href="#references-external-links" title="Permanent link">#</a></h2>
-<!-- Optional -->
 
-<p>Not Available.</p>
-<h2 id="future-extensions-unimplemented-parts">Future extensions / Unimplemented parts<a class="headerlink" href="#future-extensions-unimplemented-parts" title="Permanent link">#</a></h2>
-<!-- Optional -->
+The Continuous-Time Transfer Function of the Filter is ;
 
-<p>Not Available.</p>
-<h2 id="related-issues">Related issues<a class="headerlink" href="#related-issues" title="Permanent link">#</a></h2>
-<!-- Required -->
+                                   24.422
+-------------------------------------------------------------------------------
+1.000 *s[5] + 6.132 *s[4] + 18.798 *s[3] + 35.619 *s[2] + 41.711 *s[1] + 24.422
+</code></pre></div>
+
+<h4 id="discrete-time-transfer-function-difference-equations">Discrete Time Transfer Function (Difference Equations)<a class="headerlink" href="#discrete-time-transfer-function-difference-equations" title="Permanent link">#</a></h4>
+<p>The digital filter equivalent of the continuous-time definitions is produced by using the bi-linear transformation.
+When creating the discrete-time function of the ButterworthFilter object, its Numerator (Bn) and Denominator (An
+) coefficients are stored in a vector of filter order size N.</p>
+<p>The discrete transfer function method is called using ;</p>
+<div class="codehilite"><pre><span></span><code>bf.computeDiscreteTimeTF();
+bf.PrintDiscreteTimeTF();
+</code></pre></div>
+
+<p>The results are printed on the screen like;
+The Discrete-Time Transfer Function of the Filter is ;</p>
+<div class="codehilite"><pre><span></span><code>0.191 *z[-5] + 0.956 *z[-4] + 1.913 *z[-3] + 1.913 *z[-2] + 0.956 *z[-1] + 0.191
+--------------------------------------------------------------------------------
+1.000 *z[-5] + 1.885 *z[-4] + 1.888 *z[-3] + 1.014 *z[-2] + 0.298 *z[-1] + 0.037
+</code></pre></div>
+
+<p>and the associated difference coefficients An and Bn by withing a struct ;</p>
+<div class="codehilite"><pre><span></span><code>sDifferenceAnBn AnBn = bf.getAnBn();
+</code></pre></div>
+
+<p>The difference coefficients appear in the filtering equation in the form of.</p>
+<div class="codehilite"><pre><span></span><code>An * Y_filtered = Bn * Y_unfiltered
+</code></pre></div>
+
+<p>To filter a signal given in a vector form ;</p>
+<h4 id="calling-filter-by-a-specified-cut-off-and-sampling-frequencies-in-hz">Calling Filter by a specified cut-off and sampling frequencies [in Hz]<a class="headerlink" href="#calling-filter-by-a-specified-cut-off-and-sampling-frequencies-in-hz" title="Permanent link">#</a></h4>
+<p>The Butterworth filter can also be created by defining the desired order (N), a cut-off frequency (fc in [Hz]), and a
+sampling frequency (fs in [Hz]). In this method, the cut-off frequency is pre-warped with respect to the sampling
+frequency [1, 2] to match the continuous and digital filter frequencies.</p>
+<p>The filter is prepared by the following calling options;</p>
+<div class="codehilite"><pre><span></span><code> // 3rd METHOD defining a sampling frequency together with the cut-off fc, fs
+ bf.setOrder(2);
+ bf.setCutOffFrequency(10, 100);
+</code></pre></div>
+
+<p>At this step, we define a boolean variable whether to use the pre-warping option or not.</p>
+<div class="codehilite"><pre><span></span><code>// Compute Continuous Time TF
+bool use_sampling_frequency = true;
+bf.computeContinuousTimeTF(use_sampling_frequency);
+bf.PrintFilter_ContinuousTimeRoots();
+bf.PrintContinuousTimeTF();
+
+// Compute Discrete Time TF
+bf.computeDiscreteTimeTF(use_sampling_frequency);
+bf.PrintDiscreteTimeTF();
+</code></pre></div>
+
+<p><strong>References:</strong></p>
+<ol>
+<li>
+<p>Manolakis, Dimitris G., and Vinay K. Ingle. Applied digital signal processing: theory and practice. Cambridge
+   University Press, 2011.</p>
+</li>
+<li>
+<p><a href="https://en.wikibooks.org/wiki/Digital_Signal_Processing/Bilinear_Transform">https://en.wikibooks.org/wiki/Digital_Signal_Processing/Bilinear_Transform</a></p>
+</li>
+</ol>
 
 
 
@@ -10760,7 +10691,7 @@ front and rear axles.)</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../../../tvm_utility/design/tvm-utility-yolo-v2-tiny-tests/" class="md-footer__link md-footer__link--prev" aria-label="Previous: YOLOv2 Tiny Example Pipeline {#tvm-utility-yolo-v2-tiny-tests}" rel="prev">
+        <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Signal Processing Methods" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -10769,20 +10700,20 @@ front and rear axles.)</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              YOLOv2 Tiny Example Pipeline {#tvm-utility-yolo-v2-tiny-tests}
+              Signal Processing Methods
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../../web_controller/" class="md-footer__link md-footer__link--next" aria-label="Next: web_controller" rel="next">
+        <a href="../../../tier4_autoware_utils/" class="md-footer__link md-footer__link--next" aria-label="Next: tier4_autoware_utils" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              web_controller
+              tier4_autoware_utils
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -10820,7 +10751,7 @@ front and rear axles.)</p>
     <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.expand", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top"], "search": "../../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.8492ddcf.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
         <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       
