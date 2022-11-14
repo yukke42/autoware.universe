@@ -237,9 +237,25 @@ void OccupancyGridMapOutlierFilterComponent::onOccupancyGridMapAndPointCloud2(
   PclPointCloud high_confidence_pc{};
   PclPointCloud low_confidence_pc{};
   filterByOccupancyGridMap(*input_ogm, ogm_frame_pc, high_confidence_pc, low_confidence_pc);
+
+  {
+    const double processing_time_ms = stop_watch_ptr_->toc("processing_time", false);
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/filter1/processing_time_ms", processing_time_ms);
+  }
+
   // Apply Radius search 2d filter for low confidence pointcloud
   PclPointCloud filtered_low_confidence_pc{};
   PclPointCloud outlier_pc{};
+  {
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/low_conf/pointcloud_size", low_confidence_pc.size());
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/high_conf/pointcloud_size", high_confidence_pc.size());
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/all/pointcloud_size", low_confidence_pc.size() + high_confidence_pc.size());
+  }
+
   if (radius_search_2d_filter_ptr_) {
     auto pc_frame_pose_stamped = getPoseStamped(
       *tf2_, input_ogm->header.frame_id, input_pc->header.frame_id, input_ogm->header.stamp);
@@ -249,6 +265,12 @@ void OccupancyGridMapOutlierFilterComponent::onOccupancyGridMapAndPointCloud2(
   } else {
     outlier_pc = low_confidence_pc;
   }
+  {
+    const double processing_time_ms = stop_watch_ptr_->toc("processing_time", false);
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/filter2/processing_time_ms", processing_time_ms);
+  }
+
   // Concatenate high confidence pointcloud from occupancy grid map and non-outlier pointcloud
   PclPointCloud concat_pc = high_confidence_pc + filtered_low_confidence_pc;
   // Convert to ros msg
@@ -264,6 +286,12 @@ void OccupancyGridMapOutlierFilterComponent::onOccupancyGridMapAndPointCloud2(
     auto pc_ptr = std::make_unique<PointCloud2>();
     pointcloud_pub_->publish(std::move(base_link_frame_filtered_pc_ptr));
   }
+  {
+    const double processing_time_ms = stop_watch_ptr_->toc("processing_time", false);
+    debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
+      "debug/publish/processing_time_ms", processing_time_ms);
+  }
+
   if (debugger_ptr_) {
     debugger_ptr_->publishHighConfidence(high_confidence_pc, ogm_frame_pc.header);
     debugger_ptr_->publishLowConfidence(filtered_low_confidence_pc, ogm_frame_pc.header);
