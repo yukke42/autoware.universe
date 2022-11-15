@@ -241,7 +241,7 @@ void OccupancyGridMapOutlierFilterComponent::onOccupancyGridMapAndPointCloud2(
   {
     const double processing_time_ms = stop_watch_ptr_->toc("processing_time", false);
     debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
-      "debug/filter1/processing_time_ms", processing_time_ms);
+      "debug/grid_map/processing_time_ms", processing_time_ms);
   }
 
   // Apply Radius search 2d filter for low confidence pointcloud
@@ -268,7 +268,7 @@ void OccupancyGridMapOutlierFilterComponent::onOccupancyGridMapAndPointCloud2(
   {
     const double processing_time_ms = stop_watch_ptr_->toc("processing_time", false);
     debug_publisher_->publish<tier4_debug_msgs::msg::Float64Stamped>(
-      "debug/filter2/processing_time_ms", processing_time_ms);
+      "debug/radius_search/processing_time_ms", processing_time_ms);
   }
 
   // Concatenate high confidence pointcloud from occupancy grid map and non-outlier pointcloud
