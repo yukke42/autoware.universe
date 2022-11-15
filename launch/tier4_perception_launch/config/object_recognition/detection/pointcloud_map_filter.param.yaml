@@ -1,5 +1,15 @@
 /**:
   ros__parameters:
-    use_down_sample_filter: False
+    use_down_sample_filter: True
     down_sample_voxel_size: 0.1
     distance_threshold: 0.5
+
+    crop_box_filter:
+      parameters:
+        min_x: -125.0
+        max_x: 125.0
+        min_y: -75.0
+        max_y: 75.0
+        max_z: 7.0
+        min_z: -3.0
+        negative: False
