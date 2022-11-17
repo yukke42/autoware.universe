@@ -6788,6 +6788,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_12">
@@ -8054,6 +8056,51 @@
             
           
         
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../planning/static_centerline_optimizer/">Static centerline optimizer</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Static centerline optimizer" data-md-level="2">
+        <label class="md-nav__title" for="__nav_12_21">
+          <span class="md-nav__icon md-icon"></span>
+          Static centerline optimizer
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_12_22" type="checkbox" id="__nav_12_22" checked>
+      
+      
+      
+        
+          
+            
+          
+        
           
         
       
@@ -8063,14 +8110,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../planning/surround_obstacle_checker/">Surround obstacle checker</a>
           
-            <label for="__nav_12_21">
+            <label for="__nav_12_22">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Surround obstacle checker" data-md-level="2">
-        <label class="md-nav__title" for="__nav_12_21">
+        <label class="md-nav__title" for="__nav_12_22">
           <span class="md-nav__icon md-icon"></span>
           Surround obstacle checker
         </label>
@@ -10670,9 +10717,9 @@
 <td>gnss status message</td>
 </tr>
 <tr>
-<td><code>~/input/navpvt</code></td>
-<td><code>ublox_msgs::msg::NavPVT</code></td>
-<td>position, velocity and time solution. <a href="https://github.com/KumarRobotics/ublox.git">click here for more details</a></td>
+<td><code>~/input/autoware_orientation</code></td>
+<td><code>autoware_sensing_msgs::msg::GnssInsOrientationStamped</code></td>
+<td>orientation <a href="https://github.com/autowarefoundation/autoware_msgs/tree/main/autoware_sensing_msgs">click here for more details</a></td>
 </tr>
 </tbody>
 </table>
@@ -10744,12 +10791,6 @@
 <td>int</td>
 <td>"4"</td>
 <td>coordinate system enumeration; 0: UTM, 1: MGRS, 2: Plane, 3: WGS84 Local Coordinate System, 4: UTM Local Coordinate System</td>
-</tr>
-<tr>
-<td><code>use_ublox_receiver</code></td>
-<td>bool</td>
-<td>false</td>
-<td>flag to use ublox receiver</td>
 </tr>
 <tr>
 <td><code>plane_zone</code></td>
