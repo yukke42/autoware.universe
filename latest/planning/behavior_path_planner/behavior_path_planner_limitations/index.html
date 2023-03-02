@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/planning/behavior_path_planner/behavior_path_planner_drivable_area/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/planning/behavior_path_planner/behavior_path_planner_limitations/">
       
       
-        <link rel="prev" href="../behavior_path_planner_design_limitations/">
+        <link rel="prev" href="../behavior_path_planner_lane_change_design/">
       
       
-        <link rel="next" href="../behavior_path_planner_lane_change/">
+        <link rel="next" href="../behavior_path_planner_path_generation_design/">
       
       <link rel="icon" href="../../../docs/assets/images/autoware-foundation.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
     
     
       
-        <title>Drivable Area - Autoware Universe Documentation</title>
+        <title>Limitations - Autoware Universe Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#drivable-area" class="md-skip">
+        <a href="#limitations" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Drivable Area
+              Limitations
             
           </span>
         </div>
@@ -7374,8 +7374,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_avoidance-design/" class="md-nav__link">
-        Avoidance Module
+      <a href="../behavior_path_planner_avoidance_design/" class="md-nav__link">
+        Avoidance design
       </a>
     </li>
   
@@ -7388,8 +7388,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_design_limitations/" class="md-nav__link">
-        Design limitation
+      <a href="../behavior_path_planner_drivable_area_design/" class="md-nav__link">
+        Drivable Area design
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../behavior_path_planner_lane_change_design/" class="md-nav__link">
+        Lane Change design
       </a>
     </li>
   
@@ -7412,12 +7426,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Drivable Area
+          Limitations
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Drivable Area
+        Limitations
       </a>
       
         
@@ -7436,91 +7450,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-role" class="md-nav__link">
-    Purpose / Role
+  <a href="#limitation-multiple-connected-opposite-lanes-require-linestring-with-shared-id" class="md-nav__link">
+    Limitation: Multiple connected opposite lanes require Linestring with shared ID
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#assumption" class="md-nav__link">
-    Assumption
+  <a href="#limitation-avoidance-at-corners-and-intersections" class="md-nav__link">
+    Limitation: Avoidance at Corners and Intersections
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#limitations" class="md-nav__link">
-    Limitations
+  <a href="#limitation-chattering-shifts" class="md-nav__link">
+    Limitation: Chattering shifts
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters-for-drivable-area-generation" class="md-nav__link">
-    Parameters for drivable area generation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#drivable-lanes-generation" class="md-nav__link">
-    Drivable Lanes Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#drivable-area-generation" class="md-nav__link">
-    Drivable Area Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#drivable-area-expansion" class="md-nav__link">
-    Drivable Area Expansion
-  </a>
-  
-    <nav class="md-nav" aria-label="Drivable Area Expansion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#static-expansion" class="md-nav__link">
-    Static Expansion
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dynamic-expansion" class="md-nav__link">
-    Dynamic Expansion
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#visualizing-maximum-drivable-area-debug" class="md-nav__link">
-    Visualizing maximum drivable area (Debug)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -7539,8 +7485,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_lane_change/" class="md-nav__link">
-        Lane Change
+      <a href="../behavior_path_planner_path_generation_design/" class="md-nav__link">
+        Path Generation design
       </a>
     </li>
   
@@ -7553,8 +7499,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_path_generation/" class="md-nav__link">
-        Behavior path planner path generation
+      <a href="../behavior_path_planner_side_shift_design/" class="md-nav__link">
+        Side Shift design
       </a>
     </li>
   
@@ -7567,22 +7513,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_side-shift/" class="md-nav__link">
-        Side shift Module
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../behavior_path_planner_turn_signal-design/" class="md-nav__link">
-        Turn Signal Decider
+      <a href="../behavior_path_planner_turn_signal_design/" class="md-nav__link">
+        Turn Signal design
       </a>
     </li>
   
@@ -8220,10 +8152,82 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_9_2" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_12_9_2" id="__nav_12_9_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_12_9_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12_9_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../obstacle_avoidance_planner/debug/" class="md-nav__link">
+      <a href="../../obstacle_avoidance_planner/docs/debug/" class="md-nav__link">
         Debug
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/eb/" class="md-nav__link">
+        Elastic band
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/mpt/" class="md-nav__link">
+        Model predictive trajectory
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -11770,91 +11774,23 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-role" class="md-nav__link">
-    Purpose / Role
+  <a href="#limitation-multiple-connected-opposite-lanes-require-linestring-with-shared-id" class="md-nav__link">
+    Limitation: Multiple connected opposite lanes require Linestring with shared ID
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#assumption" class="md-nav__link">
-    Assumption
+  <a href="#limitation-avoidance-at-corners-and-intersections" class="md-nav__link">
+    Limitation: Avoidance at Corners and Intersections
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#limitations" class="md-nav__link">
-    Limitations
+  <a href="#limitation-chattering-shifts" class="md-nav__link">
+    Limitation: Chattering shifts
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters-for-drivable-area-generation" class="md-nav__link">
-    Parameters for drivable area generation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
-  </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#drivable-lanes-generation" class="md-nav__link">
-    Drivable Lanes Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#drivable-area-generation" class="md-nav__link">
-    Drivable Area Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#drivable-area-expansion" class="md-nav__link">
-    Drivable Area Expansion
-  </a>
-  
-    <nav class="md-nav" aria-label="Drivable Area Expansion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#static-expansion" class="md-nav__link">
-    Static Expansion
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dynamic-expansion" class="md-nav__link">
-    Dynamic Expansion
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#visualizing-maximum-drivable-area-debug" class="md-nav__link">
-    Visualizing maximum drivable area (Debug)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -11876,258 +11812,39 @@
   
 
 
-<h1 id="drivable-area">Drivable Area<a class="headerlink" href="#drivable-area" title="Permanent link">#</a></h1>
-<p>Drivable Area represents the area where ego vehicle can pass.</p>
-<h2 id="purpose-role">Purpose / Role<a class="headerlink" href="#purpose-role" title="Permanent link">#</a></h2>
-<p>In order to defined the area that ego vehicle can travel safely, we generate drivable area in behavior path planner module. Our drivable area is represented by two line strings, which are <code>left_bound</code> line and <code>right_bound</code> line respectively. Both <code>left_bound</code> and <code>right_bound</code> are created from left and right boundaries of lanelets. Note that <code>left_bound</code> and <code>right bound</code> are generated by <code>generateDrivableArea</code> function.</p>
-<h2 id="assumption">Assumption<a class="headerlink" href="#assumption" title="Permanent link">#</a></h2>
-<p>Our drivable area has several assumptions.</p>
+<h1 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h1>
+<p>The document describes the limitations that are currently present in the <code>behavior_path_planner</code> module.</p>
+<p>The following items (but not limited to) fall in the scope of limitation:</p>
 <ul>
-<li>Drivable Area should have all of the necessary area but should not represent unnecessary area for current behaviors. For example, when ego vehicle is in <code>follow lane</code> mode, drivable area should not contain adjacent lanes.</li>
+<li>limitations due to the third-party API design and requirement</li>
+<li>limitations due to any shortcoming out of the developer's control.</li>
 </ul>
-<ul>
-<li>When generating a drivable area, lanes need to be arranged in the order in which cars pass by (More details can be found in following sections).</li>
-</ul>
-<ul>
-<li>Both left and right bounds should cover the front of the path and the end of the path.</li>
-</ul>
-<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h2>
-<p>Currently, when clipping left bound or right bound, it can clip the bound more than necessary and the generated path might be conservative.</p>
-<h2 id="parameters-for-drivable-area-generation">Parameters for drivable area generation<a class="headerlink" href="#parameters-for-drivable-area-generation" title="Permanent link">#</a></h2>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">enabled</td>
-<td align="left">[-]</td>
-<td align="left">boolean</td>
-<td align="left">whether to dynamically the drivable area using the ego footprint</td>
-<td align="left">false</td>
-</tr>
-<tr>
-<td align="left">ego.extra_footprint_offset.front</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the front of the ego footprint</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">ego.extra_footprint_offset.rear</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the rear of the ego footprint</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">ego.extra_footprint_offset.left</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the left of the ego footprint</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">ego.extra_footprint_offset.right</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the rear of the ego footprint</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">dynamic_objects.avoid</td>
-<td align="left">[-]</td>
-<td align="left">boolean</td>
-<td align="left">if true, the drivable area is not expanded in the predicted path of dynamic objects</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left">dynamic_objects.extra_footprint_offset.front</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the front of the ego footprint</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left">dynamic_objects.extra_footprint_offset.rear</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the rear of the ego footprint</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left">dynamic_objects.extra_footprint_offset.left</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the left of the ego footprint</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left">dynamic_objects.extra_footprint_offset.right</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra length to add to the rear of the ego footprint</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left">max_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">maximum distance by which the drivable area can be expended. A value of 0.0 means no maximum distance.</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">expansion.method</td>
-<td align="left">[-]</td>
-<td align="left">string</td>
-<td align="left">method to use for the expansion: "polygon" will expand the drivable area around the ego footprint polygons; "lanelet" will expand to the whole lanelets overlapped by the ego footprints</td>
-<td align="left">"polygon"</td>
-</tr>
-<tr>
-<td align="left">expansion.max_arc_path_length</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">maximum length along the path where the ego footprint is projected</td>
-<td align="left">50.0</td>
-</tr>
-<tr>
-<td align="left">expansion.extra_arc_length</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra arc length (relative to the path) around ego footprints where the drivable area is expanded</td>
-<td align="left">0.5</td>
-</tr>
-<tr>
-<td align="left">expansion.avoid_linestring.types</td>
-<td align="left">[-]</td>
-<td align="left">string array</td>
-<td align="left">linestring types in the lanelet maps that will not be crossed when expanding the drivable area</td>
-<td align="left">[guard_rail, road_border]</td>
-</tr>
-<tr>
-<td align="left">avoid_linestring.distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">distance to keep between the drivable area and the linestrings to avoid</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">avoid_linestring.compensate.enable</td>
-<td align="left">[-]</td>
-<td align="left">bool</td>
-<td align="left">if true, when the expansion is blocked by a linestring on one side of the path, we try to compensate and expand on the other side</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left">avoid_linestring.compensate.extra_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">extra distance added to the expansion when compensating</td>
-<td align="left">3.0</td>
-</tr>
-</tbody>
-</table>
-<p>The following parameters are defined for each module. Please refer to the <code>config/drivable_area_expansion.yaml</code> file.</p>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">drivable_area_right_bound_offset</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">right offset length to expand drivable area</td>
-<td align="left">5.0</td>
-</tr>
-<tr>
-<td align="left">drivable_area_left_bound_offset</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">left offset length to expand drivable area</td>
-<td align="left">5.0</td>
-</tr>
-<tr>
-<td align="left">drivable_area_types_to_skip</td>
-<td align="left">[-]</td>
-<td align="left">string</td>
-<td align="left">linestring types (as defined in the lanelet map) that will not be expanded</td>
-<td align="left">road_border</td>
-</tr>
-</tbody>
-</table>
-<h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
-<p>This section gives details of the generation of the drivable area (<code>left_bound</code> and <code>right_bound</code>).</p>
-<h3 id="drivable-lanes-generation">Drivable Lanes Generation<a class="headerlink" href="#drivable-lanes-generation" title="Permanent link">#</a></h3>
-<p>Before generating drivable areas, drivable lanes need to be sorted. Drivable Lanes are selected in each module (<code>Lane Follow</code>, <code>Avoidance</code>, <code>Lane Change</code>, <code>Pull Over</code>, <code>Pull Out</code> and etc.), so more details about selection of drivable lanes can be found in each module's document. We use the following structure to define the drivable lanes.</p>
-<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSIyMjhweCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgc3R5bGU9IndpZHRoOjQzNHB4O2hlaWdodDoyMjhweDtiYWNrZ3JvdW5kOiMwMDAwMDA7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA0MzQgMjI4IiB3aWR0aD0iNDM0cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjxkZWZzLz48Zz48cmVjdCBmaWxsPSIjMTUyMTFBIiBoZWlnaHQ9IjEiIHN0eWxlPSJzdHJva2U6IzE1MjExQTtzdHJva2Utd2lkdGg6MS4wOyIgd2lkdGg9IjEiIHg9IjAiIHk9IjAiLz48cmVjdCBmaWxsPSIjRUFFMkM5IiBoZWlnaHQ9IjkyIiBzdHlsZT0ic3Ryb2tlOiNFQUUyQzk7c3Ryb2tlLXdpZHRoOjEuMDsiIHdpZHRoPSI0MzMiIHg9IjAiIHk9IjAiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzIxIiB4PSIxMCIgeT0iMjYuNDAxNCI+QWRkIHlvdXIgb3duIGRlZGljYXRpb24gaW50byBQbGFudFVNTDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSIxMCIgeT0iNDIuNjk4MiI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTYwIiB4PSIxMCIgeT0iNTguOTk1MSI+Rm9yIGp1c3QgJDUgcGVyIG1vbnRoITwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI3MiIgeD0iMTAiIHk9Ijc1LjI5MiI+RGV0YWlscyBvbjwvdGV4dD48YSBocmVmPSJodHRwczovL3BsYW50dW1sLmNvbS9kZWRpY2F0aW9uIiB0YXJnZXQ9IiIgdGl0bGU9Imh0dHBzOi8vcGxhbnR1bWwuY29tL2RlZGljYXRpb24iIHhsaW5rOmFjdHVhdGU9Im9uUmVxdWVzdCIgeGxpbms6aHJlZj0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6c2hvdz0ibmV3IiB4bGluazp0aXRsZT0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6dHlwZT0ic2ltcGxlIj48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC1zdHlsZT0iaXRhbGljIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIyOCIgeD0iODYiIHk9Ijc1LjI5MiI+aHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbjwvdGV4dD48L2E+PGltYWdlIGhlaWdodD0iOTMiIHdpZHRoPSI5MyIgeD0iMzQxIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUYwQUFBQmRDQVlBQUFESGNXckRBQUFEclVsRVFWUjRYdTJRTVpJY01Rd0Q5LzgvOHpjYzNpZnNkQWFGTGhJanpXa0RCcDFBSUVqaDgvUDN6Ny9oZC9tb01MelBsSDZBS2YwQVUvb0JwdlFEVE9rSG1OSVBNS1Vmb0ZYNjUvUFpqdTV3L0taL0Y3ckRNYVZ2Um5jNHB2VE42QTVIWExxK0pYUnk5Qk03L0ttZWt1Wk02VVpQU1hPbWRLT25wRGxMcGV0SEhlVFhIWldIOU5UVDhWOTFndnk2d3pHbEcvOVZKOGl2T3h4VHV2RmZkWUw4dXNQeEZhVjM5QTU2dDh0SmRZTDh1dHN4cFJjNlFYN2Q3WmpTQzUwZ3YrNTJmSFhwSFEvcEhVOUhKOGl2dXgxVGVxRVQ1TmZkamltOTBBbnk2MjdIVXVrcG5SejlYT1duV1gxenBINGl6Wm5TQXorUjVrenBnWjlJYytMU2QwSDVwL1JkWFBPSktYMHoxM3hpU3QvTU5aOW9sZjZiZEQ1QUhpM0FvVmtubU5JUE1LVWZvRlc2SHA1OFFHY2NxWi9RM1UvUjNPMzVLamgwZVhLRXpqaFNQNkc3bjZLNTIvTlZjT2p5NUFpZGNhUitRbmMvUlhPMzU2dFFvWWRVNkh5VnM4dEQ2QjFQY3pxWnhKVCtNS2VUU1V6cEQzTTZtVVNyZEYzaWxuVjBndng2aC9OMDBIbVhvMitWUjNjNER6R2xQL1RvRHVjaHB2U0hIdDNoUEVSY3VyNDV6eTQvNlFUNWRjZFRkSi9MMXpmSGxCNmcrMXkrdmptbTlBRGQ1L0wxemRFcS9UWmdqbEU2ZnMydC9KMVpnbVkxMTNrNnBMTlR1a0huSzlMWktkMmc4eFhwYkt0MEN0VmpLenF6cVlmUW1XcTI0MW54MzJaVmNOQUMvVkJGWnpiMUVEcFR6WFk4Sy83YnJBb09XcUFmcXVqTXBoNUNaNnJaam1mRmY1dFZ3VUVMOUVOdmVqcm9mSVhPTzhpdldjNURUT2tGNU5jczV5R205QUx5YTViekVFdWxFM3FJbSszb0hVOUhUNkdjVkNlbWRBUGxwRG94cFJzb0o5V0pWMG9uT2psWEQvbjF6Wkg2Q2NyUnV4T205QUxLMGJzVHB2UUN5dEc3RTFxbHY0MSt0RUxuSzlKWjhwT2VNcVVieUU5NnlwUnVJRC9wS2EzUzlkTTdvSHpTT3g2OXUvSjBkUEtRWDk4Y1UzcWhrNGY4K3VhWTBndWRQT1RYTjBkY3VyNGxVSTUrTGlITjBac2NxVDlsU2play9wUXAzWkQ2VTVaSzF3ODV5Szg3bm5xK0FiMnZZa3JmZ041WE1hVnZRTytyK0xyU2ljNnM3bjRLWlpKT0htSktOMUFtNmVRaHBuUURaWkpPSHVLclMzL0RUeDdTT3g3U2lTbTkwRHNlMG9rcHZkQTdIdEtKcGRKVEtHZVhUcDRWTk5jUisxVndwS0VFNWV6U3liT0M1anBpdndxT05KU2duRjA2ZVZiUVhFZnNWOEdoaCt5QThsZDBRbmM3ZE1iTjZsdml1ZmxWY09pQk82RDhGWjNRM1E2ZGNiUDZsbmh1ZmhVY2V1QU9LSDlGSjNTM1EyZmNyTDRsbnB0ZmhlRjlwdlFEVE9rSG1OSVBNS1VmWUVvL3dKUitnQ245QUZQNkFmNERPdWxvR1Jzc3BUOEFBQUFBU1VWT1JLNUNZSUk9IiB5PSIwIi8+PHJlY3QgZmlsbD0iIzAwMDAwMCIgaGVpZ2h0PSIxMzQuNzUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS4wOyIgd2lkdGg9IjQzMyIgeD0iMCIgeT0iOTIiLz48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC1zdHlsZT0iaXRhbGljIiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjciIHg9IjUiIHk9IjEwOSI+UGxhbnRVTUwgMS4yMDIzLjJiZXRhNDwvdGV4dD48cmVjdCBmaWxsPSIjMzNGRjAyIiBoZWlnaHQ9IjIxLjI5NjkiIHN0eWxlPSJzdHJva2U6IzMzRkYwMjtzdHJva2Utd2lkdGg6MS4wOyIgd2lkdGg9IjE3NyIgeD0iNSIgeT0iMTE4Ljk2ODgiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTc1IiB4PSI2IiB5PSIxMzMuOTY4OCI+W0Zyb20gc3RyaW5nIChsaW5lIDMpIF08L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUiIHg9IjUiIHk9IjE1NC4yNjU2Ij7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iODYiIHg9IjUiIHk9IjE3MC41NjI1Ij5Ac3RhcnR1bWw8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE3NCIgeD0iNSIgeT0iMTg2Ljg1OTQiPnN0cnVjdCBEcml2YWxibGVMYW5lczwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dC1kZWNvcmF0aW9uPSJ3YXZ5IHVuZGVybGluZSIgdGV4dExlbmd0aD0iMTAiIHg9IjUiIHk9IjIwMy4xNTYzIj57PC90ZXh0Pjx0ZXh0IGZpbGw9IiNGRjAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDkiIHg9IjEwIiB5PSIyMTkuNDUzMSI+U3ludGF4IEVycm9yPzwvdGV4dD48IS0tU1JDPVtBb3VmQWFxa0tOMGZvWW5CcDRkQUlWTDlwNGlqdmdoY0tXMjI3MjB4OXhONG9pZXZGdy11bjBWMktvWkFKQ3llWU9WQU1JbGV3cUQ0NTdCcFlxbDBNbDNlcEtiREd6S0E0WTE2UHg1MlJjUEFJYXVnSjdDbk0zVDQzQW9aY0FsTTZXMDBdLS0+PC9nPjwvc3ZnPg==" class="uml" alt="uml diagram" title="" /></p>
-<p>The image of the sorted drivable lanes is depicted in the following picture.</p>
-<p><img alt="sorted_lanes" src="../image/drivable_area/sorted_lanes.drawio.svg" /></p>
-<p>Note that, the order of drivable lanes become</p>
-<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSI0MTlweCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgc3R5bGU9IndpZHRoOjgxNHB4O2hlaWdodDo0MTlweDtiYWNrZ3JvdW5kOiMwMDAwMDA7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA4MTQgNDE5IiB3aWR0aD0iODE0cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjxkZWZzLz48Zz48cmVjdCBmaWxsPSIjMTEwOTIyIiBoZWlnaHQ9IjEiIHN0eWxlPSJzdHJva2U6IzExMDkyMjtzdHJva2Utd2lkdGg6MS4wOyIgd2lkdGg9IjEiIHg9IjAiIHk9IjAiLz48cmVjdCBmaWxsPSIjRUFFMkM5IiBoZWlnaHQ9IjkyIiBzdHlsZT0ic3Ryb2tlOiNFQUUyQzk7c3Ryb2tlLXdpZHRoOjEuMDsiIHdpZHRoPSI4MTIiIHg9IjAiIHk9IjAiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzIxIiB4PSIxMCIgeT0iMjYuNDAxNCI+QWRkIHlvdXIgb3duIGRlZGljYXRpb24gaW50byBQbGFudFVNTDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSIxMCIgeT0iNDIuNjk4MiI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTYwIiB4PSIxMCIgeT0iNTguOTk1MSI+Rm9yIGp1c3QgJDUgcGVyIG1vbnRoITwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI3MiIgeD0iMTAiIHk9Ijc1LjI5MiI+RGV0YWlscyBvbjwvdGV4dD48YSBocmVmPSJodHRwczovL3BsYW50dW1sLmNvbS9kZWRpY2F0aW9uIiB0YXJnZXQ9IiIgdGl0bGU9Imh0dHBzOi8vcGxhbnR1bWwuY29tL2RlZGljYXRpb24iIHhsaW5rOmFjdHVhdGU9Im9uUmVxdWVzdCIgeGxpbms6aHJlZj0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6c2hvdz0ibmV3IiB4bGluazp0aXRsZT0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6dHlwZT0ic2ltcGxlIj48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC1zdHlsZT0iaXRhbGljIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIyOCIgeD0iODYiIHk9Ijc1LjI5MiI+aHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbjwvdGV4dD48L2E+PGltYWdlIGhlaWdodD0iOTMiIHdpZHRoPSI5MyIgeD0iMzQxIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUYwQUFBQmRDQVlBQUFESGNXckRBQUFEclVsRVFWUjRYdTJRTVpJY01Rd0Q5LzgvOHpjYzNpZnNkQWFGTGhJanpXa0RCcDFBSUVqaDgvUDN6Ny9oZC9tb01MelBsSDZBS2YwQVUvb0JwdlFEVE9rSG1OSVBNS1Vmb0ZYNjUvUFpqdTV3L0taL0Y3ckRNYVZ2Um5jNHB2VE42QTVIWExxK0pYUnk5Qk03L0ttZWt1Wk02VVpQU1hPbWRLT25wRGxMcGV0SEhlVFhIWldIOU5UVDhWOTFndnk2d3pHbEcvOVZKOGl2T3h4VHV2RmZkWUw4dXNQeEZhVjM5QTU2dDh0SmRZTDh1dHN4cFJjNlFYN2Q3WmpTQzUwZ3YrNTJmSFhwSFEvcEhVOUhKOGl2dXgxVGVxRVQ1TmZkamltOTBBbnk2MjdIVXVrcG5SejlYT1duV1gxenBINGl6Wm5TQXorUjVrenBnWjlJYytMU2QwSDVwL1JkWFBPSktYMHoxM3hpU3QvTU5aOW9sZjZiZEQ1QUhpM0FvVmtubU5JUE1LVWZvRlc2SHA1OFFHY2NxWi9RM1UvUjNPMzVLamgwZVhLRXpqaFNQNkc3bjZLNTIvTlZjT2p5NUFpZGNhUitRbmMvUlhPMzU2dFFvWWRVNkh5VnM4dEQ2QjFQY3pxWnhKVCtNS2VUU1V6cEQzTTZtVVNyZEYzaWxuVjBndng2aC9OMDBIbVhvMitWUjNjNER6R2xQL1RvRHVjaHB2U0hIdDNoUEVSY3VyNDV6eTQvNlFUNWRjZFRkSi9MMXpmSGxCNmcrMXkrdmptbTlBRGQ1L0wxemRFcS9UWmdqbEU2ZnMydC9KMVpnbVkxMTNrNnBMTlR1a0huSzlMWktkMmc4eFhwYkt0MEN0VmpLenF6cVlmUW1XcTI0MW54MzJaVmNOQUMvVkJGWnpiMUVEcFR6WFk4Sy83YnJBb09XcUFmcXVqTXBoNUNaNnJaam1mRmY1dFZ3VUVMOUVOdmVqcm9mSVhPTzhpdldjNURUT2tGNU5jczV5R205QUx5YTViekVFdWxFM3FJbSszb0hVOUhUNkdjVkNlbWRBUGxwRG94cFJzb0o5V0pWMG9uT2psWEQvbjF6Wkg2Q2NyUnV4T205QUxLMGJzVHB2UUN5dEc3RTFxbHY0MSt0RUxuSzlKWjhwT2VNcVVieUU5NnlwUnVJRC9wS2EzUzlkTTdvSHpTT3g2OXUvSjBkUEtRWDk4Y1UzcWhrNGY4K3VhWTBndWRQT1RYTjBkY3VyNGxVSTUrTGlITjBac2NxVDlsU2play9wUXAzWkQ2VTVaSzF3ODV5Szg3bm5xK0FiMnZZa3JmZ041WE1hVnZRTytyK0xyU2ljNnM3bjRLWlpKT0htSktOMUFtNmVRaHBuUURaWkpPSHVLclMzL0RUeDdTT3g3U2lTbTkwRHNlMG9rcHZkQTdIdEtKcGRKVEtHZVhUcDRWTk5jUisxVndwS0VFNWV6U3liT0M1anBpdndxT05KU2duRjA2ZVZiUVhFZnNWOEdoaCt5QThsZDBRbmM3ZE1iTjZsdml1ZmxWY09pQk82RDhGWjNRM1E2ZGNiUDZsbmh1ZmhVY2V1QU9LSDlGSjNTM1EyZmNyTDRsbnB0ZmhlRjlwdlFEVE9rSG1OSVBNS1VmWUVvL3dKUitnQ245QUZQNkFmNERPdWxvR1Jzc3BUOEFBQUFBU1VWT1JLNUNZSUk9IiB5PSIwIi8+PHJlY3QgZmlsbD0iI0ZGRkZGRiIgaGVpZ2h0PSIyMDYuODU2NiIgc3R5bGU9InN0cm9rZTojRkZGRkZGO3N0cm9rZS13aWR0aDoxLjA7IiB3aWR0aD0iODEyIiB4PSIwIiB5PSI5MiIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjEiIHg9IjUiIHk9IjEwOC4xMzg3Ij5XZWxjb21lIHRvIFBsYW50VU1MITwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSI1IiB5PSIxMjIuMTA3NCI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjczIiB4PSI1IiB5PSIxMzYuMDc2MiI+WW91IGNhbiBzdGFydCB3aXRoIGEgc2ltcGxlIFVNTCBEaWFncmFtIGxpa2U6PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjQiIHg9IjUiIHk9IjE1MC4wNDQ5Ij7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ibW9ub3NwYWNlIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjExOSIgeD0iNSIgeT0iMTYzLjk4NzEiPkJvYi0mZ3Q7QWxpY2U6wqBIZWxsbzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSI1IiB5PSIxNzguNDEzOCI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTUiIHg9IjUiIHk9IjE5Mi4zODI1Ij5PcjwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSI1IiB5PSIyMDYuMzUxMyI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI5MSIgeD0iNSIgeT0iMjIwLjI5MzQiPmNsYXNzwqBFeGFtcGxlPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjQiIHg9IjUiIHk9IjIzNC43MjAxIj7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzMzQiIHg9IjUiIHk9IjI0OC42ODg5Ij5Zb3Ugd2lsbCBmaW5kIG1vcmUgaW5mb3JtYXRpb24gYWJvdXQgUGxhbnRVTUwgc3ludGF4IG9uPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHQtZGVjb3JhdGlvbj0idW5kZXJsaW5lIiB0ZXh0TGVuZ3RoPSIxMjEiIHg9IjM0MyIgeT0iMjQ4LjY4ODkiPmh0dHBzOi8vcGxhbnR1bWwuY29tPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjQiIHg9IjUiIHk9IjI2Mi42NTc2Ij7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDYiIHg9IjUiIHk9IjI3Ny4wNTc3Ij4oRGV0YWlscyBieSB0eXBpbmc8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9Im1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0OSIgeD0iMTE1IiB5PSIyNzYuNTk5OCI+bGljZW5zZTwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1OCIgeD0iMTY4IiB5PSIyNzcuMDU3NyI+a2V5d29yZCk8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNCIgeD0iNSIgeT0iMjkxLjAyNjUiPsKgPC90ZXh0PjxpbWFnZSBoZWlnaHQ9IjcxIiB3aWR0aD0iODAiIHg9IjQ5MyIgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFGQUFBQUJIQ0FNQUFBQ25IREM4QUFBREFGQk1WRVgvLy8rQnBidkQzdS9mN3ZmUHo4K256K2cza3N1WkVEa1dBRHIvdWpsdnNkcFRvZExDd3NPTHdPRWJnOFQvL3Y2cHFhbVpFVG5MeXN2VDA5VG81K2pxTFM0VkFUajkvZjI3dTd2RHc4TVRmc0srdjcvajQrU093ZUpwcmRqTDQvS3hzYkVyaThqazhQZ1hhNTdjMjl1VUVUZXoxdXRRb05KMXROdEVtYzljcHRXQnV0NmF5T1cvM082WUVEalk2dlVmaGNYQndjSHM3T3p3OS92ODN0Nzl1VG43Ky92WDE5ZWhvYUh4OGZHMnRMWEh4OGZ1Vmxmck5UWWFCam4vdlVINStmbWtvNldYbDVmLytmbjk1dWIrOVBUKzhQRDNxS2lkbWFNeElVcm5xRFdjRmo3bjVlWDA5UFR1N3UyU2twS2ZuWjZycTZ6MGxKVG00dHpKckhVZkRUMzM5L2VGR0RuNnRqY3JFek92cmJCdVozbDRlb21TTVM3SHo5U21wcWFzdThTRmlZdVFFVGZhMmR1MW02T09NMDUxSjBOV1RXTDV4c2U0dUxqNnpjMzNyNi80dmI3eWRIWHFMaS83MmRudFRFM3RSMGlqYm41alczQyt1OE5BTlZRckcwWEZ1YnFSVkdaemE0R1FHVDJWYVM3YTBOUEp0STZJSmovenN6cmZxa1hYenIvSHc4Y2dDMExVcWx0T1EySnNTQzViVEdqT3BGYWZTaTIraURHdHl0MTRtN1RKaFRDUEpVU3dvSUcvcWEraWtIaUlncENSSGpJOWo4S1hibmFRSDBGTGY2RkdQbHAwY25ZeUtFMnJnNDlXajdkRlhIbWN3dHJwNnV1K3hNanZZV0x2VzF6OTdlM3NQRDNzUDBEdVVsUDcwOVBZemREUG16cVpXV3lTUlZ5Z2ZISGQxc21Xa1orUGduaWJFVHFzbDI2MHE1Zkx1cHBKTEMvZHBqMkhQRkxUdEh2L3VqclR3Snk1czZpV2pJaTBpRDNqb1RUQ21VM3RyanV2WlMyemxGdmpxMEhTeUxiWXAwcVJ0czEwWEd4RUtDOXlQVkJRWklPUGRsTnZNazJOZVlOcVJsdWp0Y0NWcnIzajVlWTFnSzlRbjlHTHA3bGJlSlhSeHJDa2laRGFvenl1a29KK0gwQjNyYytPWXkraXBySmtZWGRobXI2ZWUwYWZzNzl4cTlCaWtyR0tqSTNGb21FaUxGTzBheTZuZkltNHBaWFJqVEZ1aFpTWldtMHpjWnlKTjBLTlRrNGVlYk5mZElHR2xaOTNoNWtjRUQ1bk9WWXlSV2J6aUlrOWRKNGtlckU1Wll4UlVuTEcxZDdwOFBUdlkyUHRUay8xbloxeWNWL2JBQUFGeDBsRVFWUjRYdTFZZTFCVVZSZy9lM2RobDRjc0t5eHFQbEJKUVZFVEYyaWNBWTEzR29na0VGcWl6cVJScG9CcFRDSWFwYVVPaFdOalVkT01TQnBxSllaVGc0S2lnRktBRHpTSVZaNHFENVZGbHVYaExndmJQZWUrcjQ5Ujd2MnozK3pjYzc3Zk9mUGI3enZmUGQ4NXV3Q0lod1Q0d1Bpc0FOd1BBdUlLSG5iSEgxSStLd0FYREExOFNoRFc1OENuZUNFblhsOEpHd21mSHlsQ1BTdmxaL0ZXeGg4WUlSSXhUV2taQUVvZmtUejhzTnE3dEFxRTJnT0RPQjZHWVpvYlZhSDIwU1ZaNG9RY2RtWFYwTDdjNGI4T0Z2SkhSb1l3ZFZJb3lQWDNneHRGREErVjhlNm1NOHBCb0NqaWo0d1FpV28vQUx6Vi9rcGtpZkJpMTNwNHdhWnVHckpFRUN5Y2l4Y0VWU2JZZ0Z3VW96ZzQvcVNyYU94clA3TzhFb2dqMkhEeHlNV216cGs2ODIzK3lJamh2UjdmTE9wRHNDdUdod0MwV2Zia2pRcThBME1XQzBFZ0lZelBDWU15bU04SXdjdno2SzRJV3c4c2tUcmdxM2lQTUlRbnhkZktydnllZHB5dmJTc3lCUXQ2emNINk94WG1qcVl4ZzlQYmdYQkJ2ZUs2YVJBWE5FbDFTc2MraHo3QmdudHlvaGIvZ2dRbE5ycmR6Zkl1b1lLU2I3OTA2N1ByUm9MbUdvMjVTZWdoSlJuMXlNclNiUFRwdFphb0Jsd3RsV2JCSHNweGlXK21XOCs0NmVyZVZuTVhHeGJGUSttam9maUhaVHJjbEpuNUUxNFVFZ2RyTzl0UlZwaDBIREpsWWxSc0x2NFhGQTdSQkExa0s1b2dCYjdndG4wOEF2eFd5bWMyYitZekxIQzNubk9DTkh2ZGF5VXNacG5ud25QcUdmK3lHS2NQS2x2OTJ2dEpDMjA5ekd5UldKbWd5ZDE2c1NHR1QvQW1NMnJkS1pLWkh4d0N6N0tVb2RMekpPTzh0aDRPQnF4ZG8wYzJ0ZlVrTnIzUWxKa1pRV1dNQlAwdXdCSHZtUVFiM3pSVkNNbnNNTzZBVGF6ZjNmMGtremEwSFRhUENkSWhweVRrbnFQNjFUZTFlVjJnUnByMUZVbjR4dHhSVDcycERIaGowOS9VbkJMaml2NzJwNGQ4RkV0bExpYkJkN1FnMHhLNStYZlM5cTJBenhTVkhQbk5JTUJTOEJRUHc4TjFXNGdsUVdqMG10cDQrblNIaHZLWU9NNEdMNnZIMWpHVGNEUTNwMTk3OUFRUEk1YWdYRURZd3VTNWF3a25KNzNySFU1NlJ5TEFyNkFDcE81aU1SR3ZwM1h5a2pJbWdzNEZnbTIvN1VSYzhkaGJlRDlqZGhZVk5vbjBtZEZjQWpUSVhibUM3NVZybVZIY1ErSkRJWGJ1Tm1ZVVlsWm9ZeDZYY1dqS1RXYXZZWGQxV3pVOU9FaDl3TEZmRVZGemE1UEVoVmhEQXZmTHg2MGNXTTNlUE1hOWh5Wkc1RE5yNkRiUWlDVWNZVTBBS0d6R3lZeGxrZit3eG5Dayt3ZHdDYkEvVGtXSDdEYmdvcThkY21LTnNzUVEzRi9KbU14bElqL2Z6by83czlPSXdVTWViYll6YmgyekxmazdlaEJHeklhdTZPZU8reHpHS2xCUndDR0FYTmFDRmdZYlJvS0craE1UZk1mZjRNNmgwTFl4cG12LzkyeW05dEl4YzR1Unphd3luQ0VXR2h1bTdvZGY5Lzc1dmg4emcwYktpalg1QU14aE1hY3NLOHBCeGFKaWh0blFxcjFLRzh5Rk16cS9kdXRKMmlLd05DYlhBN1lhbXNtMlhuMFh0Z3Rvd1kzWHk4cnBZYzROTnFvbjhlTTQ5aytOdHpVNTVHdE1sZUdBa05SNm9sZERNaEgrZTlFWDBKQitVWUt2NFdnTFpyTENqSFY3d255WWx6Slp2WVY2QTZkMXc2eEVwaDg0MlVVeVRrakdJYnp3UkEvSklPQkpLU3Q4OHlnbHFORDFoNlRwaVFxUVY5OXdtSjdua25RY2dJSUhxZDAwRXdTemd1ZGlnR1lRVUhFNHFGTWNHSmIyMmtwN2xOb3A4cDZ6blN0dmc1UzJlMVRWUnRpNTZ3L3pqOGZaektMaURhMzE3TXFCUUZicytKM2RjYlNnbytINEQwa0xPb2tKODIvTlI4S1picDllSVpnbGx3S1I4RWMxZWpJWDgyN1BPay8wNkhwWWZmR2Q1ZGtvWkpYTXFEQVZYZDFOYmhhdmx4NE95dUFpUGN5QUYzSWNrOGZhWEF1RTVXVG9BcGtNeHlrTDFQYk5SSjkxU0RrWE95eW1QRlIxVU1sdzlHalJQS0NyUHNSU3ZVbmJ6YmtFTGoyUFNTUmtRTGlIMUF2Uk9UdXRscHJ5TEhRQW9DRCtDMkJCUDRucE13ZDl6c0lnemdhRHNLK2JjdG1WdzNoZXRhaTV0OVJTNFBFcXViNFFuQ3Z4dGVHek9aeVFYeGpzY3hraEhpc1dLTWk3MitUMHAxZHhHZUdZa0cwZXorZWVHN0luL24vb05PZXhDOWZ6SWlMdlB4VnRLcDg0aXphK0FBQUFBRWxGVGtTdVFtQ0MiIHk9Ijk4Ii8+PHJlY3QgZmlsbD0iIzAwMDAwMCIgaGVpZ2h0PSIxMTguNDUzMSIgc3R5bGU9InN0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoxLjA7IiB3aWR0aD0iODEyIiB4PSIwIiB5PSIyOTguODU2NiIvPjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXN0eWxlPSJpdGFsaWMiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE2NyIgeD0iNSIgeT0iMzE1Ljg1NjYiPlBsYW50VU1MIDEuMjAyMy4yYmV0YTQ8L3RleHQ+PHJlY3QgZmlsbD0iIzMzRkYwMiIgaGVpZ2h0PSIyMS4yOTY5IiBzdHlsZT0ic3Ryb2tlOiMzM0ZGMDI7c3Ryb2tlLXdpZHRoOjEuMDsiIHdpZHRoPSIxNzciIHg9IjUiIHk9IjMyNS44MjUzIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE3NSIgeD0iNiIgeT0iMzQwLjgyNTMiPltGcm9tIHN0cmluZyAobGluZSAyKSBdPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1IiB4PSI1IiB5PSIzNjEuMTIyMiI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijg2IiB4PSI1IiB5PSIzNzcuNDE5MSI+QHN0YXJ0dW1sPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0LWRlY29yYXRpb249IndhdnkgdW5kZXJsaW5lIiB0ZXh0TGVuZ3RoPSI4MDIiIHg9IjUiIHk9IjM5My43MTU5Ij5kcml2YWJsZV9sYW5lcyA9IHtEcml2YWJsZUxhbmUxLCBEcml2YWJsZUxhbmVzMiwgRHJpdmFibGVMYW5lczMsIERyaXZhYmxlTGFuZXM0LCBEcml2YWJsZUxhbmVzNX08L3RleHQ+PHRleHQgZmlsbD0iI0ZGMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEwOSIgeD0iMTAiIHk9IjQxMC4wMTI4Ij5TeW50YXggRXJyb3I/PC90ZXh0PjwhLS1TUkM9W0lvZEFCNGpDb2FjRHBxZENJb3JNaTVNZVRlNkEtMDA1MzdLS2FCZDVIY1h5T3BJLTJIaFZqMU8wXS0tPjwvZz48L3N2Zz4=" class="uml" alt="uml diagram" title="" /></p>
-<h3 id="drivable-area-generation">Drivable Area Generation<a class="headerlink" href="#drivable-area-generation" title="Permanent link">#</a></h3>
-<p>In this section, a drivable area is created using drivable lanes arranged in the order in which vehicles pass by. We created <code>left_bound</code> from left boundary of the leftmost lanelet and <code>right_bound</code> from right boundary of the rightmost lanelet. The image of the created drivable area will be the following blue lines. Note that the drivable area is defined in the <code>Path</code> and <code>PathWithLaneId</code> messages as</p>
-<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSI3N3B4IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiBzdHlsZT0id2lkdGg6MzQ0cHg7aGVpZ2h0Ojc3cHg7YmFja2dyb3VuZDojRkZGRkZGOyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMzQ0IDc3IiB3aWR0aD0iMzQ0cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjxkZWZzLz48Zz48ZyBpZD0ic3RkIj48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjY0LjIzNDQiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMzMwIiB4PSI3IiB5PSI3Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB4MT0iNyIgeDI9IjMzNyIgeTE9IjMzLjI5NjkiIHkyPSIzMy4yOTY5Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjMiIHg9IjE2MC41IiB5PSIyNC45OTUxIj5zdGQ8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzAyIiB4PSIxMiIgeT0iNDkuNDM1NSI+OnZlY3RvciZsdDtnZW9tZXRyeV9tc2dzOjptc2c6OlBvaW50Jmd0OyBsZWZ0X2JvdW5kOzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzMTAiIHg9IjEyIiB5PSI2My40MDQzIj46dmVjdG9yJmx0O2dlb21ldHJ5X21zZ3M6Om1zZzo6UG9pbnQmZ3Q7IHJpZ2h0X2JvdW5kOzwvdGV4dD48L2c+PCEtLVNSQz1bQW92OWlSOGdJcXFrb0ktb0lLX0RwcXFqQVFnQ3BvckVCeFFvMGY5TUxXN3ZjTmFiVFdldmdNYWJ5S2R2Zk5hZnJicDVuNmFmb2FwRldFYTEwMDAwXS0tPjwvZz48L3N2Zz4=" class="uml" alt="uml diagram" title="" /></p>
-<p>and each point of right bound and left bound has a position in the absolute coordinate system.</p>
-<p><img alt="drivable_lines" src="../image/drivable_area/drivable_lines.drawio.svg" /></p>
-<h3 id="drivable-area-expansion">Drivable Area Expansion<a class="headerlink" href="#drivable-area-expansion" title="Permanent link">#</a></h3>
-<h4 id="static-expansion">Static Expansion<a class="headerlink" href="#static-expansion" title="Permanent link">#</a></h4>
-<p>Each module can statically expand the left and right bounds of the target lanes by the parameter defined values.
-This enables large vehicles to pass narrow curve. The image of this process can be described as</p>
-<p><img alt="expanded_lanes" src="../image/drivable_area/expanded_lanes.drawio.svg" /></p>
-<p>Note that we only expand right bound of the rightmost lane and left bound of the leftmost lane.</p>
-<h4 id="dynamic-expansion">Dynamic Expansion<a class="headerlink" href="#dynamic-expansion" title="Permanent link">#</a></h4>
-<p>The drivable area can also be expanded dynamically by considering the ego vehicle footprint projected on each path point.
-This expansion can be summarized with the following steps:</p>
-<ol>
-<li>Build the ego path footprint.</li>
-<li>Build the dynamic objects' predicted footprints (optional).</li>
-<li>Build "uncrossable" lines.</li>
-<li>Remove the footprints from step 2 and the lines from step 3 from the ego path footprint from step 1.</li>
-<li>Expand the drivable area with the result of step 4.</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th align="left"></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Inputs</td>
-<td align="left"><img alt="drivable_area_expansion_inputs" src="../image/drivable_area/drivable_area_expansion_inputs.png" /></td>
-</tr>
-<tr>
-<td align="left">Footprints and uncrossable lines</td>
-<td align="left"><img alt="drivable_area_expansion_footprints" src="../image/drivable_area/drivable_area_expansion_footprints.png" /></td>
-</tr>
-<tr>
-<td align="left">Expanded drivable area</td>
-<td align="left"><img alt="drivable_area_expansion_result" src="../image/drivable_area/drivable_area_expansion_result.png" /></td>
-</tr>
-</tbody>
-</table>
-<p>Please note that the dynamic expansion can only increase the size of the drivable area and cannot remove any part from the original drivable area.</p>
-<h3 id="visualizing-maximum-drivable-area-debug">Visualizing maximum drivable area (Debug)<a class="headerlink" href="#visualizing-maximum-drivable-area-debug" title="Permanent link">#</a></h3>
-<p>Sometimes, the developers might get a different result between two maps that may look identical during visual inspection.</p>
-<p>For example, in the same area, one can perform avoidance and another cannot. This might be related to the maximum drivable area issues due to the non-compliance vector map design from the user.</p>
-<p>To debug the issue, the maximum drivable area boundary can be visualized.</p>
-<p><img alt="drivable_area_boundary_marker1" src="../image/drivable_area/drivable_area_boundary_marker_example1.png" /></p>
-<p><img alt="drivable_area_boundary_marker2" src="../image/drivable_area/drivable_area_boundary_marker_example2.png" /></p>
-<p>The maximum drivable area can be visualize by adding the marker from <code>/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/maximum_drivable_area</code></p>
+<h2 id="limitation-multiple-connected-opposite-lanes-require-linestring-with-shared-id">Limitation: Multiple connected opposite lanes require Linestring with shared ID<a class="headerlink" href="#limitation-multiple-connected-opposite-lanes-require-linestring-with-shared-id" title="Permanent link">#</a></h2>
+<p>To fully utilize the <code>Lanelet2</code>'s <a href="https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/lanelet2_core/doc/LaneletPrimitives.md#lanelet">API</a>, the design of the vector map (<code>.osm</code>) needs to follow all the criteria described in <code>Lanelet2</code> documentation. Specifically, in the case of 2 or more lanes, the Linestrings that divide the current lane with the opposite/adjacent lane need to have a matching <code>Linestring ID</code>. Assume the following <strong>ideal case</strong>.</p>
+<p><img alt="limitation01-01-ideal-case1" src="../image/limitations/limitation01-01.png" /></p>
+<p>In the image, <code>Linestring ID51</code> is shared by <code>Lanelet A</code> and <code>Lanelet B</code>. Hence we can directly use the available <code>left</code>, <code>adjacentLeft</code>, <code>right</code>, <code>adjacentRight</code> and <code>findUsages</code> method within <code>Lanelet2</code>'s API to directly query the direction and opposite lane availability.</p>
+<div class="highlight"><pre><span></span><code><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">right_lane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routing_graph_ptr_</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">(</span><span class="n">lanelet</span><span class="p">);</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">adjacent_right_lane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">routing_graph_ptr_</span><span class="o">-&gt;</span><span class="n">adjacentRight</span><span class="p">(</span><span class="n">lanelet</span><span class="p">);</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">opposite_right_lane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lanelet_map_ptr_</span><span class="o">-&gt;</span><span class="n">laneletLayer</span><span class="p">.</span><span class="n">findUsages</span><span class="p">(</span><span class="n">lanelet</span><span class="p">.</span><span class="n">rightBound</span><span class="p">().</span><span class="n">invert</span><span class="p">());</span>
+</code></pre></div>
+<p>The following images show the situation where <strong>these API does not work directly</strong>. This means that we cannot use them straight away, and several assumptions and logical instruction are needed to make these APIs work.</p>
+<p><img alt="limitation01-02-non-work" src="../image/limitations/limitation01-02-not-work.png" /></p>
+<p>In this example (multiple linestring issues), <code>Lanelet C</code> contains <code>Linestring ID61</code> and <code>ID62</code>, while <code>Lanelet D</code> contains <code>Linestring ID63</code> and <code>ID 64</code>. Although the <code>Linestring ID62</code> and <code>ID64</code> have identical point IDs and seem visually connected, the API will treat these Linestring as though they are separated. When it searches for any <code>Lanelet</code> that is connected via <code>Linestring ID62</code>, it will return <code>NULL</code>, since <code>ID62</code> only connects to <code>Lanelet C</code> and not other <code>Lanelet</code>.</p>
+<p>Although, in this case, it is possible to forcefully search the lanelet availability by checking the lanelet that contains the points, using<code>getLaneletFromPoint</code> method. But, the implementation requires complex rules for it to work. Take the following images as an example.</p>
+<p><img alt="limitation01-03-not-equal-length" src="../image/limitations/limitation01-03-not-equal-length.png" /></p>
+<p>Assume <code>Object X</code> is in <code>Lanelet F</code>. We can forcefully search <code>Lanelet E</code> via <code>Point 7</code>, and it will work if <code>Point 7</code> is utilized by <strong>only 2 lanelet</strong>. However, the complexity increases when we want to start searching for the <strong>direction</strong> of the opposite lane. We can infer the direction of the lanelet by using mathematical operations (dot product of vector <code>V_ID72</code> (<code>Point 6</code> minus <code>Point 9</code>), and <code>V_ID74</code> (<code>Point 7</code> minus <code>Point 8</code>). But, notice that we did not use Point 7 in V_ID72. This is because searching it requires an iteration, adding additional non-beneficial computation.</p>
+<p>Suppose the points are used by <strong>more than 2 lanelets</strong>. In that case, we have to find the differences for all lanelet, and the result might be undefined. The reason is that the differences between the coordinates do not reflect the actual <strong>shape</strong> of the lanelet. The following image demonstrates this point.</p>
+<p><img alt="equal-length-but-non-identical-shape" src="../image/limitations/limitation01-04-equal-length.png" /></p>
+<p><img alt="points-shared-more-than-one" src="../image/limitations/limitation01-04-not-equal.png" /></p>
+<p>There are many other available solutions to try. However, further attempt to solve this might cause issues in the future, especially for maintaining or scaling up the software.</p>
+<p>In conclusion, the multiple Linestring issues will not be supported. Covering these scenarios might give the user an "everything is possible" impression. This is dangerous since any attempt to create a non-standardized vector map is not compliant with safety regulations.</p>
+<h2 id="limitation-avoidance-at-corners-and-intersections">Limitation: Avoidance at Corners and Intersections<a class="headerlink" href="#limitation-avoidance-at-corners-and-intersections" title="Permanent link">#</a></h2>
+<p>Currently, the implementation doesn't cover avoidance at corners and intersections. The reason is similar to here. However, this case can still be supported in the future (assuming the vector map is defined correctly).</p>
+<p><img alt="limitation-at-the-intersections" src="../image/limitations/limitation-intersection.png" /></p>
+<p><img alt="limitation-at-the-corner" src="../image/limitations/limitation-corner.png" /></p>
+<h2 id="limitation-chattering-shifts">Limitation: Chattering shifts<a class="headerlink" href="#limitation-chattering-shifts" title="Permanent link">#</a></h2>
+<p>There are possibilities that the shifted path chatters as a result of various factors. For example, bounded box shape or position from the perception input. Sometimes, it is difficult for the perception to get complete information about the object's size. As the object size is updated, the object length will also be updated. This might cause shifts point to be re-calculated, therefore resulting in chattering shift points.</p>
+<p><img alt="limitation-chattering-shift" src="../image/limitations/limitation-chattering_shifts.png" /></p>
 
 
 
@@ -12154,7 +11871,7 @@ This expansion can be summarized with the following steps:</p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../behavior_path_planner_design_limitations/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Design limitation" rel="prev">
+          <a href="../behavior_path_planner_lane_change_design/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lane Change design" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -12163,20 +11880,20 @@ This expansion can be summarized with the following steps:</p>
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Design limitation
+                Lane Change design
               </div>
             </div>
           </a>
         
         
           
-          <a href="../behavior_path_planner_lane_change/" class="md-footer__link md-footer__link--next" aria-label="Next: Lane Change" rel="next">
+          <a href="../behavior_path_planner_path_generation_design/" class="md-footer__link md-footer__link--next" aria-label="Next: Path Generation design" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Lane Change
+                Path Generation design
               </div>
             </div>
             <div class="md-footer__button md-icon">

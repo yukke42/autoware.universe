@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/planning/behavior_path_planner/behavior_path_planner_path_generation/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/planning/behavior_path_planner/behavior_path_planner_path_generation_design/">
       
       
-        <link rel="prev" href="../behavior_path_planner_lane_change/">
+        <link rel="prev" href="../behavior_path_planner_limitations/">
       
       
-        <link rel="next" href="../behavior_path_planner_side-shift/">
+        <link rel="next" href="../behavior_path_planner_side_shift_design/">
       
       <link rel="icon" href="../../../docs/assets/images/autoware-foundation.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
     
     
       
-        <title>Behavior path planner path generation - Autoware Universe Documentation</title>
+        <title>Path Generation design - Autoware Universe Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#path-generation" class="md-skip">
+        <a href="#path-generation-design" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Behavior path planner path generation
+              Path Generation design
             
           </span>
         </div>
@@ -7374,8 +7374,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_avoidance-design/" class="md-nav__link">
-        Avoidance Module
+      <a href="../behavior_path_planner_avoidance_design/" class="md-nav__link">
+        Avoidance design
       </a>
     </li>
   
@@ -7388,8 +7388,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_design_limitations/" class="md-nav__link">
-        Design limitation
+      <a href="../behavior_path_planner_drivable_area_design/" class="md-nav__link">
+        Drivable Area design
       </a>
     </li>
   
@@ -7402,8 +7402,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_drivable_area/" class="md-nav__link">
-        Drivable Area
+      <a href="../behavior_path_planner_lane_change_design/" class="md-nav__link">
+        Lane Change design
       </a>
     </li>
   
@@ -7416,8 +7416,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_lane_change/" class="md-nav__link">
-        Lane Change
+      <a href="../behavior_path_planner_limitations/" class="md-nav__link">
+        Limitations
       </a>
     </li>
   
@@ -7436,14 +7436,16 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Behavior path planner path generation
+          Path Generation design
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Behavior path planner path generation
+        Path Generation design
       </a>
       
         
@@ -7451,6 +7453,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -7460,21 +7464,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#path-generation" class="md-nav__link">
-    Path Generation
-  </a>
-  
-    <nav class="md-nav" aria-label="Path Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     Overview
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mathematical-derivation" class="md-nav__link">
     Mathematical Derivation
   </a>
@@ -7507,16 +7503,11 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#limitation" class="md-nav__link">
     Limitation
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -7535,8 +7526,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_side-shift/" class="md-nav__link">
-        Side shift Module
+      <a href="../behavior_path_planner_side_shift_design/" class="md-nav__link">
+        Side Shift design
       </a>
     </li>
   
@@ -7549,8 +7540,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_turn_signal-design/" class="md-nav__link">
-        Turn Signal Decider
+      <a href="../behavior_path_planner_turn_signal_design/" class="md-nav__link">
+        Turn Signal design
       </a>
     </li>
   
@@ -8188,10 +8179,82 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_9_2" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_12_9_2" id="__nav_12_9_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_12_9_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12_9_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../obstacle_avoidance_planner/debug/" class="md-nav__link">
+      <a href="../../obstacle_avoidance_planner/docs/debug/" class="md-nav__link">
         Debug
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/eb/" class="md-nav__link">
+        Elastic band
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/mpt/" class="md-nav__link">
+        Model predictive trajectory
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -11728,6 +11791,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -11736,21 +11801,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#path-generation" class="md-nav__link">
-    Path Generation
-  </a>
-  
-    <nav class="md-nav" aria-label="Path Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#overview" class="md-nav__link">
     Overview
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#mathematical-derivation" class="md-nav__link">
     Mathematical Derivation
   </a>
@@ -11783,16 +11840,11 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#limitation" class="md-nav__link">
     Limitation
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -11814,11 +11866,9 @@
   
 
 
-  <h1>Behavior path planner path generation</h1>
-
-<h2 id="path-generation">Path Generation<a class="headerlink" href="#path-generation" title="Permanent link">#</a></h2>
-<p>This document explains how the path is generated for lane change and avoidance, etc. The implementation can be found in <a href="https://github.com/autowarefoundation/autoware.universe/blob/main/planning/behavior_path_planner/include/behavior_path_planner/scene_module/utils/path_shifter.hpp">path_shifter.hpp</a>.</p>
-<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h3>
+<h1 id="path-generation-design">Path Generation design<a class="headerlink" href="#path-generation-design" title="Permanent link">#</a></h1>
+<p>This document explains how the path is generated for lane change and avoidance, etc. The implementation can be found in <a href="https://github.com/autowarefoundation/autoware.universe/blob/main/planning/behavior_path_planner/include/behavior_path_planner/util/path_shifter/path_shifter.hpp">path_shifter.hpp</a>.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
 <p>The base idea of the path generation in lane change and avoidance is to smoothly shift the reference path, such as the center line, in the lateral direction. This is achieved by using a constant-jerk profile as in the figure below. More details on how it is used can be found in <a href="https://github.com/autowarefoundation/autoware.universe/blob/main/planning/behavior_path_planner/README.md">README</a>. It is assumed that the reference path is smooth enough for this algorithm.</p>
 <p>The figure below explains how the application of a constant lateral jerk <span class="arithmatex"><span class="MathJax_Preview">l^{'''}(s)</span><script type="math/tex">l^{'''}(s)</script></span> can be used to induce lateral shifting. In order to comply with the limits on lateral acceleration and velocity, zero-jerk time is employed in the figure ( <span class="arithmatex"><span class="MathJax_Preview">T_a</span><script type="math/tex">T_a</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> ). In each interval where constant jerk is applied, the shift position <span class="arithmatex"><span class="MathJax_Preview">l(s)</span><script type="math/tex">l(s)</script></span> can be characterized by a third-degree polynomial. Therefore the shift length from the reference path can then be calculated by combining spline curves.</p>
 <p align="center">
@@ -11826,7 +11876,7 @@
 </p>
 
 <p>Note that, due to the rarity of the <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> in almost all cases of lane change and avoidance, <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is not considered in the current implementation.</p>
-<h3 id="mathematical-derivation">Mathematical Derivation<a class="headerlink" href="#mathematical-derivation" title="Permanent link">#</a></h3>
+<h2 id="mathematical-derivation">Mathematical Derivation<a class="headerlink" href="#mathematical-derivation" title="Permanent link">#</a></h2>
 <p>By applying simple integral operations, the following analytical equations can be derived to describe the shift distance <span class="arithmatex"><span class="MathJax_Preview">l(t)</span><script type="math/tex">l(t)</script></span> at each time under lateral jerk, acceleration, and velocity constraints.</p>
 <div class="highlight"><pre><span></span><code>\begin{align}
 l_1&amp;= \frac{1}{6}jT_j^3\\[10pt]
@@ -11839,13 +11889,13 @@ l_7&amp;= 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j + j(T_a + T_j)T_j T_v
 \end{align}
 </code></pre></div>
 <p>These equations are used to determine the shape of a path. Additionally, by applying further mathematical operations to these basic equations, the expressions of the following subsections can be derived.</p>
-<h4 id="calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length">Calculation of Maximum Acceleration from transition time and final shift length<a class="headerlink" href="#calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length" title="Permanent link">#</a></h4>
+<h3 id="calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length">Calculation of Maximum Acceleration from transition time and final shift length<a class="headerlink" href="#calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length" title="Permanent link">#</a></h3>
 <p>In the case where there are no limitations on lateral velocity and lateral acceleration, the maximum lateral acceleration during the shifting can be calculated as follows. The constant-jerk time is given by <span class="arithmatex"><span class="MathJax_Preview">T_j = T_{\rm total}/4</span><script type="math/tex">T_j = T_{\rm total}/4</script></span> because of its symmetric property. Since <span class="arithmatex"><span class="MathJax_Preview">T_a=T_v=0</span><script type="math/tex">T_a=T_v=0</script></span>, the final shift length <span class="arithmatex"><span class="MathJax_Preview">L=l_7=2jT_j^3</span><script type="math/tex">L=l_7=2jT_j^3</script></span> can be determined using the above equation. The maximum lateral acceleration is then given by <span class="arithmatex"><span class="MathJax_Preview">a_{\rm max} =jT_j</span><script type="math/tex">a_{\rm max} =jT_j</script></span>. This results in the following expression for the maximum lateral acceleration:</p>
 <div class="highlight"><pre><span></span><code>\begin{align}
 a_{\rm max}  = \frac{8L}{T_{\rm total}^2}
 \end{align}
 </code></pre></div>
-<h4 id="calculation-of-ta-tj-and-jerk-from-acceleration-limit">Calculation of Ta, Tj and jerk from acceleration limit<a class="headerlink" href="#calculation-of-ta-tj-and-jerk-from-acceleration-limit" title="Permanent link">#</a></h4>
+<h3 id="calculation-of-ta-tj-and-jerk-from-acceleration-limit">Calculation of Ta, Tj and jerk from acceleration limit<a class="headerlink" href="#calculation-of-ta-tj-and-jerk-from-acceleration-limit" title="Permanent link">#</a></h3>
 <p>In the case where there are no limitations on lateral velocity, the constant-jerk and acceleration times, as well as the required jerk can be calculated from the acceleration limit, total time, and final shift length as follows. Since <span class="arithmatex"><span class="MathJax_Preview">T_v=0</span><script type="math/tex">T_v=0</script></span>, the final shift length is given by:</p>
 <div class="highlight"><pre><span></span><code>\begin{align}
 L = l_7 = 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j
@@ -11865,7 +11915,7 @@ jerk&amp;=\frac{2a_{\rm lim} ^2T_{\rm total}}{a_{\rm lim} T_{\rm total}^2-4L}
 \end{align}
 </code></pre></div>
 <p>where <span class="arithmatex"><span class="MathJax_Preview">T_j</span><script type="math/tex">T_j</script></span> is the constant-jerk time, <span class="arithmatex"><span class="MathJax_Preview">T_a</span><script type="math/tex">T_a</script></span> is the constant acceleration time, <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> is the required jerk, <span class="arithmatex"><span class="MathJax_Preview">a_{\rm lim}</span><script type="math/tex">a_{\rm lim}</script></span> is the acceleration limit, and <span class="arithmatex"><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span> is the final shift length.</p>
-<h4 id="calculation-of-required-time-from-jerk-and-acceleration-constraint">Calculation of Required Time from Jerk and Acceleration Constraint<a class="headerlink" href="#calculation-of-required-time-from-jerk-and-acceleration-constraint" title="Permanent link">#</a></h4>
+<h3 id="calculation-of-required-time-from-jerk-and-acceleration-constraint">Calculation of Required Time from Jerk and Acceleration Constraint<a class="headerlink" href="#calculation-of-required-time-from-jerk-and-acceleration-constraint" title="Permanent link">#</a></h3>
 <p>In the case where there are no limitations on lateral velocity, the total time required for shifting can be calculated from the jerk and acceleration limits and the final shift length as follows. By solving the two equations given above:</p>
 <div class="highlight"><pre><span></span><code>L = l_7 = 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j,\quad a_{\rm lim} = j T_j
 </code></pre></div>
@@ -11876,7 +11926,7 @@ T_a &amp;= \frac{1}{2}\sqrt{\frac{a_{\rm lim}}{j}^2 + \frac{4L}{a_{\rm lim}}} - 
 \end{align}
 </code></pre></div>
 <p>The total time required for shifting can then be calculated as <span class="arithmatex"><span class="MathJax_Preview">T_{\rm total}=4T_j+2T_a</span><script type="math/tex">T_{\rm total}=4T_j+2T_a</script></span>.</p>
-<h3 id="limitation">Limitation<a class="headerlink" href="#limitation" title="Permanent link">#</a></h3>
+<h2 id="limitation">Limitation<a class="headerlink" href="#limitation" title="Permanent link">#</a></h2>
 <ul>
 <li>Since <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is zero in almost all cases of lane change and avoidance, <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is not considered in the current implementation.</li>
 </ul>
@@ -11906,7 +11956,7 @@ T_a &amp;= \frac{1}{2}\sqrt{\frac{a_{\rm lim}}{j}^2 + \frac{4L}{a_{\rm lim}}} - 
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../behavior_path_planner_lane_change/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Lane Change" rel="prev">
+          <a href="../behavior_path_planner_limitations/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Limitations" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -11915,20 +11965,20 @@ T_a &amp;= \frac{1}{2}\sqrt{\frac{a_{\rm lim}}{j}^2 + \frac{4L}{a_{\rm lim}}} - 
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Lane Change
+                Limitations
               </div>
             </div>
           </a>
         
         
           
-          <a href="../behavior_path_planner_side-shift/" class="md-footer__link md-footer__link--next" aria-label="Next: Side shift Module" rel="next">
+          <a href="../behavior_path_planner_side_shift_design/" class="md-footer__link md-footer__link--next" aria-label="Next: Side Shift design" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Side shift Module
+                Side Shift design
               </div>
             </div>
             <div class="md-footer__button md-icon">
