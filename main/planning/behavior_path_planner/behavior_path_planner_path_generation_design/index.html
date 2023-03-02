@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/behavior_path_planner_avoidance-design/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/main/planning/behavior_path_planner/behavior_path_planner_path_generation_design/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../behavior_path_planner_limitations/">
       
       
-        <link rel="next" href="../behavior_path_planner_design_limitations/">
+        <link rel="next" href="../behavior_path_planner_side_shift_design/">
       
       <link rel="icon" href="../../../docs/assets/images/autoware-foundation.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
     
     
       
-        <title>Avoidance Module - Autoware Universe Documentation</title>
+        <title>Path Generation design - Autoware Universe Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#avoidance-module" class="md-skip">
+        <a href="#path-generation-design" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Avoidance Module
+              Path Generation design
             
           </span>
         </div>
@@ -7372,6 +7372,62 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../behavior_path_planner_avoidance_design/" class="md-nav__link">
+        Avoidance design
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../behavior_path_planner_drivable_area_design/" class="md-nav__link">
+        Drivable Area design
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../behavior_path_planner_lane_change_design/" class="md-nav__link">
+        Lane Change design
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../behavior_path_planner_limitations/" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -7384,12 +7440,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Avoidance Module
+          Path Generation design
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Avoidance Module
+        Path Generation design
       </a>
       
         
@@ -7408,23 +7464,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-role" class="md-nav__link">
-    Purpose / Role
+  <a href="#overview" class="md-nav__link">
+    Overview
   </a>
   
-    <nav class="md-nav" aria-label="Purpose / Role">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-derivation" class="md-nav__link">
+    Mathematical Derivation
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical Derivation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#limitations" class="md-nav__link">
-    Limitations
+  <a href="#calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length" class="md-nav__link">
+    Calculation of Maximum Acceleration from transition time and final shift length
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-is-avoidance-in-behavior-module" class="md-nav__link">
-    Why is avoidance in behavior module?
+  <a href="#calculation-of-ta-tj-and-jerk-from-acceleration-limit" class="md-nav__link">
+    Calculation of Ta, Tj and jerk from acceleration limit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-of-required-time-from-jerk-and-acceleration-constraint" class="md-nav__link">
+    Calculation of Required Time from Jerk and Acceleration Constraint
   </a>
   
 </li>
@@ -7435,246 +7505,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
+  <a href="#limitation" class="md-nav__link">
+    Limitation
   </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#flowchart" class="md-nav__link">
-    Flowchart
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details-of-functions" class="md-nav__link">
-    Details of Functions
-  </a>
-  
-    <nav class="md-nav" aria-label="Details of Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#how-to-decide-the-target-obstacles" class="md-nav__link">
-    How to decide the target obstacles
-  </a>
-  
-    <nav class="md-nav" aria-label="How to decide the target obstacles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compensation-for-detection-lost" class="md-nav__link">
-    Compensation for detection lost
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#computing-shift-length-and-shift-points" class="md-nav__link">
-    Computing Shift Length and Shift Points
-  </a>
-  
-    <nav class="md-nav" aria-label="Computing Shift Length and Shift Points">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#rationale-of-having-safety-buffer-and-safety-margin" class="md-nav__link">
-    Rationale of having safety buffer and safety margin
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-path-only-within-lanelet-boundaries" class="md-nav__link">
-    Generating path only within lanelet boundaries
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-chart-of-the-process" class="md-nav__link">
-    Flow-chart of the process
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-to-decide-the-path-shape" class="md-nav__link">
-    How to decide the path shape
-  </a>
-  
-    <nav class="md-nav" aria-label="How to decide the path shape">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-obstacle-case" class="md-nav__link">
-    One obstacle case
-  </a>
-  
-    <nav class="md-nav" aria-label="One obstacle case">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lateral-jerk-relaxation-conditions" class="md-nav__link">
-    Lateral jerk relaxation conditions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimum-velocity-relaxation-conditions" class="md-nav__link">
-    Minimum velocity relaxation conditions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-obstacle-case-one-direction" class="md-nav__link">
-    Multiple obstacle case (one direction)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-obstacle-case-both-direction" class="md-nav__link">
-    Multiple obstacle case (both direction)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#filtering-for-shift-points" class="md-nav__link">
-    Filtering for shift points
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#avoidance-cancelling" class="md-nav__link">
-    Avoidance Cancelling
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-to-keep-the-consistency-of-the-planning" class="md-nav__link">
-    How to keep the consistency of the planning
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-    <nav class="md-nav" aria-label="Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#avoidance-path-generation" class="md-nav__link">
-    Avoidance path generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#speed-limit-modification" class="md-nav__link">
-    Speed limit modification
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#object-selection" class="md-nav__link">
-    Object selection
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#allow-avoidance-on-specific-object-type" class="md-nav__link">
-    Allow avoidance on specific object type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#system" class="md-nav__link">
-    System
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-extensions-unimplemented-parts" class="md-nav__link">
-    Future extensions / Unimplemented parts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-debug" class="md-nav__link">
-    How to debug
-  </a>
-  
-    <nav class="md-nav" aria-label="How to debug">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#publishing-visualization-marker" class="md-nav__link">
-    Publishing Visualization Marker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#echoing-debug-message-to-find-out-why-the-objects-were-ignored" class="md-nav__link">
-    Echoing debug message to find out why the objects were ignored
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -7693,8 +7526,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_design_limitations/" class="md-nav__link">
-        Design limitation
+      <a href="../behavior_path_planner_side_shift_design/" class="md-nav__link">
+        Side Shift design
       </a>
     </li>
   
@@ -7707,64 +7540,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../behavior_path_planner_drivable_area/" class="md-nav__link">
-        Drivable Area
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../behavior_path_planner_lane_change/" class="md-nav__link">
-        Lane Change
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../behavior_path_planner_path_generation/" class="md-nav__link">
-        Behavior path planner path generation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../behavior_path_planner_side-shift/" class="md-nav__link">
-        Side shift Module
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../behavior_path_planner_turn_signal-design/" class="md-nav__link">
-        Turn Signal Decider
+      <a href="../behavior_path_planner_turn_signal_design/" class="md-nav__link">
+        Turn Signal design
       </a>
     </li>
   
@@ -8402,10 +8179,82 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12_9_2" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_12_9_2" id="__nav_12_9_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_12_9_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12_9_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../../obstacle_avoidance_planner/debug/" class="md-nav__link">
+      <a href="../../obstacle_avoidance_planner/docs/debug/" class="md-nav__link">
         Debug
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/eb/" class="md-nav__link">
+        Elastic band
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../obstacle_avoidance_planner/docs/mpt/" class="md-nav__link">
+        Model predictive trajectory
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -11952,23 +11801,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-role" class="md-nav__link">
-    Purpose / Role
+  <a href="#overview" class="md-nav__link">
+    Overview
   </a>
   
-    <nav class="md-nav" aria-label="Purpose / Role">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-derivation" class="md-nav__link">
+    Mathematical Derivation
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical Derivation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#limitations" class="md-nav__link">
-    Limitations
+  <a href="#calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length" class="md-nav__link">
+    Calculation of Maximum Acceleration from transition time and final shift length
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-is-avoidance-in-behavior-module" class="md-nav__link">
-    Why is avoidance in behavior module?
+  <a href="#calculation-of-ta-tj-and-jerk-from-acceleration-limit" class="md-nav__link">
+    Calculation of Ta, Tj and jerk from acceleration limit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#calculation-of-required-time-from-jerk-and-acceleration-constraint" class="md-nav__link">
+    Calculation of Required Time from Jerk and Acceleration Constraint
   </a>
   
 </li>
@@ -11979,246 +11842,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inner-workings-algorithms" class="md-nav__link">
-    Inner-workings / Algorithms
+  <a href="#limitation" class="md-nav__link">
+    Limitation
   </a>
-  
-    <nav class="md-nav" aria-label="Inner-workings / Algorithms">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#flowchart" class="md-nav__link">
-    Flowchart
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#details-of-functions" class="md-nav__link">
-    Details of Functions
-  </a>
-  
-    <nav class="md-nav" aria-label="Details of Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#how-to-decide-the-target-obstacles" class="md-nav__link">
-    How to decide the target obstacles
-  </a>
-  
-    <nav class="md-nav" aria-label="How to decide the target obstacles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compensation-for-detection-lost" class="md-nav__link">
-    Compensation for detection lost
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#computing-shift-length-and-shift-points" class="md-nav__link">
-    Computing Shift Length and Shift Points
-  </a>
-  
-    <nav class="md-nav" aria-label="Computing Shift Length and Shift Points">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#rationale-of-having-safety-buffer-and-safety-margin" class="md-nav__link">
-    Rationale of having safety buffer and safety margin
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#generating-path-only-within-lanelet-boundaries" class="md-nav__link">
-    Generating path only within lanelet boundaries
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#flow-chart-of-the-process" class="md-nav__link">
-    Flow-chart of the process
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-to-decide-the-path-shape" class="md-nav__link">
-    How to decide the path shape
-  </a>
-  
-    <nav class="md-nav" aria-label="How to decide the path shape">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#one-obstacle-case" class="md-nav__link">
-    One obstacle case
-  </a>
-  
-    <nav class="md-nav" aria-label="One obstacle case">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lateral-jerk-relaxation-conditions" class="md-nav__link">
-    Lateral jerk relaxation conditions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minimum-velocity-relaxation-conditions" class="md-nav__link">
-    Minimum velocity relaxation conditions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-obstacle-case-one-direction" class="md-nav__link">
-    Multiple obstacle case (one direction)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multiple-obstacle-case-both-direction" class="md-nav__link">
-    Multiple obstacle case (both direction)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#filtering-for-shift-points" class="md-nav__link">
-    Filtering for shift points
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#avoidance-cancelling" class="md-nav__link">
-    Avoidance Cancelling
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-to-keep-the-consistency-of-the-planning" class="md-nav__link">
-    How to keep the consistency of the planning
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parameters" class="md-nav__link">
-    Parameters
-  </a>
-  
-    <nav class="md-nav" aria-label="Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#avoidance-path-generation" class="md-nav__link">
-    Avoidance path generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#speed-limit-modification" class="md-nav__link">
-    Speed limit modification
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#object-selection" class="md-nav__link">
-    Object selection
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#allow-avoidance-on-specific-object-type" class="md-nav__link">
-    Allow avoidance on specific object type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#system" class="md-nav__link">
-    System
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-extensions-unimplemented-parts" class="md-nav__link">
-    Future extensions / Unimplemented parts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-debug" class="md-nav__link">
-    How to debug
-  </a>
-  
-    <nav class="md-nav" aria-label="How to debug">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#publishing-visualization-marker" class="md-nav__link">
-    Publishing Visualization Marker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#echoing-debug-message-to-find-out-why-the-objects-were-ignored" class="md-nav__link">
-    Echoing debug message to find out why the objects were ignored
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -12240,563 +11866,70 @@
   
 
 
-<h1 id="avoidance-module">Avoidance Module<a class="headerlink" href="#avoidance-module" title="Permanent link">#</a></h1>
-<p>This is a rule-based path planning module designed for obstacle avoidance.</p>
-<h2 id="purpose-role">Purpose / Role<a class="headerlink" href="#purpose-role" title="Permanent link">#</a></h2>
-<p>This module is designed for rule-based avoidance that is easy for developers to design its behavior. It generates avoidance path parameterized by intuitive parameters such as lateral jerk and avoidance distance margin. This makes it possible to pre-define avoidance behavior.</p>
-<p>In addition, the approval interface of behavior_path_planner allows external users / modules (e.g. remote operation) to intervene the decision of the vehicle behavior.　 This function is expected to be used, for example, for remote intervention in emergency situations or gathering information on operator decisions during development.</p>
-<h3 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">#</a></h3>
-<p>This module allows developers to design vehicle behavior in avoidance planning using specific rules. Due to the property of rule-based planning, the algorithm can not compensate for not colliding with obstacles in complex cases. This is a trade-off between "be intuitive and easy to design" and "be hard to tune but can handle many cases". This module adopts the former policy and therefore this output should be checked more strictly in the later stage. In the .iv reference implementation, there is another avoidance module in motion planning module that uses optimization to handle the avoidance in complex cases. (Note that, the motion planner needs to be adjusted so that the behavior result will not be changed much in the simple case and this is a typical challenge for the behavior-motion hierarchical architecture.)</p>
-<h3 id="why-is-avoidance-in-behavior-module">Why is avoidance in behavior module?<a class="headerlink" href="#why-is-avoidance-in-behavior-module" title="Permanent link">#</a></h3>
-<p>This module executes avoidance over lanes, and the decision requires the lane structure information to take care of traffic rules (e.g. it needs to send an indicator signal when the vehicle crosses a lane). The difference between motion and behavior module in the planning stack is whether the planner takes traffic rules into account, which is why this avoidance module exists in the behavior module.</p>
-<h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
-<p>The following figure shows a simple explanation of the logic for avoidance path generation. First, target objects are picked up, and shift requests are generated for each object. These shift requests are generated by taking into account the lateral jerk required for avoidance (red lines). Then these requests are merged and the shift points are created on the reference path (blue line). Filtering operations are performed on the shift points such as removing unnecessary shift points (yellow line), and finally a smooth avoidance path is generated by combining Clothoid-like curve primitives (green line).</p>
-<p><img alt="fig1" src="../image/avoidance_design/avoidance_design.fig1.drawio.svg" /></p>
-<h3 id="flowchart">Flowchart<a class="headerlink" href="#flowchart" title="Permanent link">#</a></h3>
-<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSIxOTMycHgiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHN0eWxlPSJ3aWR0aDo3ODVweDtoZWlnaHQ6MTkzMnB4O2JhY2tncm91bmQ6I0ZGRkZGRjsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDc4NSAxOTMyIiB3aWR0aD0iNzg1cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjxkZWZzLz48Zz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjAwIiB4PSIyOTEiIHk9IjMyLjk5NTEiPmF2b2lkYW5jZSBwYXRoIHBsYW5uaW5nPC90ZXh0PjxlbGxpcHNlIGN4PSIyMTguNSIgY3k9IjU3LjI5NjkiIGZpbGw9IiMyMjIyMjIiIHJ4PSIxMCIgcnk9IjEwIiBzdHlsZT0ic3Ryb2tlOiMyMjIyMjI7c3Ryb2tlLXdpZHRoOjEuMDsiLz48cGF0aCBkPSJNMzI5LjUsNzcuMjk2OSBMMzI5LjUsMTIzLjY5NTMgTDMwOS41LDEyNy42OTUzIEwzMjkuNSwxMzEuNjk1MyBMMzI5LjUsMTc4LjA5MzggQTAsMCAwIDAgMCAzMjkuNSwxNzguMDkzOCBMNjk4LjUsMTc4LjA5MzggQTAsMCAwIDAgMCA2OTguNSwxNzguMDkzOCBMNjk4LjUsODcuMjk2OSBMNjg4LjUsNzcuMjk2OSBMMzI5LjUsNzcuMjk2OSBBMCwwIDAgMCAwIDMyOS41LDc3LjI5NjkgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNjg4LjUsNzcuMjk2OSBMNjg4LjUsODcuMjk2OSBMNjk4LjUsODcuMjk2OSBMNjg4LjUsNzcuMjk2OSAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijc2IiB4PSIzMzUuNSIgeT0iOTQuMzYzOCI+LSBjZW50ZXIgbGluZTwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDkiIHg9IjMzNS41IiB5PSIxMDkuNDk2NiI+LSByZWZlcmVuY2UgcGF0aDo8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzI4IiB4PSIzNTUuNSIgeT0iMTI0LjYyOTQiPmdlbmVyYXRlZCBieSBzcGxpbmUgaW50ZXJwb2xhdGlvbiBvZiBjZW50ZXJsaW5lIHBhdGg8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTIyIiB4PSIzNTUuNSIgeT0iMTM5Ljc2MjIiPndpdGggZGVuc2UgaW50ZXJ2YWw8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTA2IiB4PSIzMzUuNSIgeT0iMTU0Ljg5NSI+LSBkcml2aW5nIGxhbmVsZXRzPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjU1IiB4PSIzMzUuNSIgeT0iMTcwLjAyNzgiPi0gb2JqZWN0czwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTgyIiB4PSIxMjcuNSIgeT0iMTEwLjcxMDkiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjIiIHg9IjEzNy41IiB5PSIxMzEuODQ5NiI+Y2FsY0F2b2lkYW5jZVBsYW5uaW5nRGF0YTwvdGV4dD48cGF0aCBkPSJNMzM1LDE4OC4wOTM4IEwzMzUsMjI2LjkyNTggTDMxNSwyMzAuOTI1OCBMMzM1LDIzNC45MjU4IEwzMzUsMjczLjc1NzggQTAsMCAwIDAgMCAzMzUsMjczLjc1NzggTDY0NSwyNzMuNzU3OCBBMCwwIDAgMCAwIDY0NSwyNzMuNzU3OCBMNjQ1LDE5OC4wOTM4IEw2MzUsMTg4LjA5MzggTDMzNSwxODguMDkzOCBBMCwwIDAgMCAwIDMzNSwxODguMDkzOCAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxwYXRoIGQ9Ik02MzUsMTg4LjA5MzggTDYzNSwxOTguMDkzOCBMNjQ1LDE5OC4wOTM4IEw2MzUsMTg4LjA5MzggIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyODkiIHg9IjM0MSIgeT0iMjA1LjE2MDYiPkZpbmQgb2JqZWN0cyB0aGF0IHNhdGlzZmllcyBhbGwgb2YgdGhlIGZvbGxvd2luZzo8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTI0IiB4PSIzNDUiIHk9IjIyMC4yOTM1Ij4tIHRhcmdldCBvYmplY3QgdHlwZTwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMDAiIHg9IjM0NSIgeT0iMjM1LjQyNjMiPi0gYmVpbmcgc3RvcHBlZDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMjUiIHg9IjM0NSIgeT0iMjUwLjU1OTEiPi0gYmVpbmcgYXJvdW5kIHRoZSBlZ28tZHJpdmluZyBsYW5lPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE5OCIgeD0iMzQ1IiB5PSIyNjUuNjkxOSI+LSBiZWluZyBvbiB0aGUgZWRnZSBvZiB0aGUgbGFuZTwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTkzIiB4PSIxMjIiIHk9IjIxMy45NDE0Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTczIiB4PSIxMzIiIHk9IjIzNS4wODAxIj5jYWxjQXZvaWRhbmNlVGFyZ2V0T2JqZWN0czwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTU3IiB4PSIxNDAiIHk9IjM5Ni45NjQ4Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTM3IiB4PSIxNTAiIHk9IjQxOC4xMDM1Ij5leGl0IGF2b2lkYW5jZSBtb2R1bGU8L3RleHQ+PGVsbGlwc2UgY3g9IjIxOC41IiBjeT0iNDcwLjQ0OTIiIGZpbGw9Im5vbmUiIHJ4PSIxMSIgcnk9IjExIiBzdHlsZT0ic3Ryb2tlOiMyMjIyMjI7c3Ryb2tlLXdpZHRoOjEuMDsiLz48ZWxsaXBzZSBjeD0iMjE4LjUiIGN5PSI0NzAuNDQ5MiIgZmlsbD0iIzIyMjIyMiIgcng9IjYiIHJ5PSI2IiBzdHlsZT0ic3Ryb2tlOiMxMTExMTE7c3Ryb2tlLXdpZHRoOjEuMDsiLz48cG9seWdvbiBmaWxsPSIjRjFGMUYxIiBwb2ludHM9IjkyLDM0OC41NjI1LDM0NSwzNDguNTYyNSwzNTcsMzYwLjU2MjUsMzQ1LDM3Mi41NjI1LDkyLDM3Mi41NjI1LDgwLDM2MC41NjI1LDkyLDM0OC41NjI1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNCIgeD0iMjIyLjUiIHk9IjM4Mi43NzI5Ij5ubzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyNTMiIHg9IjkyIiB5PSIzNjQuMzcwNiI+RG9lcyBwYXRoX3NoaWZ0ZXIgYWxyZWFkeSBoYXZlIHNoaWZ0IHBvaW50cz88L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjEiIHg9IjM1NyIgeT0iMzU3Ljk2ODMiPnllczwvdGV4dD48cG9seWdvbiBmaWxsPSIjRjFGMUYxIiBwb2ludHM9IjE1NC41LDI5My43NTc4LDI4Mi41LDI5My43NTc4LDI5NC41LDMwNS43NTc4LDI4Mi41LDMxNy43NTc4LDE1NC41LDMxNy43NTc4LDE0Mi41LDMwNS43NTc4LDE1NC41LDI5My43NTc4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSIyMjIuNSIgeT0iMzI3Ljk2ODMiPsKgPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0IiB4PSIyMjYuNSIgeT0iMzQwLjc3MjkiPm5vPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEyOCIgeD0iMTU0LjUiIHk9IjMwOS41NjU5Ij5JcyB0YXJnZXQgb2JqZWN0IGZvdW5kPzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMSIgeD0iMjk4LjUiIHk9IjMwMy4xNjM2Ij55ZXM8L3RleHQ+PHBvbHlnb24gZmlsbD0iI0YxRjFGMSIgcG9pbnRzPSIyMTguNSw1MjMuNDQ5MiwyMzAuNSw1MzUuNDQ5MiwyMTguNSw1NDcuNDQ5MiwyMDYuNSw1MzUuNDQ5MiwyMTguNSw1MjMuNDQ5MiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHJlY3QgZmlsbD0ibm9uZSIgaGVpZ2h0PSI0OTUuNjQ4NCIgc3R5bGU9InN0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoxLjU7IiB3aWR0aD0iNjU1IiB4PSI3Ny41IiB5PSI1NTcuNDQ5MiIvPjxwYXRoIGQ9Ik0xNjYuNSw1NTcuNDQ5MiBMMTY2LjUsNTgzLjA0MyBMMTU2LjUsNTkzLjA0MyBMNzcuNSw1OTMuMDQzICIgZmlsbD0ibm9uZSIgc3R5bGU9InN0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoxLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNzgiIHg9IjgwLjUiIHk9IjU3MS40NDQzIj5zaGlmdC1wb2ludDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI3OSIgeD0iODAuNSIgeT0iNTg3Ljc0MTIiPmdlbmVyYXRpb248L3RleHQ+PHBhdGggZD0iTTM0Miw2MDMuMDQzIEwzNDIsNjQxLjg3NSBMMzIyLDY0NS44NzUgTDM0Miw2NDkuODc1IEwzNDIsNjg4LjcwNyBBMCwwIDAgMCAwIDM0Miw2ODguNzA3IEw2OTQsNjg4LjcwNyBBMCwwIDAgMCAwIDY5NCw2ODguNzA3IEw2OTQsNjEzLjA0MyBMNjg0LDYwMy4wNDMgTDM0Miw2MDMuMDQzIEEwLDAgMCAwIDAgMzQyLDYwMy4wNDMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNjg0LDYwMy4wNDMgTDY4NCw2MTMuMDQzIEw2OTQsNjEzLjA0MyBMNjg0LDYwMy4wNDMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzMzEiIHg9IjM0OCIgeT0iNjIwLjEwOTkiPmdlbmVyYXRlICJyYXdfc2hpZnRfcG9pbnRzIiBmb3IgZWFjaCB0YXJnZXQgb2JqZWN0cy48L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTUyIiB4PSIzNDgiIHk9IjYzNS4yNDI3Ij50aGUgc2hpZnQgcG9pbnQgY29udGFpbnM6PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9Ijk1IiB4PSIzNTIiIHk9IjY1MC4zNzU1Ij4tIGF2b2lkaW5nIHNoaWZ0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0NCIgeD0iMzUyIiB5PSI2NjUuNTA4MyI+LSByZXR1cm4tdG8tY2VudGVyIHNoaWZ0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI0NSIgeD0iMzUyIiB5PSI2ODAuNjQxMSI+d2l0aCBjb25zaWRlcmluZyB0aGUgbGF0ZXJhbCBqZXJrIHJhbmdlLjwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMjA3IiB4PSIxMTUiIHk9IjYyOC44OTA2Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTg3IiB4PSIxMjUiIHk9IjY1MC4wMjkzIj5jYWxjUmF3U2hpZnRQb2ludHNGcm9tT2JqZWN0czwvdGV4dD48cGF0aCBkPSJNMzY5LjUsNjk4LjcwNyBMMzY5LjUsNzQ1LjEwNTUgTDM0OS41LDc0OS4xMDU1IEwzNjkuNSw3NTMuMTA1NSBMMzY5LjUsNzk5LjUwMzkgQTAsMCAwIDAgMCAzNjkuNSw3OTkuNTAzOSBMNzIyLjUsNzk5LjUwMzkgQTAsMCAwIDAgMCA3MjIuNSw3OTkuNTAzOSBMNzIyLjUsNzA4LjcwNyBMNzEyLjUsNjk4LjcwNyBMMzY5LjUsNjk4LjcwNyBBMCwwIDAgMCAwIDM2OS41LDY5OC43MDcgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNzEyLjUsNjk4LjcwNyBMNzEyLjUsNzA4LjcwNyBMNzIyLjUsNzA4LjcwNyBMNzEyLjUsNjk4LjcwNyAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjMzMSIgeD0iMzc1LjUiIHk9IjcxNS43NzM5Ij5jb21iaW5lIHdpdGggImFscmVhZHktcmVnaXN0ZXJlZCByYXdfc2hpZnRfcG9pbnRzIi48L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNCIgeD0iMzc1LjUiIHk9IjczMC45MDY3Ij7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzMDQiIHg9IjM3NS41IiB5PSI3NDYuMDM5NiI+VGhlIHJhd19zaGlmdF9wb2ludCBpcyBzYXZlZCB3aGVuIHRoZSByZWxldmFudDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMzgiIHg9IjM3NS41IiB5PSI3NjEuMTcyNCI+c2hpZnQgaXMgZXhlY3V0ZWQuIEhlcmUgdGhlIHJlZ2lzdGVyZWQ8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzMyIiB4PSIzNzUuNSIgeT0iNzc2LjMwNTIiPnJhd19zaGlmdF9wb2ludHMgYXJlIGFkZGVkIHdpdGggdGhlIHJhd19zaGlmdF9Qb2ludDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNDMiIHg9IjM3NS41IiB5PSI3OTEuNDM4Ij5jYWxjdWxhdGVkIGluIHRoaXMgc3RlcC48L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjI2MiIgeD0iODcuNSIgeT0iNzMyLjEyMTEiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyNDIiIHg9Ijk3LjUiIHk9Ijc1My4yNTk4Ij5jb21iaW5lUmF3U2hpZnRQb2ludHNXaXRoVW5pcXVlQ2hlY2s8L3RleHQ+PHBhdGggZD0iTTMzMyw4MDkuNTAzOSBMMzMzLDgzMy4yMDMxIEwzMTMsODM3LjIwMzEgTDMzMyw4NDEuMjAzMSBMMzMzLDg2NC45MDIzIEEwLDAgMCAwIDAgMzMzLDg2NC45MDIzIEw2NTMsODY0LjkwMjMgQTAsMCAwIDAgMCA2NTMsODY0LjkwMjMgTDY1Myw4MTkuNTAzOSBMNjQzLDgwOS41MDM5IEwzMzMsODA5LjUwMzkgQTAsMCAwIDAgMCAzMzMsODA5LjUwMzkgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNjQzLDgwOS41MDM5IEw2NDMsODE5LjUwMzkgTDY1Myw4MTkuNTAzOSBMNjQzLDgwOS41MDM5ICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjg3IiB4PSIzMzkiIHk9IjgyNi41NzA4Ij5BZGQgcmV0dXJuLXRvLWNlbnRlciBzaGlmdCBwb2ludCBmcm9tIHRoZSBsYXN0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI5OSIgeD0iMzM5IiB5PSI4NDEuNzAzNiI+c2hpZnQgcG9pbnQsIGlmIG5lZWRlZC4gSWYgdGhlcmUgaXMgbm8gc2hpZnQgcG9pbnRzLDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMjUiIHg9IjMzOSIgeT0iODU2LjgzNjQiPnNldCByZXR1cm4tdG8gY2VudGVyIHNoaWZ0IGZyb20gZWdvLjwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTg5IiB4PSIxMjQiIHk9IjgyMC4yMTg4Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTY5IiB4PSIxMzQiIHk9Ijg0MS4zNTc0Ij5hZGRSZXR1cm5TaGlmdFBvaW50RnJvbUVnbzwvdGV4dD48cGF0aCBkPSJNMjk5LDg3NC45MDIzIEwyOTksODk4LjYwMTYgTDI3OSw5MDIuNjAxNiBMMjk5LDkwNi42MDE2IEwyOTksOTMwLjMwMDggQTAsMCAwIDAgMCAyOTksOTMwLjMwMDggTDY3OSw5MzAuMzAwOCBBMCwwIDAgMCAwIDY3OSw5MzAuMzAwOCBMNjc5LDg4NC45MDIzIEw2NjksODc0LjkwMjMgTDI5OSw4NzQuOTAyMyBBMCwwIDAgMCAwIDI5OSw4NzQuOTAyMyAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxwYXRoIGQ9Ik02NjksODc0LjkwMjMgTDY2OSw4ODQuOTAyMyBMNjc5LDg4NC45MDIzIEw2NjksODc0LjkwMjMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIzMzIiIHg9IjMwNSIgeT0iODkxLjk2OTIiPnNoaWZ0IHBvaW50cyBmb3IgZWFjaCBvYmplY3RzIGFyZSBtZXJnZWQgdG8gY29uc2lkZXI8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzU5IiB4PSIzMDUiIHk9IjkwNy4xMDIxIj5vdmVybGFwcGluZyByZWdpb24sIGV0YyBhbmQgbmV3IHNoaWZ0IHBvaW50cyBhcmUgY3JlYXRlZDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMjkiIHg9IjMwNSIgeT0iOTIyLjIzNDkiPmZvciB0aGUgY3VycmVudCByZWZlcmVuY2UgdHJhamVjdG9yeS48L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjEyMSIgeD0iMTU4IiB5PSI4ODUuNjE3MiIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEwMSIgeD0iMTY4IiB5PSI5MDYuNzU1OSI+bWVyZ2VTaGlmdFBvaW50czwvdGV4dD48cGF0aCBkPSJNMjg3LDk0MC4zMDA4IEwyODcsOTg2LjY5OTIgTDI2Nyw5OTAuNjk5MiBMMjg3LDk5NC42OTkyIEwyODcsMTA0MS4wOTc3IEEwLDAgMCAwIDAgMjg3LDEwNDEuMDk3NyBMNjMyLDEwNDEuMDk3NyBBMCwwIDAgMCAwIDYzMiwxMDQxLjA5NzcgTDYzMiw5NTAuMzAwOCBMNjIyLDk0MC4zMDA4IEwyODcsOTQwLjMwMDggQTAsMCAwIDAgMCAyODcsOTQwLjMwMDggIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNjIyLDk0MC4zMDA4IEw2MjIsOTUwLjMwMDggTDYzMiw5NTAuMzAwOCBMNjIyLDk0MC4zMDA4ICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzI0IiB4PSIyOTMiIHk9Ijk1Ny4zNjc3Ij5tb2RpZnkgc2hpZnQgcG9pbnRzIG9yIHJlbW92ZSB1bm5lY2Vzc2FyeSBwb2ludHMuPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE4MyIgeD0iMjkzIiB5PSI5NzIuNTAwNSI+aXQgY29udGFpbnMgc29tZSBvcGVyYXRpb25zOjwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNDAiIHg9IjI5NyIgeT0iOTg3LjYzMzMiPi0gcXVhbnRpemUgc2hpZnQgbGVuZ3RoPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEwNSIgeD0iMjk3IiB5PSIxMDAyLjc2NjEiPi0gdHJpbSBzbWFsbCBzaGlmdDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMzgiIHg9IjI5NyIgeT0iMTAxNy44OTg5Ij4tIHRyaW0gc2ltaWxhciBncmFkaWVudDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNTgiIHg9IjI5NyIgeT0iMTAzMy4wMzE3Ij4tIHRyaW0gbW9tZW50YXJ5IHJldHVybjwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iOTciIHg9IjE3MCIgeT0iOTczLjcxNDgiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI3NyIgeD0iMTgwIiB5PSI5OTQuODUzNSI+dHJpbVNoaWZ0UG9pbnQ8L3RleHQ+PHBhdGggZD0iTTI5OS41LDEwNjMuMDk3NyBMMjk5LjUsMTA4Ni43OTY5IEwyNzkuNSwxMDkwLjc5NjkgTDI5OS41LDEwOTQuNzk2OSBMMjk5LjUsMTExOC40OTYxIEEwLDAgMCAwIDAgMjk5LjUsMTExOC40OTYxIEw1NjUuNSwxMTE4LjQ5NjEgQTAsMCAwIDAgMCA1NjUuNSwxMTE4LjQ5NjEgTDU2NS41LDEwNzMuMDk3NyBMNTU1LjUsMTA2My4wOTc3IEwyOTkuNSwxMDYzLjA5NzcgQTAsMCAwIDAgMCAyOTkuNSwxMDYzLjA5NzcgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNTU1LjUsMTA2My4wOTc3IEw1NTUuNSwxMDczLjA5NzcgTDU2NS41LDEwNzMuMDk3NyBMNTU1LjUsMTA2My4wOTc3ICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjQ1IiB4PSIzMDUuNSIgeT0iMTA4MC4xNjQ2Ij5JZiB0aGVyZSBpcyBhIHNoaWZ0IHBvaW50IHRoYXQgaGFzIGEgbGFyZ2U8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjQ1IiB4PSIzMDUuNSIgeT0iMTA5NS4yOTc0Ij5kZXZpYXRpb24gZnJvbSBwcmV2aW91cyBwbGFubmVkIHBhdGgsPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIzMCIgeD0iMzA1LjUiIHk9IjExMTAuNDMwMiI+aXQgaXMgY29uc2lkZXJlZCBhcyBhIG5ldyBzaGlmdCBwb2ludC48L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjEyMiIgeD0iMTU3LjUiIHk9IjEwNzMuODEyNSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjEwMiIgeD0iMTY3LjUiIHk9IjEwOTQuOTUxMiI+ZmluZE5ld1NoaWZ0UG9pbnQ8L3RleHQ+PHJlY3QgZmlsbD0ibm9uZSIgaGVpZ2h0PSIzNzUuMjU4MyIgc3R5bGU9InN0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoxLjU7IiB3aWR0aD0iNzM4IiB4PSIxMSIgeT0iMTE4OC45MTAyIi8+PHBhdGggZD0iTTE4OCwxMTg4LjkxMDIgTDE4OCwxMjE0LjUwMzkgTDE3OCwxMjI0LjUwMzkgTDExLDEyMjQuNTAzOSAiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjExNCIgeD0iMTQiIHk9IjEyMDIuOTA1MyI+c2V0LXNoaWZ0LXBvaW50czwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjciIHg9IjE0IiB5PSIxMjE5LjIwMjEiPndpdGgtYXBwcm92YWwtaGFuZGxpbmc8L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjE3MiIgeD0iMTMyLjUiIHk9IjEyNDEuNTAzOSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE1MiIgeD0iMTQyLjUiIHk9IjEyNjIuNjQyNiI+Y2hlY2sgYXBwcm92YWwgY29uZGl0aW9uPC90ZXh0Pjxwb2x5Z29uIGZpbGw9IiNGMUYxRjEiIHBvaW50cz0iMTgyLDEzMDAuMTc2MywyNTUsMTMwMC4xNzYzLDI2NywxMzEyLjE3NjMsMjU1LDEzMjQuMTc2MywxODIsMTMyNC4xNzYzLDE3MCwxMzEyLjE3NjMsMTgyLDEzMDAuMTc2MyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNzMiIHg9IjE4MiIgeT0iMTMxNS45ODQ0Ij5JcyBhcHByb3ZlZD88L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTQiIHg9IjE1NiIgeT0iMTMwOS41ODIiPm5vPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjQiIHg9IjI2NyIgeT0iMTI5Ni43NzczIj7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMSIgeD0iMjcxIiB5PSIxMzA5LjU4MiI+eWVzPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iNDcuOTM3NSIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIxNjMiIHg9IjI1LjUiIHk9IjEzMzQuMTc2MyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0MyIgeD0iMzUuNSIgeT0iMTM1NS4zMTQ5Ij5zZXQgYXBwcm92YWxfaGFuZGxlciB0bzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTUiIHg9IjM1LjUiIHk9IjEzNjkuMjgzNyI+V0FJVElOR19BUFBST1ZBTDwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjQ3LjkzNzUiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMTY4IiB4PSIyMyIgeT0iMTQwNi42MzcyIi8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTQ4IiB4PSIzMyIgeT0iMTQyNy43NzU5Ij5nZW5lcmF0ZSBjYW5kaWRhdGUgcGF0aDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTIiIHg9IjMzIiB5PSIxNDQxLjc0NDYiPndpdGggdGhlIG5ldyBzaGlmdHM8L3RleHQ+PHBhdGggZD0iTTQ2NCwxMzM0LjE3NjMgTDQ2NCwxMzUwLjMwOTEgTDQ0NCwxMzU0LjMwOTEgTDQ2NCwxMzU4LjMwOTEgTDQ2NCwxMzc0LjQ0MTkgQTAsMCAwIDAgMCA0NjQsMTM3NC40NDE5IEw2NzAsMTM3NC40NDE5IEEwLDAgMCAwIDAgNjcwLDEzNzQuNDQxOSBMNjcwLDEzNDQuMTc2MyBMNjYwLDEzMzQuMTc2MyBMNDY0LDEzMzQuMTc2MyBBMCwwIDAgMCAwIDQ2NCwxMzM0LjE3NjMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNjYwLDEzMzQuMTc2MyBMNjYwLDEzNDQuMTc2MyBMNjcwLDEzNDQuMTc2MyBMNjYwLDEzMzQuMTc2MyAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE4NSIgeD0iNDcwIiB5PSIxMzUxLjI0MzIiPlRoaXMgcHJvY2VzcyBtYWtlcyBjaGFuZ2VzPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0OSIgeD0iNDcwIiB5PSIxMzY2LjM3NiI+dG8gdGhlIGZpbmFsIHBhdGggc2hhcGUuPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMzMuOTY4OCIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIyMjgiIHg9IjIxNiIgeT0iMTMzNy4zMjQ3Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjA4IiB4PSIyMjYiIHk9IjEzNTguNDYzNCI+c2V0IG5ldyBzaGlmdCBwb2ludHMgdG8gcGF0aF9zaGlmdGVyPC90ZXh0PjxwYXRoIGQ9Ik00NjksMTM5OC45NjUzIEw0NjksMTQxNS4wOTgxIEw0NDksMTQxOS4wOTgxIEw0NjksMTQyMy4wOTgxIEw0NjksMTQzOS4yMzEgQTAsMCAwIDAgMCA0NjksMTQzOS4yMzEgTDczNywxNDM5LjIzMSBBMCwwIDAgMCAwIDczNywxNDM5LjIzMSBMNzM3LDE0MDguOTY1MyBMNzI3LDEzOTguOTY1MyBMNDY5LDEzOTguOTY1MyBBMCwwIDAgMCAwIDQ2OSwxMzk4Ljk2NTMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNzI3LDEzOTguOTY1MyBMNzI3LDE0MDguOTY1MyBMNzM3LDE0MDguOTY1MyBMNzI3LDEzOTguOTY1MyAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI0NyIgeD0iNDc1IiB5PSIxNDE2LjAzMjIiPlVzZWQgdG8ga2VlcCB0aGUgcGxhbm5pbmcgY29uc2lzdGVuY3k8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTg4IiB4PSI0NzUiIHk9IjE0MzEuMTY1Ij5pbiB0aGUgc2hpZnQgcG9pbnRzIGdlbmVyYXRpb24uPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMzMuOTY4OCIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIyMzgiIHg9IjIxMSIgeT0iMTQwMi4xMTM4Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjE4IiB4PSIyMjEiIHk9IjE0MjMuMjUyNCI+cmVnaXN0ZXIgYXNzb2NpYXRlZCByYXdfc2hpZnRfcG9pbnRzPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iNDcuOTM3NSIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIxNjkiIHg9IjI0NS41IiB5PSIxNDc0LjIzMSIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0OSIgeD0iMjU1LjUiIHk9IjE0OTUuMzY5NiI+Y2xlYXIgV0FJVElOR19BUFBST1ZBTDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxMTgiIHg9IjI1NS41IiB5PSIxNTA5LjMzODQiPmluIGFwcHJvdmFsX2hhbmRsZXI8L3RleHQ+PHBvbHlnb24gZmlsbD0iI0YxRjFGMSIgcG9pbnRzPSIyMTguNSwxNTI4LjE2ODUsMjMwLjUsMTU0MC4xNjg1LDIxOC41LDE1NTIuMTY4NSwyMDYuNSwxNTQwLjE2ODUsMjE4LjUsMTUyOC4xNjg1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cG9seWdvbiBmaWxsPSIjRjFGMUYxIiBwb2ludHM9IjEzNy41LDExNDMuMTk5NywyOTkuNSwxMTQzLjE5OTcsMzExLjUsMTE1NS4xOTk3LDI5OS41LDExNjcuMTk5NywxMzcuNSwxMTY3LjE5OTcsMTI1LjUsMTE1NS4xOTk3LDEzNy41LDExNDMuMTk5NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjEiIHg9IjIyNi41IiB5PSIxMTc3LjQxMDIiPnllczwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjIiIHg9IjEzNy41IiB5PSIxMTU5LjAwNzgiPklzIHRoZSBuZXcgc2hpZnQgcG9pbnQgZm91bmQ/PC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjQiIHg9IjMxMS41IiB5PSIxMTM5LjgwMDgiPsKgPC90ZXh0Pjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0IiB4PSIzMTUuNSIgeT0iMTE1Mi42MDU1Ij5ubzwvdGV4dD48cG9seWdvbiBmaWxsPSIjRjFGMUYxIiBwb2ludHM9IjIxOC41LDE1ODQuMTY4NSwyMzAuNSwxNTk2LjE2ODUsMjE4LjUsMTYwOC4xNjg1LDIwNi41LDE1OTYuMTY4NSwyMTguNSwxNTg0LjE2ODUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iMjYxLjc1IiBzdHlsZT0ic3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjEuNTsiIHdpZHRoPSI2MzYiIHg9IjM0LjUiIHk9IjE2MTguMTY4NSIvPjxwYXRoIGQ9Ik0xNjMuNSwxNjE4LjE2ODUgTDE2My41LDE2MjcuNDY1MyBMMTUzLjUsMTYzNy40NjUzIEwzNC41LDE2MzcuNDY1MyAiIGZpbGw9Im5vbmUiIHN0eWxlPSJzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MS41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjExOSIgeD0iMzcuNSIgeT0iMTYzMi4xNjM2Ij5wYXRoLWdlbmVyYXRpb248L3RleHQ+PHBhdGggZD0iTTMxOS41LDE2NDcuNDY1MyBMMzE5LjUsMTY3MS4xNjQ2IEwyOTkuNSwxNjc1LjE2NDYgTDMxOS41LDE2NzkuMTY0NiBMMzE5LjUsMTcwMi44NjM4IEEwLDAgMCAwIDAgMzE5LjUsMTcwMi44NjM4IEw1ODcuNSwxNzAyLjg2MzggQTAsMCAwIDAgMCA1ODcuNSwxNzAyLjg2MzggTDU4Ny41LDE2NTcuNDY1MyBMNTc3LjUsMTY0Ny40NjUzIEwzMTkuNSwxNjQ3LjQ2NTMgQTAsMCAwIDAgMCAzMTkuNSwxNjQ3LjQ2NTMgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48cGF0aCBkPSJNNTc3LjUsMTY0Ny40NjUzIEw1NzcuNSwxNjU3LjQ2NTMgTDU4Ny41LDE2NTcuNDY1MyBMNTc3LjUsMTY0Ny40NjUzICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjQ3IiB4PSIzMjUuNSIgeT0iMTY2NC41MzIyIj5GaW5hbCBwYXRoIGlzIGdlbmVyYXRlZCBieSBwYXRoX3NoaWZ0ZXI8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMjMxIiB4PSIzMjUuNSIgeT0iMTY3OS42NjUiPmZyb20gdGhlIGNhbGN1bGF0ZWQgc2hpZnQgcG9pbnRzIHdpdGg8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTMiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTkzIiB4PSIzMjUuNSIgeT0iMTY5NC43OTc5Ij5DbG90aG9pZC1MaWtlIGN1cnZlIHByaW1pdGl2ZXMuPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMzMuOTY4OCIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIxNjIiIHg9IjEzNy41IiB5PSIxNjU4LjE4MDIiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNDIiIHg9IjE0Ny41IiB5PSIxNjc5LjMxODgiPmdlbmVyYXRlQXZvaWRhbmNlUGF0aDwvdGV4dD48cmVjdCBmaWxsPSIjRjFGMUYxIiBoZWlnaHQ9IjMzLjk2ODgiIHJ4PSIxMi41IiByeT0iMTIuNSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7IiB3aWR0aD0iMjEwIiB4PSIxMTMuNSIgeT0iMTcyMi44NjM4Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTkwIiB4PSIxMjMuNSIgeT0iMTc0NC4wMDI0Ij5nZW5lcmF0ZUV4dGVuZGVkRHJpdmFibGVBcmVhPC90ZXh0PjxwYXRoIGQ9Ik00MTIuNSwxNzczLjY4NDEgTDQxMi41LDE3ODkuODE2OSBMMzkyLjUsMTc5My44MTY5IEw0MTIuNSwxNzk3LjgxNjkgTDQxMi41LDE4MTMuOTQ5NyBBMCwwIDAgMCAwIDQxMi41LDE4MTMuOTQ5NyBMNjYwLjUsMTgxMy45NDk3IEEwLDAgMCAwIDAgNjYwLjUsMTgxMy45NDk3IEw2NjAuNSwxNzgzLjY4NDEgTDY1MC41LDE3NzMuNjg0MSBMNDEyLjUsMTc3My42ODQxIEEwLDAgMCAwIDAgNDEyLjUsMTc3My42ODQxICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHBhdGggZD0iTTY1MC41LDE3NzMuNjg0MSBMNjUwLjUsMTc4My42ODQxIEw2NjAuNSwxNzgzLjY4NDEgTDY1MC41LDE3NzMuNjg0MSAiIGZpbGw9IiNGQUZBRkEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE3NCIgeD0iNDE4LjUiIHk9IjE3OTAuNzUxIj5SZWR1Y2UgYWNjZWxlcmF0aW9uIGR1cmluZzwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMjciIHg9IjQxOC41IiB5PSIxODA1Ljg4MzgiPmF2b2lkYW5jZSB0byBpbXByb3ZlIHJpZGUgY29tZm9ydC48L3RleHQ+PHJlY3QgZmlsbD0iI0YxRjFGMSIgaGVpZ2h0PSIzMy45Njg4IiByeD0iMTIuNSIgcnk9IjEyLjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MC41OyIgd2lkdGg9IjM0OCIgeD0iNDQuNSIgeT0iMTc3Ni44MzI1Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzI4IiB4PSI1NC41IiB5PSIxNzk3Ljk3MTIiPm1vZGlmeVBhdGhWZWxvY2l0eVRvUHJldmVudEFjY2VsZXJhdGlvbk9uQXZvaWRhbmNlPC90ZXh0PjxwYXRoIGQ9Ik0yOTIsMTgzOC4zNjc3IEwyOTIsMTg0Ni45MzQxIEwyNzIsMTg1MC45MzQxIEwyOTIsMTg1NC45MzQxIEwyOTIsMTg2My41MDA1IEEwLDAgMCAwIDAgMjkyLDE4NjMuNTAwNSBMNTQ4LDE4NjMuNTAwNSBBMCwwIDAgMCAwIDU0OCwxODYzLjUwMDUgTDU0OCwxODQ4LjM2NzcgTDUzOCwxODM4LjM2NzcgTDI5MiwxODM4LjM2NzcgQTAsMCAwIDAgMCAyOTIsMTgzOC4zNjc3ICIgZmlsbD0iI0ZBRkFGQSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDowLjU7Ii8+PHBhdGggZD0iTTUzOCwxODM4LjM2NzcgTDUzOCwxODQ4LjM2NzcgTDU0OCwxODQ4LjM2NzcgTDUzOCwxODM4LjM2NzcgIiBmaWxsPSIjRkFGQUZBIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMzUiIHg9IjI5OCIgeT0iMTg1NS40MzQ2Ij5UbyByZWR1Y2UgcGF0aCBwb2ludHMgZm9yIGxhdGVyIG5vZGUuPC90ZXh0PjxyZWN0IGZpbGw9IiNGMUYxRjEiIGhlaWdodD0iMzMuOTY4OCIgcng9IjEyLjUiIHJ5PSIxMi41IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjAuNTsiIHdpZHRoPSIxMDciIHg9IjE2NSIgeT0iMTgzMy45NDk3Ii8+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iODciIHg9IjE3NSIgeT0iMTg1NS4wODg0Ij5yZXNhbXBsZSBwYXRoPC90ZXh0PjxlbGxpcHNlIGN4PSIyMTguNSIgY3k9IjE5MTAuOTE4NSIgZmlsbD0ibm9uZSIgcng9IjExIiByeT0iMTEiIHN0eWxlPSJzdHJva2U6IzIyMjIyMjtzdHJva2Utd2lkdGg6MS4wOyIvPjxlbGxpcHNlIGN4PSIyMTguNSIgY3k9IjE5MTAuOTE4NSIgZmlsbD0iIzIyMjIyMiIgcng9IjYiIHJ5PSI2IiBzdHlsZT0ic3Ryb2tlOiMxMTExMTE7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iNjcuMjk2OSIgeTI9IjExMC43MTA5Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSwxMDAuNzEwOSwyMTguNSwxMTAuNzEwOSwyMjIuNSwxMDAuNzEwOSwyMTguNSwxMDQuNzEwOSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjE0NC42Nzk3IiB5Mj0iMjEzLjk0MTQiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDIwMy45NDE0LDIxOC41LDIxMy45NDE0LDIyMi41LDIwMy45NDE0LDIxOC41LDIwNy45NDE0IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iNDMwLjkzMzYiIHkyPSI0NTkuNDQ5MiIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsNDQ5LjQ0OTIsMjE4LjUsNDU5LjQ0OTIsMjIyLjUsNDQ5LjQ0OTIsMjE4LjUsNDUzLjQ0OTIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSIzNzIuNTYyNSIgeTI9IjM5Ni45NjQ4Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSwzODYuOTY0OCwyMTguNSwzOTYuOTY0OCwyMjIuNSwzODYuOTY0OCwyMTguNSwzOTAuOTY0OCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMzU3IiB4Mj0iMzY5IiB5MT0iMzYwLjU2MjUiIHkyPSIzNjAuNTYyNSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMzY1LDQyOS40NDkyLDM2OSw0MzkuNDQ5MiwzNzMsNDI5LjQ0OTIsMzY5LDQzMy40NDkyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIzNjkiIHgyPSIzNjkiIHkxPSIzNjAuNTYyNSIgeTI9IjUwMy40NDkyIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMzY5IiB4Mj0iMjE4LjUiIHkxPSI1MDMuNDQ5MiIgeTI9IjUwMy40NDkyIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjUwMy40NDkyIiB5Mj0iNTIzLjQ0OTIiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDUxMy40NDkyLDIxOC41LDUyMy40NDkyLDIyMi41LDUxMy40NDkyLDIxOC41LDUxNy40NDkyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iMzE3Ljc1NzgiIHkyPSIzNDguNTYyNSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMzM4LjU2MjUsMjE4LjUsMzQ4LjU2MjUsMjIyLjUsMzM4LjU2MjUsMjE4LjUsMzQyLjU2MjUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjI5NC41IiB4Mj0iMzc5IiB5MT0iMzA1Ljc1NzgiIHkyPSIzMDUuNzU3OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMzc1LDQyMy40NDkyLDM3OSw0MzMuNDQ5MiwzODMsNDIzLjQ0OTIsMzc5LDQyNy40NDkyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIzNzkiIHgyPSIzNzkiIHkxPSIzMDUuNzU3OCIgeTI9IjUzNS40NDkyIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMzc5IiB4Mj0iMjMwLjUiIHkxPSI1MzUuNDQ5MiIgeTI9IjUzNS40NDkyIi8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyNDAuNSw1MzEuNDQ5MiwyMzAuNSw1MzUuNDQ5MiwyNDAuNSw1MzkuNDQ5MiwyMzYuNSw1MzUuNDQ5MiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjI0Ny45MTAyIiB5Mj0iMjkzLjc1NzgiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDI4My43NTc4LDIxOC41LDI5My43NTc4LDIyMi41LDI4My43NTc4LDIxOC41LDI4Ny43NTc4IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iNjYyLjg1OTQiIHkyPSI3MzIuMTIxMSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsNzIyLjEyMTEsMjE4LjUsNzMyLjEyMTEsMjIyLjUsNzIyLjEyMTEsMjE4LjUsNzI2LjEyMTEiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSI3NjYuMDg5OCIgeTI9IjgyMC4yMTg4Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSw4MTAuMjE4OCwyMTguNSw4MjAuMjE4OCwyMjIuNSw4MTAuMjE4OCwyMTguNSw4MTQuMjE4OCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9Ijg1NC4xODc1IiB5Mj0iODg1LjYxNzIiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDg3NS42MTcyLDIxOC41LDg4NS42MTcyLDIyMi41LDg3NS42MTcyLDIxOC41LDg3OS42MTcyIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iOTE5LjU4NTkiIHkyPSI5NzMuNzE0OCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsOTYzLjcxNDgsMjE4LjUsOTczLjcxNDgsMjIyLjUsOTYzLjcxNDgsMjE4LjUsOTY3LjcxNDgiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSI1NDcuNDQ5MiIgeTI9IjYyOC44OTA2Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSw2MTguODkwNiwyMTguNSw2MjguODkwNiwyMjIuNSw2MTguODkwNiwyMTguNSw2MjIuODkwNiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjEwMDcuNjgzNiIgeTI9IjEwNzMuODEyNSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMTA2My44MTI1LDIxOC41LDEwNzMuODEyNSwyMjIuNSwxMDYzLjgxMjUsMjE4LjUsMTA2Ny44MTI1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIxMDciIHgyPSIxMDciIHkxPSIxMzgyLjExMzgiIHkyPSIxNDA2LjYzNzIiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjEwMywxMzk2LjYzNzIsMTA3LDE0MDYuNjM3MiwxMTEsMTM5Ni42MzcyLDEwNywxNDAwLjYzNzIiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjMzMCIgeDI9IjMzMCIgeTE9IjEzNzEuMjkzNSIgeTI9IjE0MDIuMTEzOCIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMzI2LDEzOTIuMTEzOCwzMzAsMTQwMi4xMTM4LDMzNCwxMzkyLjExMzgsMzMwLDEzOTYuMTEzOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMzMwIiB4Mj0iMzMwIiB5MT0iMTQzNi4wODI1IiB5Mj0iMTQ3NC4yMzEiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjMyNiwxNDY0LjIzMSwzMzAsMTQ3NC4yMzEsMzM0LDE0NjQuMjMxLDMzMCwxNDY4LjIzMSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMTcwIiB4Mj0iMTA3IiB5MT0iMTMxMi4xNzYzIiB5Mj0iMTMxMi4xNzYzIi8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMTA3IiB4Mj0iMTA3IiB5MT0iMTMxMi4xNzYzIiB5Mj0iMTMzNC4xNzYzIi8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIxMDMsMTMyNC4xNzYzLDEwNywxMzM0LjE3NjMsMTExLDEzMjQuMTc2MywxMDcsMTMyOC4xNzYzIiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyNjciIHgyPSIzMzAiIHkxPSIxMzEyLjE3NjMiIHkyPSIxMzEyLjE3NjMiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIzMzAiIHgyPSIzMzAiIHkxPSIxMzEyLjE3NjMiIHkyPSIxMzM3LjMyNDciLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjMyNiwxMzI3LjMyNDcsMzMwLDEzMzcuMzI0NywzMzQsMTMyNy4zMjQ3LDMzMCwxMzMxLjMyNDciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjEwNyIgeDI9IjEwNyIgeTE9IjE0NTQuNTc0NyIgeTI9IjE1NDAuMTY4NSIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjEwNyIgeDI9IjIwNi41IiB5MT0iMTU0MC4xNjg1IiB5Mj0iMTU0MC4xNjg1Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIxOTYuNSwxNTM2LjE2ODUsMjA2LjUsMTU0MC4xNjg1LDE5Ni41LDE1NDQuMTY4NSwyMDAuNSwxNTQwLjE2ODUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjMzMCIgeDI9IjMzMCIgeTE9IjE1MjIuMTY4NSIgeTI9IjE1NDAuMTY4NSIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjMzMCIgeDI9IjIzMC41IiB5MT0iMTU0MC4xNjg1IiB5Mj0iMTU0MC4xNjg1Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyNDAuNSwxNTM2LjE2ODUsMjMwLjUsMTU0MC4xNjg1LDI0MC41LDE1NDQuMTY4NSwyMzYuNSwxNTQwLjE2ODUiIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSIxMjc1LjQ3MjciIHkyPSIxMzAwLjE3NjMiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDEyOTAuMTc2MywyMTguNSwxMzAwLjE3NjMsMjIyLjUsMTI5MC4xNzYzLDIxOC41LDEyOTQuMTc2MyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjExNjcuMTk5NyIgeTI9IjEyNDEuNTAzOSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMTIzMS41MDM5LDIxOC41LDEyNDEuNTAzOSwyMjIuNSwxMjMxLjUwMzksMjE4LjUsMTIzNS41MDM5IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIzMTEuNSIgeDI9Ijc1OSIgeTE9IjExNTUuMTk5NyIgeTI9IjExNTUuMTk5NyIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iNzU1LDEzNjkuODI0Nyw3NTksMTM3OS44MjQ3LDc2MywxMzY5LjgyNDcsNzU5LDEzNzMuODI0NyIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iNzU5IiB4Mj0iNzU5IiB5MT0iMTE1NS4xOTk3IiB5Mj0iMTU5Ni4xNjg1Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iNzU5IiB4Mj0iMjMwLjUiIHkxPSIxNTk2LjE2ODUiIHkyPSIxNTk2LjE2ODUiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjI0MC41LDE1OTIuMTY4NSwyMzAuNSwxNTk2LjE2ODUsMjQwLjUsMTYwMC4xNjg1LDIzNi41LDE1OTYuMTY4NSIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjE1NTIuMTY4NSIgeTI9IjE1ODQuMTY4NSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMTU3NC4xNjg1LDIxOC41LDE1ODQuMTY4NSwyMjIuNSwxNTc0LjE2ODUsMjE4LjUsMTU3OC4xNjg1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iMTEwNy43ODEzIiB5Mj0iMTE0My4xOTk3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSwxMTMzLjE5OTcsMjE4LjUsMTE0My4xOTk3LDIyMi41LDExMzMuMTk5NywyMTguNSwxMTM3LjE5OTciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSIxNjkyLjE0ODkiIHkyPSIxNzIyLjg2MzgiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDE3MTIuODYzOCwyMTguNSwxNzIyLjg2MzgsMjIyLjUsMTcxMi44NjM4LDIxOC41LDE3MTYuODYzOCIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjE3NTYuODMyNSIgeTI9IjE3NzYuODMyNSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMTc2Ni44MzI1LDIxOC41LDE3NzYuODMyNSwyMjIuNSwxNzY2LjgzMjUsMjE4LjUsMTc3MC44MzI1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48bGluZSBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiIHgxPSIyMTguNSIgeDI9IjIxOC41IiB5MT0iMTgxMC44MDEzIiB5Mj0iMTgzMy45NDk3Ii8+PHBvbHlnb24gZmlsbD0iIzE4MTgxOCIgcG9pbnRzPSIyMTQuNSwxODIzLjk0OTcsMjE4LjUsMTgzMy45NDk3LDIyMi41LDE4MjMuOTQ5NywyMTguNSwxODI3Ljk0OTciIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIvPjxsaW5lIHN0eWxlPSJzdHJva2U6IzE4MTgxODtzdHJva2Utd2lkdGg6MS4wOyIgeDE9IjIxOC41IiB4Mj0iMjE4LjUiIHkxPSIxNjA4LjE2ODUiIHkyPSIxNjU4LjE4MDIiLz48cG9seWdvbiBmaWxsPSIjMTgxODE4IiBwb2ludHM9IjIxNC41LDE2NDguMTgwMiwyMTguNSwxNjU4LjE4MDIsMjIyLjUsMTY0OC4xODAyLDIxOC41LDE2NTIuMTgwMiIgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7Ii8+PGxpbmUgc3R5bGU9InN0cm9rZTojMTgxODE4O3N0cm9rZS13aWR0aDoxLjA7IiB4MT0iMjE4LjUiIHgyPSIyMTguNSIgeTE9IjE4NjcuOTE4NSIgeTI9IjE4OTkuOTE4NSIvPjxwb2x5Z29uIGZpbGw9IiMxODE4MTgiIHBvaW50cz0iMjE0LjUsMTg4OS45MTg1LDIxOC41LDE4OTkuOTE4NSwyMjIuNSwxODg5LjkxODUsMjE4LjUsMTg5My45MTg1IiBzdHlsZT0ic3Ryb2tlOiMxODE4MTg7c3Ryb2tlLXdpZHRoOjEuMDsiLz48IS0tU1JDPVtWTFJSUmppdTQ3dGRMbXB3cjAxSEZnMXZNMVl6Uk8yWTNSOWYtcjhXT0FJbm5PT1lMUEFvd290d3h0azZhY3BISmpTRlhhdEVWU3dTT05tb2hqVDFUekh2di1pcy04dWZYTzZMSVlQUDlodHJmajZrUGtmclFnY3RzWmRaRFllYzdQOUloc2Zqd3pLaVNwbFRsajU5Tm9sZDRyQ21jcE9mZ2dYY2JwWUdET3hiUi0wcjF2eGpsYkFLRm5qczc3SllYWHh0NTdpSDlZRHdsUlN3NlVfOGhvVEItS3ZxOXpNVEdOV0RrcFhmUkJLTEZxcW1NcUg0WThtamZvWGRfbDR4cl9aOWhZNDl5WklEVW5xc2Qzd0RLY0tVeG1ucTlkckFoS3VLNExUUzZ1d2FoUE5tS2lrcXpqUnc3Vm5BT1hNYlI3M0lleEpsRUh5X2lhR01hLXp4UlhPZEVsVzFSaUdHUnRvcko2NFhYTTlhWU1SM2l6aWlTU3BBaEVkYkpKcG5sWFJSVnJzOGxBRU5qRVR1ZVRZWVFZLV9FVVhUbThGZWxWNzhJQ2h4NDVrcGJpdmY2cld0VXNocmJZYVZLa3pId2RXbURjZUpsVUFWOVlzR3FfYmNpN29UeG9IUl8xV3pQa1Z1dW5ncExrRXQwWGcxRjZicnpiNWI3el9TWDBtdl9wTnJ3cXhsX1g2SHNucDVFcTN0c1BSRGNBOE5HVV82UjF4Nm01LVc2ODVPcnNyUGV0WWJTWmFOSUxCak5UQjZuUjZYRVJWU0YxNzlIdTdKNDVvTFYzS1hWUnhBbThId0QwcTdxSGF4MUg1andKazc5bWVRd0xxTFNGSlQ4XzFUUGxXTFhadXh5c0ZXcm90TkpzTU1heVJleFNOS2dvaG1uYUh1bWEyVDlOLWI1RHFaYjlDQkNYNk90YTlaOXFzTE8wQ2NQd2lUbDhtTFdHSl92N2gwZDV4SHR4MC1JU3MtcjlhcEcxZktxWkhZTEc5Q1hULVM3YjkwSm1VUmZ6LThPbWFhU0x5SzFaUmtTZzZGVFA3Nmx6dHVpWG9oZmxiM0h3UC1oZzRyVEk4VTRpak5idTlfbnpuOFRaVHZpMTB5V2Q2LVdGcWJqMDJQV25TZ2w2SnhjRHVZLWV3MWlhTDdZdllOamVfMGRCYjYyZlpMbUdsLTAyVmJqczEydFZVMkFzYzBUdlY0Z0lPakpkYk4xOW5qcjAwNkFncDRXUUhWM200cWQxUHlkODhNYnB4aVl6WEpDRHFuejI5b3BCVFB4cWpWQzEtdUd0V3FFQ1NybndaM1ZoZ3lLa091SzFIYnZWWC1jY3VQaThmLTM4MlItTlNVR1NqazhxR0Y5YUtLNTNrWHNjYy12WkZKNlFpM1JPOWszQmxaSEdWcHkwSmRPd1NNRUlkcjZ1Y2pHVWFWVVZVN3QwZTR3MDkyY1Z2UkJTVE13NERYX01wRG81NnZfTnQwVnBfNFNNa1lTeUFkVzh0OThwSnQ0RVZQbmFjeGhmdVhTbEpoSEVmUEVZVFFhMllkUWE2YXlQa0owUW0wY1UybjhnaU1JQjYyZGJ5WlRUVDJCSkhWSXYxRERaSW96bko4VUN0RDZWRjNXQ3A0aEZ3R2hNQ2NhZi1rbHd2a3hjeS1sZHpPdFR4VVZWZ28tZDB6Z25yT2tlT0F6YU93Ti12NS1kN0tGNm9rQVY1MzI2VlduekdpcnpkaVVEZGd3TkNscDhDNDFCSkt3SVNpbWhlTFlldTc0SFpCUXp1dXIyV19aNkFoVXQzdVU3dGV0MUpHSjhyZVRGSXJvSEh0SWY3XzR6M2RFNHh6NHRFVl9Td2xpMTUzaUVwZ19LN1FrREZiNVVjdUZWeUtPY3FQcXRGUTdkS21VVGhJZ1ZudlBuRnpCZnlHUHdqU0liSVRoRjJ2dXlWTjh1SkVOYmpwVktxaTd1VkJOZ2VaY296c0k1NDAwUDJZcnpRZDVqd2czLU9mS25fZWdHVDk4Q1dqbnVCa1BjVGxWd0F3TTBMbHkwWkpadlBOdUN6aGVWQkNVSEJvNXhSZVFUaFYtcmxDRXhYY0xUVE9jNkVjZHptWGxKQXJFc3U2YUFyVW81OHBvRmowQkx2RVFCaGZ5Z24xaHM3UHlZM2tXWGkwaGdZeHRleHBLWmd2em8yeng2VHlsMXp0SXR2X200OUpsM2otQXRjVV9HUzBdLS0+PC9nPjwvc3ZnPg==" class="uml" alt="uml diagram" title="" /></p>
-<h3 id="details-of-functions">Details of Functions<a class="headerlink" href="#details-of-functions" title="Permanent link">#</a></h3>
-<h4 id="how-to-decide-the-target-obstacles">How to decide the target obstacles<a class="headerlink" href="#how-to-decide-the-target-obstacles" title="Permanent link">#</a></h4>
-<p>The avoidance target should be limited to stationary objects (you should not avoid a vehicle waiting at a traffic light even if it blocks your path). Therefore, target vehicles for avoidance should meet the following specific conditions.</p>
-<ul>
-<li>It is in the vicinity of your lane (parametrized)</li>
-<li>It is stopped (estimated speed is lower than threshold)<ul>
-<li>This means that overtaking is not supported (will be supported in the future).</li>
-</ul>
-</li>
-<li>It is a specific class.<ul>
-<li>User can limit avoidance targets (e.g. do not avoid unknown-class targets).</li>
-</ul>
-</li>
-<li>It is not being in the center of the route<ul>
-<li>This means that the vehicle is parked on the edge of the lane. This prevents the vehicle from avoiding a vehicle waiting at a traffic light in the middle of the lane. However, this is not an appropriate implementation for the purpose. Even if a vehicle is in the center of the lane, it should be avoided if it has its hazard lights on, and this is a point that should be improved in the future as the recognition performance improves.</li>
-</ul>
-</li>
-<li>Object is not behind ego(default: &gt; -<code>2.0 m</code>) or too far(default: &lt; <code>150.0 m</code>) and object is not behind the path goal.</li>
-</ul>
-<p><img alt="fig1" src="../image/avoidance_design/target_vehicle_selection.drawio.svg" /></p>
-<h5 id="compensation-for-detection-lost">Compensation for detection lost<a class="headerlink" href="#compensation-for-detection-lost" title="Permanent link">#</a></h5>
-<p>In order to prevent chattering of recognition results, once an obstacle is targeted, it is hold for a while even if it disappears. This is effective when recognition is unstable. However, since it will result in over-detection (increase a number of false-positive), it is necessary to adjust parameters according to the recognition accuracy (if <code>object_last_seen_threshold = 0.0</code>, the recognition result is 100% trusted).</p>
-<h4 id="computing-shift-length-and-shift-points">Computing Shift Length and Shift Points<a class="headerlink" href="#computing-shift-length-and-shift-points" title="Permanent link">#</a></h4>
-<p>The lateral shift length is affected by 4 variables, namely <code>lateral_collision_safety_buffer</code>, <code>lateral_collision_margin</code>, <code>vehicle_width</code> and <code>overhang_distance</code>. The equation is as follows</p>
-<div class="highlight"><pre><span></span><code><span class="n">avoid_margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lateral_collision_margin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lateral_collision_safety_buffer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span>
-<span class="n">max_allowable_lateral_distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_road_shoulder_distance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">road_shoulder_safety_margin</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span>
-<span class="k">if</span><span class="p">(</span><span class="n">isOnRight</span><span class="p">(</span><span class="n">o</span><span class="p">))</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">shift_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">avoid_margin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">overhang_distance</span>
-<span class="p">}</span>
-<span class="k">else</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="n">shift_length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">avoid_margin</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">overhang_distance</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>The following figure illustrates these variables(This figure just shows the max value of lateral shift length).</p>
-<p><img alt="shift_point_and_its_constraints" src="../image/avoidance_design/avoidance_module-shift_point_and_its_constraints.drawio.png" /></p>
-<h5 id="rationale-of-having-safety-buffer-and-safety-margin">Rationale of having safety buffer and safety margin<a class="headerlink" href="#rationale-of-having-safety-buffer-and-safety-margin" title="Permanent link">#</a></h5>
-<p>To compute the shift length, additional parameters that can be tune are <code>lateral_collision_safety_buffer</code> and <code>road_shoulder_safety_margin</code>.</p>
-<ul>
-<li>The <code>lateral_collision_safety_buffer</code> parameter is used to set a safety gap that will act as the final line of defense when computing avoidance path.<ul>
-<li>The rationale behind having this parameter is that the parameter <code>lateral_collision_margin</code> might be changing according to the situation for various reasons. Therefore, <code>lateral_collision_safety_buffer</code> will act as the final line of defense in case of the usage of <code>lateral_collision_margin</code> fails.</li>
-<li>It is recommended to set the value to more than half of the ego vehicle's width.</li>
-</ul>
-</li>
-<li>The <code>road_shoulder_safety_margin</code> will prevent the module from generating a path that might cause the vehicle to go too near the road shoulder or adjacent lane dividing line.</li>
-</ul>
-<p><img alt="shift_length_parameters" src="../image/shift_length_parameters.drawio.svg" /></p>
-<h5 id="generating-path-only-within-lanelet-boundaries">Generating path only within lanelet boundaries<a class="headerlink" href="#generating-path-only-within-lanelet-boundaries" title="Permanent link">#</a></h5>
-<p>The shift length is set as a constant value before the feature is implemented. Setting the shift length like this will cause the module to generate an avoidance path regardless of actual environmental properties. For example, the path might exceed the actual road boundary or go towards a wall. Therefore, to address this limitation, in addition to <a href="#how-to-decide-the-target-obstacles">how to decide the target obstacle</a>, the module also takes into account the following additional element</p>
-<ul>
-<li>The obstacles' current lane and position.</li>
-<li>The road shoulder with reference to the direction to avoid.</li>
-</ul>
-<p>These elements are used to compute the distance from the object to the road's shoulder (<code>to_road_shoulder_distance</code>). The parameters <code>enable_avoidance_over_same_direction</code> and <code>enable_avoidance_over_opposite_direction</code> allows further configuration of the to <code>to_road_shoulder_distance</code>. The following image illustrates the configuration.</p>
-<p><img alt="obstacle_to_road_shoulder_distance" src="../image/avoidance_design/obstacle_to_road_shoulder_distance.drawio.svg" /></p>
-<p>If one of the following conditions is <code>false</code>, then the shift point will not be generated.</p>
-<ul>
-<li>The distance to shoulder of road is enough</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="n">avoid_margin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lateral_collision_margin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lateral_collision_safety_buffer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span>
-<span class="n">avoid_margin</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="n">to_road_shoulder_distance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">road_shoulder_safety_margin</span><span class="p">)</span>
-</code></pre></div>
-<ul>
-<li>
-<p>The obstacle intrudes into the current driving path.</p>
-<ul>
-<li>
-<p>when the object is on right of the path</p>
-<div class="highlight"><pre><span></span><code><span class="o">-</span><span class="n">overhang_dist</span><span class="o">&lt;</span><span class="p">(</span><span class="n">lateral_collision_margin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lateral_collision_safety_buffer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span><span class="p">)</span>
-</code></pre></div>
-</li>
-</ul>
-<ul>
-<li>
-<p>when the object is on left of the path</p>
-<div class="highlight"><pre><span></span><code><span class="n">overhang_dist</span><span class="o">&lt;</span><span class="p">(</span><span class="n">lateral_collision_margin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lateral_collision_safety_buffer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">vehicle_width</span><span class="p">)</span>
-</code></pre></div>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="flow-chart-of-the-process">Flow-chart of the process<a class="headerlink" href="#flow-chart-of-the-process" title="Permanent link">#</a></h5>
-<!-- spell-checker:disable -->
+<h1 id="path-generation-design">Path Generation design<a class="headerlink" href="#path-generation-design" title="Permanent link">#</a></h1>
+<p>This document explains how the path is generated for lane change and avoidance, etc. The implementation can be found in <a href="https://github.com/autowarefoundation/autoware.universe/blob/main/planning/behavior_path_planner/include/behavior_path_planner/util/path_shifter/path_shifter.hpp">path_shifter.hpp</a>.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<p>The base idea of the path generation in lane change and avoidance is to smoothly shift the reference path, such as the center line, in the lateral direction. This is achieved by using a constant-jerk profile as in the figure below. More details on how it is used can be found in <a href="https://github.com/autowarefoundation/autoware.universe/blob/main/planning/behavior_path_planner/README.md">README</a>. It is assumed that the reference path is smooth enough for this algorithm.</p>
+<p>The figure below explains how the application of a constant lateral jerk <span class="arithmatex"><span class="MathJax_Preview">l^{'''}(s)</span><script type="math/tex">l^{'''}(s)</script></span> can be used to induce lateral shifting. In order to comply with the limits on lateral acceleration and velocity, zero-jerk time is employed in the figure ( <span class="arithmatex"><span class="MathJax_Preview">T_a</span><script type="math/tex">T_a</script></span> and <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> ). In each interval where constant jerk is applied, the shift position <span class="arithmatex"><span class="MathJax_Preview">l(s)</span><script type="math/tex">l(s)</script></span> can be characterized by a third-degree polynomial. Therefore the shift length from the reference path can then be calculated by combining spline curves.</p>
+<p align="center">
+  <img src="./image/path_shifter.png" width="800">
+</p>
 
-<p><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjb250ZW50U3R5bGVUeXBlPSJ0ZXh0L2NzcyIgaGVpZ2h0PSI2MzZweCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIgc3R5bGU9IndpZHRoOjY3OXB4O2hlaWdodDo2MzZweDtiYWNrZ3JvdW5kOiMwMDAwMDA7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA2NzkgNjM2IiB3aWR0aD0iNjc5cHgiIHpvb21BbmRQYW49Im1hZ25pZnkiPjxkZWZzLz48Zz48cmVjdCBmaWxsPSIjMUYxNjI3IiBoZWlnaHQ9IjEiIHN0eWxlPSJzdHJva2U6IzFGMTYyNztzdHJva2Utd2lkdGg6MS4wOyIgd2lkdGg9IjEiIHg9IjAiIHk9IjAiLz48cmVjdCBmaWxsPSIjRUFFMkM5IiBoZWlnaHQ9IjkyIiBzdHlsZT0ic3Ryb2tlOiNFQUUyQzk7c3Ryb2tlLXdpZHRoOjEuMDsiIHdpZHRoPSI2NzciIHg9IjAiIHk9IjAiLz48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzIxIiB4PSIxMCIgeT0iMjYuNDAxNCI+QWRkIHlvdXIgb3duIGRlZGljYXRpb24gaW50byBQbGFudFVNTDwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0IiB4PSIxMCIgeT0iNDIuNjk4MiI+wqA8L3RleHQ+PHRleHQgZmlsbD0iIzAwMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTYwIiB4PSIxMCIgeT0iNTguOTk1MSI+Rm9yIGp1c3QgJDUgcGVyIG1vbnRoITwvdGV4dD48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI3MiIgeD0iMTAiIHk9Ijc1LjI5MiI+RGV0YWlscyBvbjwvdGV4dD48YSBocmVmPSJodHRwczovL3BsYW50dW1sLmNvbS9kZWRpY2F0aW9uIiB0YXJnZXQ9IiIgdGl0bGU9Imh0dHBzOi8vcGxhbnR1bWwuY29tL2RlZGljYXRpb24iIHhsaW5rOmFjdHVhdGU9Im9uUmVxdWVzdCIgeGxpbms6aHJlZj0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6c2hvdz0ibmV3IiB4bGluazp0aXRsZT0iaHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbiIgeGxpbms6dHlwZT0ic2ltcGxlIj48dGV4dCBmaWxsPSIjMDAwMDAwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC1zdHlsZT0iaXRhbGljIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIyOCIgeD0iODYiIHk9Ijc1LjI5MiI+aHR0cHM6Ly9wbGFudHVtbC5jb20vZGVkaWNhdGlvbjwvdGV4dD48L2E+PGltYWdlIGhlaWdodD0iOTMiIHdpZHRoPSI5MyIgeD0iMzQxIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUYwQUFBQmRDQVlBQUFESGNXckRBQUFEclVsRVFWUjRYdTJRTVpJY01Rd0Q5LzgvOHpjYzNpZnNkQWFGTGhJanpXa0RCcDFBSUVqaDgvUDN6Ny9oZC9tb01MelBsSDZBS2YwQVUvb0JwdlFEVE9rSG1OSVBNS1Vmb0ZYNjUvUFpqdTV3L0taL0Y3ckRNYVZ2Um5jNHB2VE42QTVIWExxK0pYUnk5Qk03L0ttZWt1Wk02VVpQU1hPbWRLT25wRGxMcGV0SEhlVFhIWldIOU5UVDhWOTFndnk2d3pHbEcvOVZKOGl2T3h4VHV2RmZkWUw4dXNQeEZhVjM5QTU2dDh0SmRZTDh1dHN4cFJjNlFYN2Q3WmpTQzUwZ3YrNTJmSFhwSFEvcEhVOUhKOGl2dXgxVGVxRVQ1TmZkamltOTBBbnk2MjdIVXVrcG5SejlYT1duV1gxenBINGl6Wm5TQXorUjVrenBnWjlJYytMU2QwSDVwL1JkWFBPSktYMHoxM3hpU3QvTU5aOW9sZjZiZEQ1QUhpM0FvVmtubU5JUE1LVWZvRlc2SHA1OFFHY2NxWi9RM1UvUjNPMzVLamgwZVhLRXpqaFNQNkc3bjZLNTIvTlZjT2p5NUFpZGNhUitRbmMvUlhPMzU2dFFvWWRVNkh5VnM4dEQ2QjFQY3pxWnhKVCtNS2VUU1V6cEQzTTZtVVNyZEYzaWxuVjBndng2aC9OMDBIbVhvMitWUjNjNER6R2xQL1RvRHVjaHB2U0hIdDNoUEVSY3VyNDV6eTQvNlFUNWRjZFRkSi9MMXpmSGxCNmcrMXkrdmptbTlBRGQ1L0wxemRFcS9UWmdqbEU2ZnMydC9KMVpnbVkxMTNrNnBMTlR1a0huSzlMWktkMmc4eFhwYkt0MEN0VmpLenF6cVlmUW1XcTI0MW54MzJaVmNOQUMvVkJGWnpiMUVEcFR6WFk4Sy83YnJBb09XcUFmcXVqTXBoNUNaNnJaam1mRmY1dFZ3VUVMOUVOdmVqcm9mSVhPTzhpdldjNURUT2tGNU5jczV5R205QUx5YTViekVFdWxFM3FJbSszb0hVOUhUNkdjVkNlbWRBUGxwRG94cFJzb0o5V0pWMG9uT2psWEQvbjF6Wkg2Q2NyUnV4T205QUxLMGJzVHB2UUN5dEc3RTFxbHY0MSt0RUxuSzlKWjhwT2VNcVVieUU5NnlwUnVJRC9wS2EzUzlkTTdvSHpTT3g2OXUvSjBkUEtRWDk4Y1UzcWhrNGY4K3VhWTBndWRQT1RYTjBkY3VyNGxVSTUrTGlITjBac2NxVDlsU2play9wUXAzWkQ2VTVaSzF3ODV5Szg3bm5xK0FiMnZZa3JmZ041WE1hVnZRTytyK0xyU2ljNnM3bjRLWlpKT0htSktOMUFtNmVRaHBuUURaWkpPSHVLclMzL0RUeDdTT3g3U2lTbTkwRHNlMG9rcHZkQTdIdEtKcGRKVEtHZVhUcDRWTk5jUisxVndwS0VFNWV6U3liT0M1anBpdndxT05KU2duRjA2ZVZiUVhFZnNWOEdoaCt5QThsZDBRbmM3ZE1iTjZsdml1ZmxWY09pQk82RDhGWjNRM1E2ZGNiUDZsbmh1ZmhVY2V1QU9LSDlGSjNTM1EyZmNyTDRsbnB0ZmhlRjlwdlFEVE9rSG1OSVBNS1VmWUVvL3dKUitnQ245QUZQNkFmNERPdWxvR1Jzc3BUOEFBQUFBU1VWT1JLNUNZSUk9IiB5PSIwIi8+PHJlY3QgZmlsbD0iIzAwMDAwMCIgaGVpZ2h0PSI1NDIuMTcxOSIgc3R5bGU9InN0cm9rZTojMDAwMDAwO3N0cm9rZS13aWR0aDoxLjA7IiB3aWR0aD0iNjc3IiB4PSIwIiB5PSI5MiIvPjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXN0eWxlPSJpdGFsaWMiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE2NyIgeD0iNSIgeT0iMTA5Ij5QbGFudFVNTCAxLjIwMjMuMmJldGE0PC90ZXh0PjxyZWN0IGZpbGw9IiMzM0ZGMDIiIGhlaWdodD0iMjEuMjk2OSIgc3R5bGU9InN0cm9rZTojMzNGRjAyO3N0cm9rZS13aWR0aDoxLjA7IiB3aWR0aD0iNjY3IiB4PSI1IiB5PSIxMTguOTY4OCIvPjx0ZXh0IGZpbGw9IiMwMDAwMDAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxODUiIHg9IjYiIHk9IjEzMy45Njg4Ij5bRnJvbSBzdHJpbmcgKGxpbmUgOTMpIF08L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjUiIHg9IjUiIHk9IjE1NC4yNjU2Ij7CoDwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iODYiIHg9IjUiIHk9IjE3MC41NjI1Ij5Ac3RhcnR1bWw8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjIzNCIgeD0iNSIgeT0iMTg2Ljg1OTQiPnNraW5wYXJhbSBtb25vY2hyb21lIHRydWU8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjMyNiIgeD0iNSIgeT0iMjAzLjE1NjMiPnNraW5wYXJhbSBkZWZhdWx0VGV4dEFsaWdubWVudCBjZW50ZXI8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI4MSIgeD0iNSIgeT0iMjE5LjQ1MzEiPnNraW5wYXJhbSBub3RlVGV4dEFsaWdubWVudCBsZWZ0PC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1IiB4PSI1IiB5PSIyMzUuNzUiPsKgPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNSIgeD0iNSIgeT0iMjUyLjA0NjkiPi4uLjwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTc5IiB4PSI1IiB5PSIyNjguMzQzOCI+Li4uICggc2tpcHBpbmcgNjggbGluZXMgKTwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMTUiIHg9IjUiIHk9IjI4NC42NDA2Ij4uLi48L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjcxIiB4PSI1IiB5PSIzMDAuOTM3NSI+ZW5kIG5vdGU8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE5NiIgeD0iNSIgeT0iMzE3LjIzNDQiPjpjb21wdXRlIGF2b2lkX21hcmdpbjs8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjgyIiB4PSI1IiB5PSIzMzMuNTMxMyI+bm90ZSByaWdodDwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iOTEiIHg9IjUiIHk9IjM0OS44MjgxIj5UaGUgc3VtIG9mPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIyMjUiIHg9IjUiIHk9IjM2Ni4xMjUiPi0gbGF0X2NvbGxpc2lvbl9zYWZldHlfYnVmZmVyPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNzMiIHg9IjUiIHk9IjM4Mi40MjE5Ij4tIGxhdF9jb2xsaXNpb25fbWFyZ2luPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSIxNjIiIHg9IjUiIHk9IjM5OC43MTg4Ij4tIDAuNSAqIHZlaGljbGVfd2lkdGg8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjcxIiB4PSI1IiB5PSI0MTUuMDE1NiI+ZW5kIG5vdGU8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjY2NyIgeD0iNSIgeT0iNDMxLjMxMjUiPmlmKG9iamVjdC50b19yb2FkX3Nob3VsZGVyX2Rpc3RhbmNlICZndDsgbWF4X2FsbG93YWJsZV9sYXRlcmFsX2Rpc3RhbmNlID8pIHRoZW4gKG5vKTwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzciIHg9IjUiIHk9IjQ0Ny42MDk0Ij5zdG9wPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI5NyIgeD0iNSIgeT0iNDYzLjkwNjMiPmVsc2UgKFxuIHllcyk8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjI2NCIgeD0iNSIgeT0iNDgwLjIwMzEiPmlmKGlzT25SaWdodChvYmplY3QpPykgdGhlbiAoeWVzKTwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTEyIiB4PSI1IiB5PSI0OTYuNSI+OnNoaWZ0X2xlbmd0aCA9IHN0ZDo6bWluKG9iamVjdC5vdmVyaGFuZ19kaXN0ICsgYXZvaWRfbWFyZ2luKTs8L3RleHQ+PHRleHQgZmlsbD0iIzMzRkYwMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjkxIiB4PSI1IiB5PSI1MTIuNzk2OSI+ZWxzZSAoXG4gTm8pPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI1MTEiIHg9IjUiIHk9IjUyOS4wOTM4Ij46c2hpZnRfbGVuZ3RoID0gc3RkOjptYXgob2JqZWN0Lm92ZXJoYW5nX2Rpc3QgLSBhdm9pZF9tYXJnaW4pOzwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNDEiIHg9IjUiIHk9IjU0NS4zOTA2Ij5lbmRpZjwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iNTQ1IiB4PSI1IiB5PSI1NjEuNjg3NSI+aWYoaXNTYW1lRGlyZWN0aW9uU2hpZnQoaXNPblJpZ2h0KG9iamVjdCksc2hpZnRfbGVuZ3RoKT8pIHRoZW4gKG5vKTwvdGV4dD48dGV4dCBmaWxsPSIjMzNGRjAyIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGxlbmd0aEFkanVzdD0ic3BhY2luZyIgdGV4dExlbmd0aD0iMzciIHg9IjUiIHk9IjU3Ny45ODQ0Ij5zdG9wPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0TGVuZ3RoPSI0MSIgeD0iNSIgeT0iNTk0LjI4MTMiPmVuZGlmPC90ZXh0Pjx0ZXh0IGZpbGw9IiMzM0ZGMDIiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmb250LXdlaWdodD0iYm9sZCIgbGVuZ3RoQWRqdXN0PSJzcGFjaW5nIiB0ZXh0LWRlY29yYXRpb249IndhdnkgdW5kZXJsaW5lIiB0ZXh0TGVuZ3RoPSIxMCIgeD0iNSIgeT0iNjEwLjU3ODEiPn08L3RleHQ+PHRleHQgZmlsbD0iI0ZGMDAwMCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZW5ndGhBZGp1c3Q9InNwYWNpbmciIHRleHRMZW5ndGg9IjE0NyIgeD0iMTAiIHk9IjYyNi44NzUiPkNhbm5vdCBmaW5kIGdyb3VwPC90ZXh0PjwhLS1TUkM9W3BMTERSekQwNEJ0bGh6WFozQkpZbVlLTGVBZUw0YjlCSzVrOTJ2QXJpU1ZucUZNaXZIcXRnTDNfRXhGaFp6SDk4MjFud0NNTVR4eFVsM1N4emxUOGpNYkNmSWo3QllpUkx1N2NmV05iSHFpRVhNYWp0eTY2cG9za2cwOVlkU2EzY2NUVXYxWWNCWE9BTGVnSEJNWnB1MzB0Yjg2azNQVXdqZU84UVFLeWN1UUxQMTB0VEFHcE94RnBtVlZFRDJsV25WODdQRW5kWVZ3ZnZpNi1VODJjREJJd0g4YU1qcENMUWtpNkxvS2hWUThiSGhsVTl3c1QxbU1LSHRuQXBTTHVPVU5DeXZLWGlDM1ZhNGthNnpWb05ZQXRQOEVxcE1NeFk2VmZpOVh6emRpRWZ2V0JNalc4bGUtOXZYOThweVdicWdvaDVMV0ZVbFFUejJGdTk2UDBsdzJSSzdGY09nbDk2MUhUamtHOHpZbFh6RGU5VTJJdXZLT2VaQm1xSzhGWHVKTmw3VmlFLXhRWTdGZ1lYRW5VQm5zTmVTQzAtMkdCc0M0aUhRUm03U3Y5Z1hzcVpRcnRmVkl3SDM3RFJlc0NKT3dEZTB6MC15OFoxVVl4TmE5ZUh5SzBTTDZCR0NXbUdmdGM3U3BfYkZqOW5pSExqR1p3ZEpmNkp6Y2JaSkR2d2FsTnNYb1FEOV9FSmtIY0VERTV0OEFUMk04TlZVSU1VMWJpOFR6N3loVHkxNWMzZ1c3MEhCNmV4NXo5NVpzZGNsTVotODk0WW8xVlk2ZVRFcVRhWXF2X3E4cm9CRmhkYXpoUEgzVGNWTGpZbUx5VDRsakZhZC13WjNneWtaQVJyNVpocmU1b01HQW82OHF6M0ZRazFFclJXTGNlODJJZGNSQ01sSEhDbEljMDd6RGJNbklvTTdVamJVbjI5M2ItVzE4cEFSRjZOQ1JYNmdkclNaaGJnS19MbnVvelplM1pEa3hEX25kVXN6RHQtaktFbzE2MEJCalpxa2VGSC1aS25yUmd5T3F3enE3S3IwQWp2NV9xTmRsRXZfQ0FRRzB0cGIyZWdMekZ3NGhFamtNLWtEX2JDZmwza0t4c1NpTjFZdjMzVFJtU0JhbVNrX3EtdFpvbGJYbldlZl9aeUY0Ql0tLT48L2c+PC9zdmc+" class="uml" alt="uml diagram" title="" /></p>
-<!-- spell-checker:enable -->
-
-<h4 id="how-to-decide-the-path-shape">How to decide the path shape<a class="headerlink" href="#how-to-decide-the-path-shape" title="Permanent link">#</a></h4>
-<p>Generate shift points for obstacles with given lateral jerk. These points are integrated to generate an avoidance path. The detailed process flow for each case corresponding to the obstacle placement are described below. The actual implementation is not separated for each case, but the function corresponding to <code>multiple obstacle case (both directions)</code> is always running.</p>
-<h5 id="one-obstacle-case">One obstacle case<a class="headerlink" href="#one-obstacle-case" title="Permanent link">#</a></h5>
-<p>The lateral shift distance to the obstacle is calculated, and then the shift point is generated from the ego vehicle speed and the given lateral jerk as shown in the figure below. A smooth avoidance path is then calculated based on the shift point.</p>
-<p>Additionally, the following processes are executed in special cases.</p>
-<h6 id="lateral-jerk-relaxation-conditions">Lateral jerk relaxation conditions<a class="headerlink" href="#lateral-jerk-relaxation-conditions" title="Permanent link">#</a></h6>
-<ul>
-<li>If the ego vehicle is close to the avoidance target, the lateral jerk will be relaxed up to the maximum jerk</li>
-<li>When returning to the center line after avoidance, if there is not enough distance left to the goal (end of path), the jerk condition will be relaxed as above.</li>
-</ul>
-<h6 id="minimum-velocity-relaxation-conditions">Minimum velocity relaxation conditions<a class="headerlink" href="#minimum-velocity-relaxation-conditions" title="Permanent link">#</a></h6>
-<p>There is a problem that we can not know the actual speed during avoidance in advance. This is especially critical when the ego vehicle speed is 0.
-To solve that, this module provides a parameter for the minimum avoidance speed, which is used for the lateral jerk calculation when the vehicle speed is low.</p>
-<ul>
-<li>If the ego vehicle speed is lower than "nominal" minimum speed, use the minimum speed in the calculation of the jerk.</li>
-<li>If the ego vehicle speed is lower than "sharp" minimum speed and a nominal lateral jerk is not enough for avoidance (the case where the ego vehicle is stopped close to the obstacle), use the "sharp" minimum speed in the calculation of the jerk (it should be lower than "nominal" speed).</li>
-</ul>
-<p><img alt="fig1" src="../image/avoidance_design/how_to_decide_path_shape_one_object.drawio.svg" /></p>
-<h5 id="multiple-obstacle-case-one-direction">Multiple obstacle case (one direction)<a class="headerlink" href="#multiple-obstacle-case-one-direction" title="Permanent link">#</a></h5>
-<p>Generate shift points for multiple obstacles. All of them are merged to generate new shift points along the reference path. The new points are filtered (e.g. remove small-impact shift points), and the avoidance path is computed for the filtered shift points.</p>
-<p><strong>Merge process of raw shift points</strong>: check the shift length on each path points. If the shift points are overlapped, the maximum shift value is selected for the same direction.</p>
-<p>For the details of the shift point filtering, see <a href="#filtering-for-shift-points">filtering for shift points</a>.</p>
-<p><img alt="fig1" src="../image/avoidance_design/how_to_decide_path_shape_multi_object_one_direction.drawio.svg" /></p>
-<h5 id="multiple-obstacle-case-both-direction">Multiple obstacle case (both direction)<a class="headerlink" href="#multiple-obstacle-case-both-direction" title="Permanent link">#</a></h5>
-<p>Generate shift points for multiple obstacles. All of them are merged to generate new shift points. If there are areas where the desired shifts conflict in different directions, the sum of the maximum shift amounts of these areas is used as the final shift amount. The rest of the process is the same as in the case of one direction.</p>
-<p><img alt="fig1" src="../image/avoidance_design/how_to_decide_path_shape_multi_object_both_direction.drawio.svg" /></p>
-<h5 id="filtering-for-shift-points">Filtering for shift points<a class="headerlink" href="#filtering-for-shift-points" title="Permanent link">#</a></h5>
-<p>The shift points are modified by a filtering process in order to get the expected shape of the avoidance path. It contains the following filters.</p>
-<ul>
-<li>Quantization: Quantize the avoidance width in order to ignore small shifts.</li>
-<li>Small shifts removal: Shifts with small changes with respect to the previous shift point are unified in the previous shift width.</li>
-<li>Similar gradient removal: Connect two shift points with a straight line, and remove the shift points in between if their shift amount is in the vicinity of the straight line.</li>
-<li>Remove momentary returns: For shift points that reduce the avoidance width (for going back to the center line), if there is enough long distance in the longitudinal direction, remove them.</li>
-</ul>
-<h5 id="avoidance-cancelling">Avoidance Cancelling<a class="headerlink" href="#avoidance-cancelling" title="Permanent link">#</a></h5>
-<p>If <code>enable_update_path_when_object_is_gone</code> parameter is true, Avoidance Module takes different actions according to the situations as follows:</p>
-<ul>
-<li>If vehicle stops: If there is any object in the path of the vehicle, the avoidance path is generated. If this object goes away while the vehicle is stopping, the avoidance path will cancelled.</li>
-<li>If vehicle is in motion, but avoidance maneuver doesn't started: If there is any object in the path of the vehicle, the avoidance path is generated. If this object goes away while the vehicle is not started avoidance maneuver, the avoidance path will cancelled.</li>
-<li>If vehicle is in motion, avoidance maneuver started: If there is any object in the path of the vehicle, the avoidance path is generated,but if this object goes away while the vehicle is started avoidance maneuver, the avoidance path will not cancelled.</li>
-</ul>
-<p>If <code>enable_update_path_when_object_is_gone</code> parameter is false, Avoidance Module doesn't revert generated avoidance path even if path objects are gone.</p>
-<h4 id="how-to-keep-the-consistency-of-the-planning">How to keep the consistency of the planning<a class="headerlink" href="#how-to-keep-the-consistency-of-the-planning" title="Permanent link">#</a></h4>
-<p>TODO</p>
-<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
-<p>The avoidance specific parameter configuration file can be located at <code>src/autoware/launcher/planning_launch/config/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/avoidance/avoidance.param.yaml</code>.</p>
-<h3 id="avoidance-path-generation">Avoidance path generation<a class="headerlink" href="#avoidance-path-generation" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">resample_interval_for_planning</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Path resample interval for avoidance planning path.</td>
-<td align="left">0.3</td>
-</tr>
-<tr>
-<td align="left">resample_interval_for_output</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Path resample interval for output path. Too short interval increases computational cost for latter modules.</td>
-<td align="left">4.0</td>
-</tr>
-<tr>
-<td align="left">lateral_collision_margin</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">The lateral distance between ego and avoidance targets.</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">lateral_collision_safety_buffer</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Creates an additional gap that will prevent the vehicle from getting to near to the obstacle</td>
-<td align="left">0.7</td>
-</tr>
-<tr>
-<td align="left">longitudinal_collision_margin_min_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">when complete avoidance motion, there is a distance margin with the object for longitudinal direction.</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">longitudinal_collision_margin_time</td>
-<td align="left">[s]</td>
-<td align="left">double</td>
-<td align="left">when complete avoidance motion, there is a time margin with the object for longitudinal direction.</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">prepare_time</td>
-<td align="left">[s]</td>
-<td align="left">double</td>
-<td align="left">Avoidance shift starts from point ahead of this time x ego_speed to avoid sudden path change.</td>
-<td align="left">2.0</td>
-</tr>
-<tr>
-<td align="left">min_prepare_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Minimum distance for "prepare_time" x "ego_speed".</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">nominal_lateral_jerk</td>
-<td align="left">[m/s3]</td>
-<td align="left">double</td>
-<td align="left">Avoidance path is generated with this jerk when there is enough distance from ego.</td>
-<td align="left">0.2</td>
-</tr>
-<tr>
-<td align="left">max_lateral_jerk</td>
-<td align="left">[m/s3]</td>
-<td align="left">double</td>
-<td align="left">Avoidance path gets sharp up to this jerk limit when there is not enough distance from ego.</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">min_avoidance_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Minimum distance of avoidance path (i.e. this distance is needed even if its lateral jerk is very low)</td>
-<td align="left">10.0</td>
-</tr>
-<tr>
-<td align="left">min_nominal_avoidance_speed</td>
-<td align="left">[m/s]</td>
-<td align="left">double</td>
-<td align="left">Minimum speed for jerk calculation in a nominal situation (*1).</td>
-<td align="left">7.0</td>
-</tr>
-<tr>
-<td align="left">min_sharp_avoidance_speed</td>
-<td align="left">[m/s]</td>
-<td align="left">double</td>
-<td align="left">Minimum speed for jerk calculation in a sharp situation (*1).</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">max_right_shift_length</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Maximum shift length for right direction</td>
-<td align="left">5.0</td>
-</tr>
-<tr>
-<td align="left">max_left_shift_length</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Maximum shift length for left direction</td>
-<td align="left">5.0</td>
-</tr>
-<tr>
-<td align="left">road_shoulder_safety_margin</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Prevents the generated path to come too close to the road shoulders.</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">avoidance_execution_lateral_threshold</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">The lateral distance deviation threshold between the current path and suggested avoidance point to execute avoidance. (*2)</td>
-<td align="left">0.499</td>
-</tr>
-<tr>
-<td align="left">enable_avoidance_over_same_direction</td>
-<td align="left">[-]</td>
-<td align="left">bool</td>
-<td align="left">Extend avoidance trajectory to adjacent lanes that has same direction. If false, avoidance only happen in current lane.</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left">enable_avoidance_over_opposite_direction</td>
-<td align="left">[-]</td>
-<td align="left">bool</td>
-<td align="left">Extend avoidance trajectory to adjacent lanes that has opposite direction. <code>enable_avoidance_over_same_direction</code> must be <code>true</code> to take effects</td>
-<td align="left">true</td>
-</tr>
-<tr>
-<td align="left">enable_update_path_when_object_is_gone</td>
-<td align="left">[-]</td>
-<td align="left">bool</td>
-<td align="left">Reset trajectory when avoided objects are gone. If false, shifted path points remain same even though the avoided objects are gone.</td>
-<td align="left">false</td>
-</tr>
-<tr>
-<td align="left">enable_bound_clipping</td>
-<td align="left"><code>true</code></td>
-<td align="left">bool</td>
-<td align="left">Enable clipping left and right bound of drivable area when obstacles are in the drivable area</td>
-<td align="left">false</td>
-</tr>
-</tbody>
-</table>
-<p>(*2) If there are multiple vehicles in a row to be avoided, no new avoidance path will be generated unless their lateral margin difference exceeds this value.</p>
-<h3 id="speed-limit-modification">Speed limit modification<a class="headerlink" href="#speed-limit-modification" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">min_avoidance_speed_for_acc_prevention</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Minimum speed limit to be applied to prevent acceleration during avoidance.</td>
-<td align="left">3.0</td>
-</tr>
-<tr>
-<td align="left">max_avoidance_acceleration</td>
-<td align="left">[m/ss]</td>
-<td align="left">double</td>
-<td align="left">Maximum acceleration during avoidance.</td>
-<td align="left">0.5</td>
-</tr>
-</tbody>
-</table>
-<h3 id="object-selection">Object selection<a class="headerlink" href="#object-selection" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">object_check_forward_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Forward distance to search the avoidance target.</td>
-<td align="left">150.0</td>
-</tr>
-<tr>
-<td align="left">object_check_backward_distance</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Backward distance to search the avoidance target.</td>
-<td align="left">2.0</td>
-</tr>
-<tr>
-<td align="left">threshold_distance_object_is_on_center</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Vehicles around the center line within this distance will be excluded from avoidance target.</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">threshold_speed_object_is_stopped</td>
-<td align="left">[m/s]</td>
-<td align="left">double</td>
-<td align="left">Vehicles with speed greater than this will be excluded from avoidance target.</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">detection_area_right_expand_dist</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Lanelet expand length for right side to find avoidance target vehicles.</td>
-<td align="left">0.0</td>
-</tr>
-<tr>
-<td align="left">detection_area_left_expand_dist</td>
-<td align="left">[m]</td>
-<td align="left">double</td>
-<td align="left">Lanelet expand length for left side to find avoidance target vehicles.</td>
-<td align="left">1.0</td>
-</tr>
-<tr>
-<td align="left">object_last_seen_threshold</td>
-<td align="left">[s]</td>
-<td align="left">double</td>
-<td align="left">For the compensation of the detection lost. The object is registered once it is observed as an avoidance target. When the detection loses, the timer will start and the object will be un-registered when the time exceeds this limit.</td>
-<td align="left">2.0</td>
-</tr>
-</tbody>
-</table>
-<h3 id="allow-avoidance-on-specific-object-type">Allow avoidance on specific object type<a class="headerlink" href="#allow-avoidance-on-specific-object-type" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th>Unit</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">car</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type CAR</td>
-<td>true</td>
-</tr>
-<tr>
-<td align="left">truck</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type TRUCK</td>
-<td>true</td>
-</tr>
-<tr>
-<td align="left">bus</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type BUS</td>
-<td>true</td>
-</tr>
-<tr>
-<td align="left">trailer</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type TRAILER</td>
-<td>true</td>
-</tr>
-<tr>
-<td align="left">unknown</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type UNKNOWN</td>
-<td>false</td>
-</tr>
-<tr>
-<td align="left">bicycle</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type BICYCLE</td>
-<td>false</td>
-</tr>
-<tr>
-<td align="left">motorcycle</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type MOTORCYCLE</td>
-<td>false</td>
-</tr>
-<tr>
-<td align="left">pedestrian</td>
-<td>[-]</td>
-<td>bool</td>
-<td>Allow avoidance for object type PEDESTRIAN</td>
-<td>false</td>
-</tr>
-</tbody>
-</table>
-<h3 id="system">System<a class="headerlink" href="#system" title="Permanent link">#</a></h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Unit</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">publish_debug_marker</td>
-<td align="left">[-]</td>
-<td align="left">double</td>
-<td align="left">Flag to publish debug marker (set <code>false</code> as default since it takes considerable cost).</td>
-<td align="left">false</td>
-</tr>
-<tr>
-<td align="left">print_debug_info</td>
-<td align="left">[-]</td>
-<td align="left">double</td>
-<td align="left">Flag to print debug info (set <code>false</code> as default since it takes considerable cost).</td>
-<td align="left">false</td>
-</tr>
-</tbody>
-</table>
-<h2 id="future-extensions-unimplemented-parts">Future extensions / Unimplemented parts<a class="headerlink" href="#future-extensions-unimplemented-parts" title="Permanent link">#</a></h2>
-<ul>
-<li><strong>Planning on the intersection</strong><ul>
-<li>If it is known that the ego vehicle is going to stop in the middle of avoidance execution (for example, at a red traffic light), sometimes the avoidance should not be executed until the vehicle is ready to move. This is because it is impossible to predict how the environment will change during the stop.　 This is especially important at intersections.</li>
-</ul>
-</li>
-</ul>
-<p><img alt="fig1" src="../image/avoidance_design/intersection_problem.drawio.svg" /></p>
-<ul>
-<li>
-<p><strong>Safety Check</strong></p>
-<ul>
-<li>In the current implementation, it is only the jerk limit that permits the avoidance execution. It is needed to consider the collision with other vehicles when change the path shape.</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>
-<p><strong>Consideration of the speed of the avoidance target</strong></p>
-<ul>
-<li>In the current implementation, only stopped vehicle is targeted as an avoidance target. It is needed to support the overtaking function for low-speed vehicles, such as a bicycle. (It is actually possible to overtake the low-speed objects by changing the parameter, but the logic is not supported and thus the safety cannot be guaranteed.)</li>
-<li>The overtaking (e.g., to overtake a vehicle running in front at 20 km/h at 40 km/h) may need to be handled outside the avoidance module. It should be discussed which module should handle it.</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>
-<p><strong>Cancel avoidance when target disappears</strong></p>
-<ul>
-<li>In the current implementation, even if the avoidance target disappears, the avoidance path will remain. If there is no longer a need to avoid, it must be canceled.</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>
-<p><strong>Improved performance of avoidance target selection</strong></p>
-<ul>
-<li>Essentially, avoidance targets are judged based on whether they are static objects or not. For example, a vehicle waiting at a traffic light should not be avoided because we know that it will start moving in the future. However this decision cannot be made in the current Autoware due to the lack of the perception functions. Therefore, the current avoidance module limits the avoidance target to vehicles parked on the shoulder of the road, and executes avoidance only for vehicles that are stopped away from the center of the lane. However, this logic cannot avoid a vehicle that has broken down and is stopped in the center of the lane, which should be recognized as a static object by the perception module. There is room for improvement in the performance of this decision.</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><strong>Resampling path</strong><ul>
-<li>Now the rough resolution resampling is processed to the output path in order to reduce the computational cost for the later modules. This resolution is set to a uniformly large value 　(e.g. <code>5m</code>), but small resolution should be applied for complex paths.</li>
-</ul>
-</li>
-</ul>
-<h2 id="how-to-debug">How to debug<a class="headerlink" href="#how-to-debug" title="Permanent link">#</a></h2>
-<h3 id="publishing-visualization-marker">Publishing Visualization Marker<a class="headerlink" href="#publishing-visualization-marker" title="Permanent link">#</a></h3>
-<p>Developers can see what is going on in each process by visualizing all the avoidance planning process outputs. The example includes target vehicles, shift points for each object, shift points after each filtering process, etc.</p>
-<p><img alt="fig1" src="../image/avoidance_design/avoidance-debug-marker.png" /></p>
-<p>To enable the debug marker, execute <code>ros2 param set /planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner avoidance.publish_debug_marker true</code> (no restart is needed) or simply set the <code>publish_debug_marker</code> to <code>true</code> in the <code>avoidance.param.yaml</code> for permanent effect (restart is needed). Then add the marker <code>/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/debug/avoidance</code> in <code>rviz2</code>.</p>
-<h3 id="echoing-debug-message-to-find-out-why-the-objects-were-ignored">Echoing debug message to find out why the objects were ignored<a class="headerlink" href="#echoing-debug-message-to-find-out-why-the-objects-were-ignored" title="Permanent link">#</a></h3>
-<p>If for some reason, no shift point is generated for your object, you can check for the failure reason via <code>ros2 topic echo</code>.</p>
-<p><img alt="avoidance_debug_message_array" src="../image/avoidance_design/avoidance_debug_message_array.png" /></p>
-<p>To print the debug message, just run the following</p>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>topic<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>/planning/scenario_planning/lane_driving/behavior_planning/behavior_path_planner/debug/avoidance_debug_message_array
+<p>Note that, due to the rarity of the <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> in almost all cases of lane change and avoidance, <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is not considered in the current implementation.</p>
+<h2 id="mathematical-derivation">Mathematical Derivation<a class="headerlink" href="#mathematical-derivation" title="Permanent link">#</a></h2>
+<p>By applying simple integral operations, the following analytical equations can be derived to describe the shift distance <span class="arithmatex"><span class="MathJax_Preview">l(t)</span><script type="math/tex">l(t)</script></span> at each time under lateral jerk, acceleration, and velocity constraints.</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+l_1&amp;= \frac{1}{6}jT_j^3\\[10pt]
+l_2&amp;= \frac{1}{6}j T_j^3 + \frac{1}{2} j T_a T_j^2 + \frac{1}{2} j T_a^2 T_j\\[10pt]
+l_3&amp;= j  T_j^3 + \frac{3}{2} j T_a T_j^2 + \frac{1}{2} j T_a^2 T_j\\[10pt]
+l_4&amp;= j T_j^3 + \frac{3}{2} j T_a T_j^2 + \frac{1}{2} j T_a^2 T_j + j(T_a + T_j)T_j T_v\\[10pt]
+l_5&amp;= \frac{11}{6} j T_j^3 + \frac{5}{2} j T_a T_j^2 + \frac{1}{2} j T_a^2 T_j + j(T_a + T_j)T_j T_v \\[10pt]
+l_6&amp;= \frac{11}{6} j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j + j(T_a + T_j)T_j T_v\\[10pt]
+l_7&amp;= 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j + j(T_a + T_j)T_j T_v
+\end{align}
 </code></pre></div>
+<p>These equations are used to determine the shape of a path. Additionally, by applying further mathematical operations to these basic equations, the expressions of the following subsections can be derived.</p>
+<h3 id="calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length">Calculation of Maximum Acceleration from transition time and final shift length<a class="headerlink" href="#calculation-of-maximum-acceleration-from-transition-time-and-final-shift-length" title="Permanent link">#</a></h3>
+<p>In the case where there are no limitations on lateral velocity and lateral acceleration, the maximum lateral acceleration during the shifting can be calculated as follows. The constant-jerk time is given by <span class="arithmatex"><span class="MathJax_Preview">T_j = T_{\rm total}/4</span><script type="math/tex">T_j = T_{\rm total}/4</script></span> because of its symmetric property. Since <span class="arithmatex"><span class="MathJax_Preview">T_a=T_v=0</span><script type="math/tex">T_a=T_v=0</script></span>, the final shift length <span class="arithmatex"><span class="MathJax_Preview">L=l_7=2jT_j^3</span><script type="math/tex">L=l_7=2jT_j^3</script></span> can be determined using the above equation. The maximum lateral acceleration is then given by <span class="arithmatex"><span class="MathJax_Preview">a_{\rm max} =jT_j</span><script type="math/tex">a_{\rm max} =jT_j</script></span>. This results in the following expression for the maximum lateral acceleration:</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+a_{\rm max}  = \frac{8L}{T_{\rm total}^2}
+\end{align}
+</code></pre></div>
+<h3 id="calculation-of-ta-tj-and-jerk-from-acceleration-limit">Calculation of Ta, Tj and jerk from acceleration limit<a class="headerlink" href="#calculation-of-ta-tj-and-jerk-from-acceleration-limit" title="Permanent link">#</a></h3>
+<p>In the case where there are no limitations on lateral velocity, the constant-jerk and acceleration times, as well as the required jerk can be calculated from the acceleration limit, total time, and final shift length as follows. Since <span class="arithmatex"><span class="MathJax_Preview">T_v=0</span><script type="math/tex">T_v=0</script></span>, the final shift length is given by:</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+L = l_7 = 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j
+\end{align}
+</code></pre></div>
+<p>Additionally, the velocity profile reveals the following relations:</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+a_{\rm lim} &amp;= j T_j\\
+T_{\rm total} &amp;= 4T_j + 2T_a
+\end{align}
+</code></pre></div>
+<p>By solving these three equations, the following can be obtained:</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+T_j&amp;=\frac{T_{\rm total}}{2} - \frac{2L}{a_{\rm lim} T_{\rm total}}\\[10pt]
+T_a&amp;=\frac{4L}{a_{\rm lim} T_{\rm total}} - \frac{T_{\rm total}}{2}\\[10pt]
+jerk&amp;=\frac{2a_{\rm lim} ^2T_{\rm total}}{a_{\rm lim} T_{\rm total}^2-4L}
+\end{align}
+</code></pre></div>
+<p>where <span class="arithmatex"><span class="MathJax_Preview">T_j</span><script type="math/tex">T_j</script></span> is the constant-jerk time, <span class="arithmatex"><span class="MathJax_Preview">T_a</span><script type="math/tex">T_a</script></span> is the constant acceleration time, <span class="arithmatex"><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> is the required jerk, <span class="arithmatex"><span class="MathJax_Preview">a_{\rm lim}</span><script type="math/tex">a_{\rm lim}</script></span> is the acceleration limit, and <span class="arithmatex"><span class="MathJax_Preview">L</span><script type="math/tex">L</script></span> is the final shift length.</p>
+<h3 id="calculation-of-required-time-from-jerk-and-acceleration-constraint">Calculation of Required Time from Jerk and Acceleration Constraint<a class="headerlink" href="#calculation-of-required-time-from-jerk-and-acceleration-constraint" title="Permanent link">#</a></h3>
+<p>In the case where there are no limitations on lateral velocity, the total time required for shifting can be calculated from the jerk and acceleration limits and the final shift length as follows. By solving the two equations given above:</p>
+<div class="highlight"><pre><span></span><code>L = l_7 = 2 j T_j^3 + 3 j T_a T_j^2 + j T_a^2 T_j,\quad a_{\rm lim} = j T_j
+</code></pre></div>
+<p>we obtain the following expressions:</p>
+<div class="highlight"><pre><span></span><code>\begin{align}
+T_j &amp;= \frac{a_{\rm lim}}{j}\\[10pt]
+T_a &amp;= \frac{1}{2}\sqrt{\frac{a_{\rm lim}}{j}^2 + \frac{4L}{a_{\rm lim}}} - \frac{3a_{\rm lim}}{2j}
+\end{align}
+</code></pre></div>
+<p>The total time required for shifting can then be calculated as <span class="arithmatex"><span class="MathJax_Preview">T_{\rm total}=4T_j+2T_a</span><script type="math/tex">T_{\rm total}=4T_j+2T_a</script></span>.</p>
+<h2 id="limitation">Limitation<a class="headerlink" href="#limitation" title="Permanent link">#</a></h2>
+<ul>
+<li>Since <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is zero in almost all cases of lane change and avoidance, <span class="arithmatex"><span class="MathJax_Preview">T_v</span><script type="math/tex">T_v</script></span> is not considered in the current implementation.</li>
+</ul>
 
 
 
@@ -12823,7 +11956,7 @@ To solve that, this module provides a parameter for the minimum avoidance speed,
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Behavior Path Planner" rel="prev">
+          <a href="../behavior_path_planner_limitations/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Limitations" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -12832,20 +11965,20 @@ To solve that, this module provides a parameter for the minimum avoidance speed,
                 <span class="md-footer__direction">
                   Previous
                 </span>
-                Behavior Path Planner
+                Limitations
               </div>
             </div>
           </a>
         
         
           
-          <a href="../behavior_path_planner_design_limitations/" class="md-footer__link md-footer__link--next" aria-label="Next: Design limitation" rel="next">
+          <a href="../behavior_path_planner_side_shift_design/" class="md-footer__link md-footer__link--next" aria-label="Next: Side Shift design" rel="next">
             <div class="md-footer__title">
               <div class="md-ellipsis">
                 <span class="md-footer__direction">
                   Next
                 </span>
-                Design limitation
+                Side Shift design
               </div>
             </div>
             <div class="md-footer__button md-icon">
