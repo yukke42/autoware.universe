@@ -5708,6 +5708,8 @@
         
           
         
+          
+        
       
       
         
@@ -5848,14 +5850,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/yabloc/yabloc_particle_filter/">Yabloc particle filter</a>
+          <a href="../../localization/yabloc/yabloc_monitor/">Yabloc monitor</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_10_4">
           <span class="md-nav__icon md-icon"></span>
-          Yabloc particle filter
+          Yabloc monitor
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5894,12 +5896,58 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../localization/yabloc/yabloc_pose_initializer/">Yabloc pose initializer</a>
+          <a href="../../localization/yabloc/yabloc_particle_filter/">Yabloc particle filter</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_10_5">
+          <span class="md-nav__icon md-icon"></span>
+          Yabloc particle filter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_10_6" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../localization/yabloc/yabloc_pose_initializer/">Yabloc pose initializer</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_10_6">
           <span class="md-nav__icon md-icon"></span>
           Yabloc pose initializer
         </label>
@@ -13819,13 +13867,17 @@
       
         
           
+            
+          
         
       
       
-        <label class="md-nav__link" for="__nav_11_13" id="__nav_11_13_label" tabindex="0">
-          Topic state monitor
-          <span class="md-nav__icon md-icon"></span>
-        </label>
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../system/topic_state_monitor/">Topic state monitor</a>
+          
+        </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_13_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_11_13">
@@ -13834,18 +13886,6 @@
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../system/topic_state_monitor/Readme/" class="md-nav__link">
-        topic_state_monitor
-      </a>
-    </li>
-  
-
             
           
         </ul>
@@ -14492,7 +14532,7 @@
 <p>This package is including jsk code.<br>
 Note that jsk_overlay_utils.cpp and jsk_overlay_utils.hpp are BSD license.</p>
 <h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
-<p>This plugin provides a visual and easy-to-understand display of vehicle speed, turn signal and steering status.</p>
+<p>This plugin provides a visual and easy-to-understand display of vehicle speed, turn signal, steering status and acceleration.</p>
 <h2 id="inputs-outputs">Inputs / Outputs<a class="headerlink" href="#inputs-outputs" title="Permanent link">#</a></h2>
 <h3 id="input">Input<a class="headerlink" href="#input" title="Permanent link">#</a></h3>
 <table>
@@ -14518,6 +14558,11 @@ Note that jsk_overlay_utils.cpp and jsk_overlay_utils.hpp are BSD license.</p>
 <td><code>/vehicle/status/steering_status</code></td>
 <td><code>autoware_auto_vehicle_msgs::msg::SteeringReport</code></td>
 <td>The topic is status of steering</td>
+</tr>
+<tr>
+<td><code>/localization/acceleration</code></td>
+<td><code>geometry_msgs::msg::AccelWithCovarianceStamped</code></td>
+<td>The topic is the acceleration</td>
 </tr>
 </tbody>
 </table>
@@ -14710,6 +14755,73 @@ Note that jsk_overlay_utils.cpp and jsk_overlay_utils.hpp are BSD license.</p>
 <td>float</td>
 <td>3.0</td>
 <td>Color Border Vel Max [m/s]</td>
+</tr>
+</tbody>
+</table>
+<h4 id="accelerationmeter">AccelerationMeter<a class="headerlink" href="#accelerationmeter" title="Permanent link">#</a></h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>property_normal_text_color_</code></td>
+<td>QColor</td>
+<td>QColor(25, 255, 240)</td>
+<td>Normal text color</td>
+</tr>
+<tr>
+<td><code>property_emergency_text_color_</code></td>
+<td>QColor</td>
+<td>QColor(255, 80, 80)</td>
+<td>Emergency acceleration color</td>
+</tr>
+<tr>
+<td><code>property_left_</code></td>
+<td>int</td>
+<td>896</td>
+<td>Left of the plotter window [px]</td>
+</tr>
+<tr>
+<td><code>property_top_</code></td>
+<td>int</td>
+<td>128</td>
+<td>Top of the plotter window [px]</td>
+</tr>
+<tr>
+<td><code>property_length_</code></td>
+<td>int</td>
+<td>256</td>
+<td>Height of the plotter window [px]</td>
+</tr>
+<tr>
+<td><code>property_value_height_offset_</code></td>
+<td>int</td>
+<td>0</td>
+<td>Height offset of the plotter window [px]</td>
+</tr>
+<tr>
+<td><code>property_value_scale_</code></td>
+<td>float</td>
+<td>1 / 6.667</td>
+<td>Value text scale</td>
+</tr>
+<tr>
+<td><code>property_emergency_threshold_max_</code></td>
+<td>float</td>
+<td>1.0</td>
+<td>Max acceleration threshold for emergency [m/s^2]</td>
+</tr>
+<tr>
+<td><code>property_emergency_threshold_min_</code></td>
+<td>float</td>
+<td>-2.5</td>
+<td>Min acceleration threshold for emergency [m/s^2]</td>
 </tr>
 </tbody>
 </table>

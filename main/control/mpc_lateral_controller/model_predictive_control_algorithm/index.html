@@ -5803,6 +5803,8 @@
         
           
         
+          
+        
       
       
         
@@ -5943,14 +5945,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../localization/yabloc/yabloc_particle_filter/">Yabloc particle filter</a>
+          <a href="../../../localization/yabloc/yabloc_monitor/">Yabloc monitor</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_10_4">
           <span class="md-nav__icon md-icon"></span>
-          Yabloc particle filter
+          Yabloc monitor
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5989,12 +5991,58 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../localization/yabloc/yabloc_pose_initializer/">Yabloc pose initializer</a>
+          <a href="../../../localization/yabloc/yabloc_particle_filter/">Yabloc particle filter</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5_10_5">
+          <span class="md-nav__icon md-icon"></span>
+          Yabloc particle filter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5_10_6" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../localization/yabloc/yabloc_pose_initializer/">Yabloc pose initializer</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_10_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_10_6">
           <span class="md-nav__icon md-icon"></span>
           Yabloc pose initializer
         </label>
@@ -13914,13 +13962,17 @@
       
         
           
+            
+          
         
       
       
-        <label class="md-nav__link" for="__nav_11_13" id="__nav_11_13_label" tabindex="0">
-          Topic state monitor
-          <span class="md-nav__icon md-icon"></span>
-        </label>
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../system/topic_state_monitor/">Topic state monitor</a>
+          
+        </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_13_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_11_13">
@@ -13929,18 +13981,6 @@
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../system/topic_state_monitor/Readme/" class="md-nav__link">
-        topic_state_monitor
-      </a>
-    </li>
-  
-
             
           
         </ul>
@@ -14674,7 +14714,7 @@ J = (Y - Y_{ref})^{T}Q(Y - Y_{ref}) + (U - U_{ref})^{T}R(U - U_{ref}) \tag{9}
 <div class="arithmatex">\[
 \begin{align}
 J(U) &amp;= (H(Fx_{0}+GU+SW)-Y_{ref})^{T}Q(H(Fx_{0}+GU+SW)-Y_{ref})+(U-U_{ref})^{T}R(U-U_{ref}) \\
-&amp; =U^{T}(G^{T}H^{T}QHG+R)U+2\left\{(H(Fx_{0}+SW)-Yref)^{T}QHG-U_{ref}^{T}R\right\}U +(\rm{constant}) \tag{10}
+&amp; =U^{T}(G^{T}H^{T}QHG+R)U+2\left\{(H(Fx_{0}+SW)-Y_{ref})^{T}QHG-U_{ref}^{T}R\right\}U +(\rm{constant}) \tag{10}
 \end{align}
 \]</div>
 <p>This equation is a quadratic form of <span class="arithmatex">\(U\)</span> (i.e. <span class="arithmatex">\(U^{T}AU+B^{T}U\)</span>)</p>
@@ -14740,7 +14780,7 @@ y_{k+1} &amp;= y_{k} + v\sin\theta_{k} \text{d}t \\
 \]</div>
 <p>Where <span class="arithmatex">\(\kappa_{r}\left(s\right)\)</span> is the curvature along the trajectory parametrized by the arc length.</p>
 <p>There are three expressions in the update equations that are subject to linear approximation: the lateral deviation (or lateral coordinate) <span class="arithmatex">\(y\)</span>, the heading angle (or the heading angle error) <span class="arithmatex">\(\theta\)</span>, and the steering <span class="arithmatex">\(\delta\)</span>. We can make a small angle assumption on the heading angle <span class="arithmatex">\(\theta\)</span>.</p>
-<p>In the path tracking problem, the curvature of the trajectory <span class="arithmatex">\(\kappa_{r}\)</span> is known in advance. At the lower speeds, the Ackermann formula approximates the reference steering angle <span class="arithmatex">\(\theta_{r}\)</span>(this value corresponds to the <span class="arithmatex">\(U_{ref}\)</span> mentioned above). The Ackerman steering expression can be written as;</p>
+<p>In the path tracking problem, the curvature of the trajectory <span class="arithmatex">\(\kappa_{r}\)</span> is known in advance. At the lower speeds, the Ackermann formula approximates the reference steering angle <span class="arithmatex">\(\theta_{r}\)</span>(this value corresponds to the <span class="arithmatex">\(U_{ref}\)</span> mentioned above). The Ackermann steering expression can be written as;</p>
 <div class="arithmatex">\[
 \begin{align}
 \delta_{r} = \arctan\left(L\kappa_{r}\right)
@@ -14859,7 +14899,7 @@ u_{min} &lt; u &lt; u_{max}
 \dot{u}_{min} &lt; \dot{u} &lt; \dot{u}_{max}
 \end{align}
 \]</div>
-<p>Discretizing <span class="arithmatex">\(\dot{u}\)</span> as <span class="arithmatex">\(\left(u_{k} - u_{k-1}\right)/\text{d}t\)</span> and multiply both sides by dt the resulting constraint become linear and convex</p>
+<p>We discretize <span class="arithmatex">\(\dot{u}\)</span> as <span class="arithmatex">\(\left(u_{k} - u_{k-1}\right)/\text{d}t\)</span> and multiply both sides by dt, and the resulting constraint become linear and convex</p>
 <div class="arithmatex">\[
 \begin{align}
 \dot{u}_{min}\text{d}t &lt; u_{k} - u_{k-1} &lt; \dot{u}_{max}\text{d}t
